@@ -1,0 +1,136 @@
+{
+  "upstream": "vllm-project/FlashKDA",
+  "revision": "b59532f1f464fbd536272780e30df5bf6a2ccc02",
+  "cubin_sha256": "3c295e1019958dc606d21852c26b8f1c57ac1267b94b146b29dd18f7857f7018",
+  "workload": {
+    "model": "Kimi-K3 pruned 224 experts, 93 layers",
+    "tp": 4,
+    "ep": 4,
+    "tokens": 16384,
+    "context": 0,
+    "samples": 12
+  },
+  "bench": {
+    "baseline-bench": {
+      "graph_p50_ms": 730.1830444335938,
+      "cv": 0.0012687874134006902,
+      "kda_sum_instrumented_p50_ms": 102.70534420013428
+    },
+    "candidate-bench": {
+      "graph_p50_ms": 705.9384765625,
+      "cv": 0.0009081568860169601,
+      "kda_sum_instrumented_p50_ms": 78.3734085559845
+    },
+    "vsplit-bench2": {
+      "graph_p50_ms": 689.923583984375,
+      "cv": 0.0011999851160259343,
+      "kda_sum_instrumented_p50_ms": 60.37983936071396
+    },
+    "baseline-bench2": {
+      "graph_p50_ms": 730.6897277832031,
+      "cv": 0.0009172488896385912,
+      "kda_sum_instrumented_p50_ms": 103.12956869602203
+    },
+    "vsplit-bench3": {
+      "graph_p50_ms": 689.983642578125,
+      "cv": 0.0012136007880324084,
+      "kda_sum_instrumented_p50_ms": 60.51148742437363
+    }
+  },
+  "test": {
+    "test-baseline-whole": {
+      "verdict": {
+        "code": 0,
+        "elapsed_s": 37.518463134765625,
+        "pass": true,
+        "summary": "bit-identical at every span"
+      },
+      "logits": {
+        "differ": 0,
+        "elapsed_s": 0.08292443305253983,
+        "flipped": [],
+        "flips": 0,
+        "kl_at": "rank 3 step 0",
+        "kl_max": 0.0,
+        "limit_kl": 0.01,
+        "rows": 8,
+        "top_at": "rank 0 prefill chunk 0",
+        "top_differ": 0,
+        "top_min": 20,
+        "within": 0
+      }
+    },
+    "test-reference-whole": {
+      "verdict": {
+        "code": 0,
+        "elapsed_s": 37.657928466796875,
+        "pass": true,
+        "summary": "logit evidence: end-to-end KL \u2264 1.76e-3 (limit 1e-2) on 8 rows, argmax agrees"
+      },
+      "logits": {
+        "differ": 8,
+        "elapsed_s": 0.08563072234392166,
+        "flipped": [],
+        "flips": 0,
+        "kl_at": "rank 3 step 0",
+        "kl_max": 0.0017597082338914494,
+        "limit_kl": 0.01,
+        "rows": 8,
+        "top_at": "rank 0 step 0",
+        "top_differ": 4,
+        "top_min": 19,
+        "within": 0
+      }
+    },
+    "test-vsplit-baseline": {
+      "verdict": {
+        "code": 0,
+        "elapsed_s": 38.58828353881836,
+        "pass": true,
+        "summary": "bit-identical at every span"
+      },
+      "logits": {
+        "differ": 0,
+        "elapsed_s": 0.08291792869567871,
+        "flipped": [],
+        "flips": 0,
+        "kl_at": "rank 3 step 0",
+        "kl_max": 0.0,
+        "limit_kl": 0.01,
+        "rows": 8,
+        "top_at": "rank 0 prefill chunk 0",
+        "top_differ": 0,
+        "top_min": 20,
+        "within": 0
+      }
+    },
+    "test-vsplit-reference": {
+      "verdict": {
+        "code": 0,
+        "elapsed_s": 37.59284210205078,
+        "pass": true,
+        "summary": "logit evidence: end-to-end KL \u2264 1.76e-3 (limit 1e-2) on 8 rows, argmax agrees"
+      },
+      "logits": {
+        "differ": 8,
+        "elapsed_s": 0.08562862873077393,
+        "flipped": [],
+        "flips": 0,
+        "kl_at": "rank 3 step 0",
+        "kl_max": 0.0017597082338914494,
+        "limit_kl": 0.01,
+        "rows": 8,
+        "top_at": "rank 0 step 0",
+        "top_differ": 4,
+        "top_min": 19,
+        "within": 0
+      }
+    }
+  },
+  "test_method": "Direct full-program comparisons; candidate op and internal workspace names aliased with scripts/whole_graph_test.py. Reference untouched. No intermediate-manifest chain; no tolerance changes. Internal scratch equivalence is not asserted.",
+  "failed_attempts": [
+    "Per-call kern test OOM while retaining workspace snapshots.",
+    "Full-span test with shared scratch names OOM. Candidate-local workspace names avoid scratch retention.",
+    "First V-split bench exited 139 before timing; not reproduced by two subsequent benchmarks and two end-to-end tests."
+  ]
+}

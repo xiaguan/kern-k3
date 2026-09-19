@@ -27,3 +27,9 @@ default prefill manifest since 2026-09-19 (round 2), built from
 the default prefill manifest since 2026-09-19 (round 3), built from
 `../source/k3_span_gather_v2.cu` with CUDA 13.0 (`nvcc -cubin -arch=sm_103a
 -DHEADS=24`), under `../source/LICENSE`.
+
+`flash_kda_vllm_d128.cubin` is built from `../source/flash-kda-vllm/`,
+vLLM FlashKDA `dev@b59532f1`, with CUDA 13.0 and CUTLASS
+`5c149f52a436782210263fb2f19b354443a61c6a`. It contains K1 plus regular and
+V-split K2, fixed-length D=128 with FP32 state. The default manifest selects
+V-split. Source and MIT license are bundled in that directory.

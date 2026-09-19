@@ -11,7 +11,8 @@ K3 manifests and kernel sources/build instructions, used with the
   the KDA output gate on `k3_kda_out_gate_v2` (see
   [KDA output gate v2](#kda-output-gate-v2-adopted-2026-09-19)) and the KDA
   span conv + SiLU on `k3_span_gather_v2` (see
-  [Span gather v2](#span-gather-v2-adopted-2026-09-19));
+  [Span gather v2](#span-gather-v2-adopted-2026-09-19)). FlashKDA uses the
+  vLLM fork with V-split (see [FlashKDA upgrade](#flashkda-upgrade));
   the originally supplied manifest is the initial reference of the optimization
   runs and is reproducible from it with the v1 residual, output-gate and
   span-gather ops.
@@ -20,7 +21,7 @@ K3 manifests and kernel sources/build instructions, used with the
   `defines`, or bundled `prebuilt` paths and upstream origin. Paths are relative
   to this repository root.
 - [`source/`](source/): the handwritten CUDA files and the vendored FlashKDA sources.
-  These produce the handwritten cubins and one FlashKDA cubin. The remaining three
+  These produce the handwritten cubins and the FlashKDA cubins. The remaining three
   modules are prebuilt TRT-LLM kernels.
 - [`prebuilt/`](prebuilt/): the exact FlashKDA and three TRT-LLM cubins, bundled with
   licenses, plus the bundled builds of `k3_situ_bf16` and `k3_residual_v2`.
@@ -54,20 +55,19 @@ python3 scripts/check.py build
 
 ## Rebuild FlashKDA (optional)
 
-Source and recipe are in [`source/flash-kda/`](source/flash-kda/), with upstream
-commit and modifications described in its [`PROVENANCE.md`](source/flash-kda/PROVENANCE.md).
-The recorded build used CUDA 13.1 and CUTLASS 4.x headers from FlashInfer 0.6.
-The exact CUTLASS revision was not recorded, so this recipe alone does not
-guarantee reproducing the pinned hash.
+The current manifest uses [`source/flash-kda-vllm/`](source/flash-kda-vllm/),
+pinned to vLLM FlashKDA `dev@b59532f1`. Its
+[provenance](source/flash-kda-vllm/PROVENANCE.md) records the source modifications
+and exact CUTLASS revision `5c149f52a436782210263fb2f19b354443a61c6a`.
 
 ```sh
-mkdir -p build
-CUTLASS_INCLUDE=/path/to/cutlass/include NVCC=/path/to/cuda-13.1/bin/nvcc \
-  bash source/flash-kda/build.sh build/flash_kda_d128.cubin
-sha256sum build/flash_kda_d128.cubin
+CUTLASS_INCLUDE=/path/to/pinned-cutlass/include NVCC=/path/to/cuda-13.0/bin/nvcc \
+  bash source/flash-kda-vllm/build.sh build/flash_kda_vllm_d128.cubin
 ```
 
-Expected SHA-256: `34b83d875a418f63d14daf73984c1b8de0d1616250915a7d7e4810f327ce3617`.
+The bundled cubin and `kernels.toml` pin the resulting hash. The original
+[`source/flash-kda/`](source/flash-kda/) and `flash_kda_d128.cubin` remain for
+reference manifests; their old build used CUDA 13.1 and an unrecorded CUTLASS revision.
 
 ## Obtain the three TRT-LLM kernels
 
@@ -307,3 +307,54 @@ and passes as before (KL ≤ 1.39e-3, 1.61e-3, 2.38e-3, 1.35e-3, 6.47e-4).
 ## Optimization agent
 
 See [Humanize setup](agent/README.md) and the [optimization task](agent/TASK.md). The host Claude Code binary and login are reused; Humanize, compilation and evaluation run in a dedicated GPU container.
+
+## FlashKDA upgrade
+
+The default manifest uses vLLM FlashKDA `dev@b59532f1` with K2 V-split.
+The upstream kernels retain recurrent-state fragments in registers and transfer
+workspace with bulk copies. V-split gives each head two independent 64-row
+value slices. At TP4 this doubles K2's grid from 24 to 48 CTAs.
+
+Four-GPU 16k prefill graph p50, slowest rank, 12 samples per run:
+
+| Version | First run | Repeat |
+|---|---:|---:|
+| Previous default (`81c451f`) | 730.183 ms | 730.690 ms |
+| vLLM FlashKDA, no V-split | 705.938 ms | — |
+| vLLM FlashKDA, V-split (default) | 689.924 ms | 689.984 ms |
+
+The paired final runs improve by 40.706 ms (5.57%). Instrumented KDA call
+p50 sums fall from approximately 103 ms to 60 ms across 69 calls.
+See [`results/flashkda-vllm.json`](results/flashkda-vllm.json).
+
+`kern test` directly compares the final candidate to both the previous default
+and the fixed initial reference, at 16k prefill plus one decode step:
+
+- Previous default: PASS, compared outputs/states and logits bit-identical.
+- Initial reference: PASS, max logit KL 0.00175971 (limit 0.01), 8/8 argmax agree.
+
+Per-call recording exceeds GPU memory because it retains every layer's KDA
+workspace. `scripts/whole_graph_test.py` creates a semantically equivalent test
+manifest: it aliases operations to form one full-program comparison span and
+renames internal workspace buffers so they are not retained for cross-version
+scratch comparisons. It checks that reversing the names recovers the original
+manifest. Kernels, call order, arguments, buffer shapes, input/output identities,
+persistent states and tolerances are unchanged. This is a direct end-to-end
+comparison, not a chain through intermediate manifests; it does not establish
+per-layer scratch equality.
+
+```sh
+python3 scripts/whole_graph_test.py manifests/k3-tp4-prefill-16k.json /tmp/candidate-test.json
+test16k /path/to/reference.json /tmp/candidate-test.json /tmp/test.json
+```
+
+For a new candidate derived from a manifest using the original FlashKDA ABI:
+
+```sh
+python3 scripts/gen_flash_kda_vllm.py --reference /path/to/baseline.json \
+  --vsplit --out /tmp/candidate.json
+```
+
+One initial V-split bench exited 139 before timing. Its launch ABI was checked
+against a captured upstream launch; two later bench runs and both direct tests
+completed. The failed attempt is retained in the experiment records.

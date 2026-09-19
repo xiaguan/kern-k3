@@ -115,3 +115,10 @@ source = "source/weight_prep.cu"
 sha256 = "04f82fea2e6a1abdbb52cd821094cfc70f3ba2b63981d1f043a6551ec24cab65"
 source = "source/k3_situ_bf16.cu"
 prebuilt = "prebuilt/k3_situ_bf16.cubin"
+
+[kernels."flash_kda_vllm_d128"]
+sha256 = "3c295e1019958dc606d21852c26b8f1c57ac1267b94b146b29dd18f7857f7018"
+source = "source/flash-kda-vllm/kern_flash_kda.cu"
+build = "source/flash-kda-vllm/build.sh"
+prebuilt = "prebuilt/flash_kda_vllm_d128.cubin"
+upstream = "https://github.com/vllm-project/FlashKDA/tree/b59532f1f464fbd536272780e30df5bf6a2ccc02"
