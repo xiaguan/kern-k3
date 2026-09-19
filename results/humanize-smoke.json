@@ -1,0 +1,25 @@
+{
+  "model": "gpt-6-astra",
+  "effort": "medium",
+  "authentication": "ChatGPT subscription",
+  "agent_smoke": "Executed kern --version through Humanize and Codex inside the container",
+  "runtime": "kern 0.2.3 (9d1230f-dirty, cuda 13.0)",
+  "image": "sha256:19bcf4bc45c3808fe58cfb07c0ef518ad52f3076d9c15721e1803f47c6309161",
+  "bench": {
+    "wall_seconds": 47.74875644897111,
+    "max_rank_graph_p50_ms": 749.7903747558594,
+    "samples": 12,
+    "rows": 16384,
+    "context": 0,
+    "manifest_sha256": "92695daa1463e5692428a28a24f5a84ae1f28e3e5bd1aeb919d1bb15b4d56e22"
+  },
+  "test": {
+    "wall_seconds": 43.2939861221239,
+    "exit_code": 0,
+    "candidate": "k3-tp4-prefill-16k-l0-bf16.json",
+    "local_bit_identical": 8,
+    "local_compared": 8,
+    "end_to_end_outputs_identical": true
+  },
+  "optimization_started": false
+}

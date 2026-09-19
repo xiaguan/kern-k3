@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+[[ $# == 2 ]] || { echo 'usage: bench16k MANIFEST REPORT.json' >&2; exit 2; }
+mkdir -p "$(dirname "$2")"
+exec flock /tmp/kern-eval.lock /opt/kern-eval/kern bench \
+  --manifest "$1" --kernels build --weights /weights --tokenizer /tokenizer.json \
+  --gpu 0 --workload /opt/kern-eval/workload.toml --out "$2"

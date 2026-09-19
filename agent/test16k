@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+[[ $# == 3 ]] || { echo 'usage: test16k REFERENCE CANDIDATE REPORT.json' >&2; exit 2; }
+mkdir -p "$(dirname "$3")"
+exec flock /tmp/kern-eval.lock /opt/kern-eval/kern test \
+  --reference "$1" --manifest "$2" --kernels build --weights /weights --gpu 0,1,2,3 \
+  --capacity 16448 --prefill 16384 --chunk 16384 --decode-steps 1 \
+  --no-sweep --no-graph-step --iters 10 --out "$3"
