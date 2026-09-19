@@ -27,6 +27,12 @@ sha256 = "125539befe70ecdc46c1bc73f9f2ce3f37dbc90ec798c9f4e1166d7cc1ca746c"
 source = "source/k3_kda_out_gate.cu"
 defines = { HEADS = 24 }
 
+[kernels."k3_kda_out_gate_v2+HEADS=24"]
+sha256 = "f4363edfc6d1eb44d9326610ea800ecfc9a3b6f360db97871e639cdf45b592d6"
+source = "source/k3_kda_out_gate_v2.cu"
+defines = { HEADS = 24 }
+prebuilt = "prebuilt/k3_kda_out_gate_v2+HEADS=24.cubin"
+
 [kernels."k3_land"]
 sha256 = "2cd68c79bf3243f37d2f1406880060f610b4028f9e843bb356ea8ef0a0352fcc"
 source = "source/k3_land.cu"

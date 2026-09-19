@@ -17,3 +17,8 @@ SHA-256 alongside the handwritten kernels. CI checks these bundled bytes too.
 kernels used by the default prefill manifest since 2026-09-19, built from
 `../source/k3_residual_v2.cu` with CUDA 13.0 (`nvcc -cubin -arch=sm_103a`,
 the second with `-DLAND_BF16=1`), under `../source/LICENSE`.
+
+`k3_kda_out_gate_v2+HEADS=24.cubin` is the KDA output-gate kernel used by the
+default prefill manifest since 2026-09-19 (round 2), built from
+`../source/k3_kda_out_gate_v2.cu` with CUDA 13.0 (`nvcc -cubin -arch=sm_103a
+-DHEADS=24`), under `../source/LICENSE`.

@@ -398071,10 +398071,6 @@
    "source": "hf:Pegainfer/kern-kernels/blobs/34b83d875a418f63d14daf73984c1b8de0d1616250915a7d7e4810f327ce3617",
    "sha256": "34b83d875a418f63d14daf73984c1b8de0d1616250915a7d7e4810f327ce3617"
   },
-  "k3_kda_out_gate+HEADS=24": {
-   "source": "hf:Pegainfer/kern-kernels/blobs/125539befe70ecdc46c1bc73f9f2ce3f37dbc90ec798c9f4e1166d7cc1ca746c",
-   "sha256": "125539befe70ecdc46c1bc73f9f2ce3f37dbc90ec798c9f4e1166d7cc1ca746c"
-  },
   "k3_land": {
    "source": "hf:Pegainfer/kern-kernels/blobs/2cd68c79bf3243f37d2f1406880060f610b4028f9e843bb356ea8ef0a0352fcc",
    "sha256": "2cd68c79bf3243f37d2f1406880060f610b4028f9e843bb356ea8ef0a0352fcc"
@@ -398130,6 +398126,10 @@
   "k3_residual_v2+LAND_BF16=1": {
    "source": "k3_residual_v2+LAND_BF16=1.cubin",
    "sha256": "828465bbc084becdb8a73f5223a68a264c52dfe9858820bc0adcafbf7168809f"
+  },
+  "k3_kda_out_gate_v2+HEADS=24": {
+   "source": "k3_kda_out_gate_v2+HEADS=24.cubin",
+   "sha256": "f4363edfc6d1eb44d9326610ea800ecfc9a3b6f360db97871e639cdf45b592d6"
   }
  },
  "ops": {
@@ -399255,34 +399255,6 @@
          ]
         }
        }
-      ]
-     }
-    ]
-   }
-  },
-  "kda_out_gate": {
-   "params": [
-    "in buffer<bf16>",
-    "in buffer<f32>",
-    "in buffer<f32>",
-    "out buffer<bf16>",
-    "in buffer<i32>",
-    "i32"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "module": "k3_kda_out_gate+HEADS=24",
-      "entry": "kern_k3_kda_out_gate",
-      "block": [
-       128,
-       1,
-       1
-      ],
-      "grid": [
-       "tokens",
-       24,
-       1
       ]
      }
     ]
@@ -401794,6 +401766,34 @@
      }
     ]
    }
+  },
+  "kda_out_gate_v2": {
+   "params": [
+    "in buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<f32>",
+    "out buffer<bf16>",
+    "in buffer<i32>",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_kda_out_gate_v2+HEADS=24",
+      "entry": "kern_k3_kda_out_gate",
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       "tokens",
+       3,
+       1
+      ]
+     }
+    ]
+   }
   }
  },
  "programs": {
@@ -402165,7 +402165,7 @@
     },
     {
      "label": "l0.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -402674,7 +402674,7 @@
     },
     {
      "label": "l1.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -403675,7 +403675,7 @@
     },
     {
      "label": "l2.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -405642,7 +405642,7 @@
     },
     {
      "label": "l4.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -406643,7 +406643,7 @@
     },
     {
      "label": "l5.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -407644,7 +407644,7 @@
     },
     {
      "label": "l6.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -409611,7 +409611,7 @@
     },
     {
      "label": "l8.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -410612,7 +410612,7 @@
     },
     {
      "label": "l9.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -411613,7 +411613,7 @@
     },
     {
      "label": "l10.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -413580,7 +413580,7 @@
     },
     {
      "label": "l12.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -414581,7 +414581,7 @@
     },
     {
      "label": "l13.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -415582,7 +415582,7 @@
     },
     {
      "label": "l14.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -417549,7 +417549,7 @@
     },
     {
      "label": "l16.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -418550,7 +418550,7 @@
     },
     {
      "label": "l17.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -419551,7 +419551,7 @@
     },
     {
      "label": "l18.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -421518,7 +421518,7 @@
     },
     {
      "label": "l20.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -422519,7 +422519,7 @@
     },
     {
      "label": "l21.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -423520,7 +423520,7 @@
     },
     {
      "label": "l22.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -425487,7 +425487,7 @@
     },
     {
      "label": "l24.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -426488,7 +426488,7 @@
     },
     {
      "label": "l25.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -427489,7 +427489,7 @@
     },
     {
      "label": "l26.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -429456,7 +429456,7 @@
     },
     {
      "label": "l28.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -430457,7 +430457,7 @@
     },
     {
      "label": "l29.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -431458,7 +431458,7 @@
     },
     {
      "label": "l30.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -433425,7 +433425,7 @@
     },
     {
      "label": "l32.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -434426,7 +434426,7 @@
     },
     {
      "label": "l33.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -435427,7 +435427,7 @@
     },
     {
      "label": "l34.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -437394,7 +437394,7 @@
     },
     {
      "label": "l36.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -438395,7 +438395,7 @@
     },
     {
      "label": "l37.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -439396,7 +439396,7 @@
     },
     {
      "label": "l38.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -441363,7 +441363,7 @@
     },
     {
      "label": "l40.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -442364,7 +442364,7 @@
     },
     {
      "label": "l41.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -443365,7 +443365,7 @@
     },
     {
      "label": "l42.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -445332,7 +445332,7 @@
     },
     {
      "label": "l44.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -446333,7 +446333,7 @@
     },
     {
      "label": "l45.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -447334,7 +447334,7 @@
     },
     {
      "label": "l46.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -449301,7 +449301,7 @@
     },
     {
      "label": "l48.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -450302,7 +450302,7 @@
     },
     {
      "label": "l49.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -451303,7 +451303,7 @@
     },
     {
      "label": "l50.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -453270,7 +453270,7 @@
     },
     {
      "label": "l52.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -454271,7 +454271,7 @@
     },
     {
      "label": "l53.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -455272,7 +455272,7 @@
     },
     {
      "label": "l54.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -457239,7 +457239,7 @@
     },
     {
      "label": "l56.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -458240,7 +458240,7 @@
     },
     {
      "label": "l57.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -459241,7 +459241,7 @@
     },
     {
      "label": "l58.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -461208,7 +461208,7 @@
     },
     {
      "label": "l60.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -462209,7 +462209,7 @@
     },
     {
      "label": "l61.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -463210,7 +463210,7 @@
     },
     {
      "label": "l62.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -465177,7 +465177,7 @@
     },
     {
      "label": "l64.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -466178,7 +466178,7 @@
     },
     {
      "label": "l65.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -467179,7 +467179,7 @@
     },
     {
      "label": "l66.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -469146,7 +469146,7 @@
     },
     {
      "label": "l68.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -470147,7 +470147,7 @@
     },
     {
      "label": "l69.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -471148,7 +471148,7 @@
     },
     {
      "label": "l70.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -473115,7 +473115,7 @@
     },
     {
      "label": "l72.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -474116,7 +474116,7 @@
     },
     {
      "label": "l73.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -475117,7 +475117,7 @@
     },
     {
      "label": "l74.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -477084,7 +477084,7 @@
     },
     {
      "label": "l76.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -478085,7 +478085,7 @@
     },
     {
      "label": "l77.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -479086,7 +479086,7 @@
     },
     {
      "label": "l78.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -481053,7 +481053,7 @@
     },
     {
      "label": "l80.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -482054,7 +482054,7 @@
     },
     {
      "label": "l81.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -483055,7 +483055,7 @@
     },
     {
      "label": "l82.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -485022,7 +485022,7 @@
     },
     {
      "label": "l84.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -486023,7 +486023,7 @@
     },
     {
      "label": "l85.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -487024,7 +487024,7 @@
     },
     {
      "label": "l86.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -488991,7 +488991,7 @@
     },
     {
      "label": "l88.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -489992,7 +489992,7 @@
     },
     {
      "label": "l89.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"
@@ -490993,7 +490993,7 @@
     },
     {
      "label": "l90.span_out_gate",
-     "op": "kda_out_gate",
+     "op": "kda_out_gate_v2",
      "args": [
       {
        "buf": "span_out"

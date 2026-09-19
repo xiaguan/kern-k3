@@ -7,9 +7,11 @@ K3 manifests and kernel sources/build instructions, used with the
   93-layer **pruned-75pct** K3 prefill manifest. EP4/TP4, 16,384-token chunk,
   one sequence, maximum context 262,144. This is the 224-expert checkpoint, not
   the full 896-expert checkpoint. Since 2026-09-19 it runs the residual kernels
-  on `k3_residual_v2` (see [Residual kernels v2](#residual-kernels-v2-adopted-2026-09-19));
+  on `k3_residual_v2` (see [Residual kernels v2](#residual-kernels-v2-adopted-2026-09-19))
+  and the KDA output gate on `k3_kda_out_gate_v2` (see
+  [KDA output gate v2](#kda-output-gate-v2-adopted-2026-09-19));
   the originally supplied manifest is the initial reference of the optimization
-  runs and is reproducible from it with the v1 residual ops.
+  runs and is reproducible from it with the v1 residual and output-gate ops.
 - [`kernels.toml`](kernels.toml): every module pinned by a manifest in `manifests/`
   (20 per manifest), their SHA-256 values, local `source` paths and compile-time
   `defines`, or bundled `prebuilt` paths and upstream origin. Paths are relative
@@ -214,6 +216,44 @@ the final norm): 1856 comparisons, 1345 bit-identical, 0 violations, KL ≤
 1.61e-3, 8/8 argmax agree. Every differing comparison is `normed`, at most
 0.023% of its elements and 0.008 absolute; `next_token` is identical on all
 ranks in both hops. The eager per-span time the test reports fell 27-30%.
+
+## KDA output gate v2 (adopted 2026-09-19)
+
+The default manifest now runs the K11 epilogue `kda_out_gate` (one call per
+KDA layer, 69 calls) on [`source/k3_kda_out_gate_v2.cu`](source/k3_kda_out_gate_v2.cu),
+module `k3_kda_out_gate_v2+HEADS=24`, as op `kda_out_gate_v2` with grid
+(tokens, 3) and block 128 instead of grid (tokens, 24) and block 128. Same
+entry, ABI, arguments, math and landing points; v1 gave every (row, head) a
+128-thread block with one element per thread and a shared-memory reduction,
+393k tiny blocks per call. v2 gives each head 16 lanes of a warp with eight
+consecutive elements per lane (16 B loads and stores), a shuffle-only
+reduction and eight heads per block. The sum of squares stays fixed-order but
+its order differs from v1, so `gated` can differ by up to two bf16 ulps in
+about 0.0002% of its elements (at most 80 of 50M per call in the test).
+`python3 scripts/gen_kda_out_gate_v2.py --reference <manifest with v1>`
+derives it (`--v1-layers A-B` makes hop manifests for `kern test`). The v1
+module remains in `kernels.toml` and `build/` for the initial reference.
+
+Measured with `kern bench` on the same node, alternating (graph p50 of the
+slowest rank, 12 samples, 16,384 tokens, empty KV cache, four GB300):
+
+| manifest | run 1 | run 2 |
+|---|---:|---:|
+| residual v2 (previous default) | 745.861 ms | 746.247 ms |
+| residual v2 + output gate v2 (this file) | 736.160 ms | 737.383 ms |
+
+−9.7 ms / −8.9 ms (−1.30% / −1.19%); `kda_out_gate` 14.31 → 5.10 ms summed
+over 69 calls (207 → 74 µs per call).
+
+`kern test` keeps the 805 MB `kda_partial` input of every changed span, so a
+direct test of all 69 calls runs out of device memory; the change was
+validated in three hops of 24 / 23 / 22 spans (v2 on layers 0-30, 0-61, all)
+from the previous default, all **PASS** with the fixed thresholds: 0
+violations, every differing local comparison is `gated` (≤ 80 of 50,331,648
+elements, ≤ 2 ulp, ≤ 0.0078 absolute), end-to-end KL ≤ 2.38e-3 / 1.35e-3 /
+6.47e-4 (limit 1e-2), 8/8 argmax agree, `next_token` identical on all ranks.
+The chain from the initial reference (the two residual-v2 hops) was rerun in
+the same session and passes as before (KL ≤ 1.39e-3 and 1.61e-3).
 
 ## Optimization agent
 
