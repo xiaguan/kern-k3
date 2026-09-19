@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+import hashlib
+import json
+from pathlib import Path
+import re
+import sys
+import tomllib
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def main():
+    kernels = tomllib.loads((ROOT / "kernels.toml").read_text())["kernels"]
+    for path in (ROOT / "manifests").glob("*.json"):
+        manifest = json.loads(path.read_text())
+        modules = manifest["modules"]
+        for name, module in modules.items():
+            kernel = kernels[name]
+            sha = module["sha256"]
+            assert re.fullmatch(r"[0-9a-f]{64}", sha), name
+            assert sha == kernel["sha256"], name
+            assert module["source"] == f"hf:Pegainfer/kern-kernels/blobs/{sha}", name
+            for field in ("source", "build"):
+                if field in kernel:
+                    assert (ROOT / kernel[field]).is_file(), (name, field)
+            assert "source" in kernel or "upstream" in kernel, name
+            if len(sys.argv) > 1:
+                cubin = Path(sys.argv[1]) / f"{name}.cubin"
+                assert hashlib.sha256(cubin.read_bytes()).hexdigest() == sha, name
+        for op in manifest["ops"].values():
+            for launch in op["impl"].get("launches", []):
+                if "module" in launch:
+                    assert launch["module"] in modules, launch["module"]
+        for program in manifest["programs"].values():
+            for call in program["calls"]:
+                assert call["op"] in manifest["ops"], call["op"]
+        print(f"{path.name}: {len(modules)} modules, source links and references OK")
+
+
+if __name__ == "__main__":
+    main()
