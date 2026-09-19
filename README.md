@@ -8,11 +8,12 @@ K3 manifests and kernel sources/build instructions, used with the
   16,384-token chunk, one sequence, maximum context 262,144. This is the
   224-expert checkpoint, not the full 896-expert checkpoint.
 - [`kernels.toml`](kernels.toml): the 20 modules it pins, their SHA-256 values,
-  local `source` paths and compile-time `defines`, or upstream prebuilt origin.
+  local `source` paths and compile-time `defines`, or bundled `prebuilt` paths and upstream origin.
   Paths are relative to this repository root.
 - [`source/`](source/): 15 handwritten CUDA files and the vendored FlashKDA sources.
   These produce 16 handwritten cubins and one FlashKDA cubin. The remaining three
   modules are prebuilt TRT-LLM kernels.
+- [`prebuilt/`](prebuilt/): the exact FlashKDA and three TRT-LLM cubins, bundled with licenses.
 
 The manifest itself is the calling example: `ops` contains kernel entry names,
 parameter types/order, packed arguments, tensor maps and launch dimensions;
@@ -27,14 +28,21 @@ The recorded compiler is V13.0.88, build `cuda_13.0.r13.0/compiler.36424714_0`.
 NVCC=/path/to/cuda-13.0/bin/nvcc python3 scripts/build.py
 ```
 
-The script builds the 16 handwritten module variants into `build/`, using
+The script copies the four bundled cubins and builds the 16 handwritten module variants into `build/`, using
 `nvcc -cubin -arch=sm_103a` and the defines in `kernels.toml`, then compares each
-result with the manifest's SHA-256. All 16 match with the recorded compiler.
+result with the manifest's SHA-256. All 20 match after building with the recorded compiler.
 It exits unsuccessfully if the build fails or any hash differs. A different
 compiler or changed source may produce different bytes; update and validate
 the artifact and manifest together when intentionally changing a kernel.
 
-## Build FlashKDA
+If the handwritten kernels are already built, copy only the missing prebuilt artifacts:
+
+```sh
+python3 scripts/build.py --prebuilt-only
+python3 scripts/check.py build
+```
+
+## Rebuild FlashKDA (optional)
 
 Source and recipe are in [`source/flash-kda/`](source/flash-kda/), with upstream
 commit and modifications described in its [`PROVENANCE.md`](source/flash-kda/PROVENANCE.md).
@@ -53,7 +61,8 @@ Expected SHA-256: `34b83d875a418f63d14daf73984c1b8de0d1616250915a7d7e4810f327ce3
 
 ## Obtain the three TRT-LLM kernels
 
-These are extracted prebuilt cubins, with no source build recipe available here.
+These three cubins are included in `prebuilt/` and copied by `scripts/build.py`.
+They were extracted from upstream bundles; no source build recipe is available here.
 `kernels.toml` records their FlashInfer 0.6.18 bundle identities:
 
 | Module | Upstream bundle |
@@ -64,7 +73,7 @@ These are extracted prebuilt cubins, with no source build recipe available here.
 
 The BMM filenames are their full module names plus `.cubin`. The FMHA filename is
 `fmhaSm103aKernel_QkvBfloat16OBfloat16HQk192HV128SeparateQkvCausalVarSeqQ256Kv128PersistentContext.cubin`.
-Copy the cubins from those bundles into `build/<module-name>.cubin` and verify
+To replace the bundled copies from upstream, extract those filenames and verify
 their SHA-256 against `kernels.toml`.
 
 The exact bytes for all 20 modules are also available from the private
@@ -77,11 +86,12 @@ that this repository builds.
 ## Check
 
 ```sh
-python3 scripts/check.py          # manifest references, hashes and source paths
+python3 scripts/check.py          # references, source paths and bundled cubin hashes
 python3 scripts/check.py build    # additionally check all 20 local cubins
 ```
 
-CI runs the first command; it does not build CUDA or run inference.
+CI runs the first command, including SHA-256 checks of all four bundled cubins;
+it does not build CUDA or run inference.
 The initial import was checked byte for byte against the supplied manifest,
 and all 16 handwritten cubins were rebuilt with matching hashes. Full-model
 GPU inference has not been rerun as part of this repository import.

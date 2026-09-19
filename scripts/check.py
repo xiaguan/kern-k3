@@ -9,8 +9,16 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def check_cubin(path, sha, errors):
+    if not path.is_file():
+        errors.append(f"missing cubin: {path}")
+    elif hashlib.sha256(path.read_bytes()).hexdigest() != sha:
+        errors.append(f"SHA-256 mismatch: {path}")
+
+
 def main():
     kernels = tomllib.loads((ROOT / "kernels.toml").read_text())["kernels"]
+    errors = []
     for path in (ROOT / "manifests").glob("*.json"):
         manifest = json.loads(path.read_text())
         modules = manifest["modules"]
@@ -24,9 +32,11 @@ def main():
                 if field in kernel:
                     assert (ROOT / kernel[field]).is_file(), (name, field)
             assert "source" in kernel or "upstream" in kernel, name
+            if "prebuilt" in kernel:
+                check_cubin(ROOT / kernel["prebuilt"], sha, errors)
             if len(sys.argv) > 1:
                 cubin = Path(sys.argv[1]) / f"{name}.cubin"
-                assert hashlib.sha256(cubin.read_bytes()).hexdigest() == sha, name
+                check_cubin(cubin, sha, errors)
         for op in manifest["ops"].values():
             for launch in op["impl"].get("launches", []):
                 if "module" in launch:
@@ -34,7 +44,10 @@ def main():
         for program in manifest["programs"].values():
             for call in program["calls"]:
                 assert call["op"] in manifest["ops"], call["op"]
-        print(f"{path.name}: {len(modules)} modules, source links and references OK")
+        if not errors:
+            print(f"{path.name}: {len(modules)} modules, source links, references and cubin checks OK")
+    if errors:
+        raise SystemExit("\n".join(errors))
 
 
 if __name__ == "__main__":

@@ -1,9 +1,11 @@
 [kernels."bmm_Bfloat16_MxE2m1MxE4m3_Fp32_Ab32_Bb32_t128x128x256u2_s4_et128x64_m256x128x32_c2x1x1_rM_TN_transOut_schPd2x1x2x3_biasFp32M_bN_rgTma_clmp_dynB_sm100f"]
 sha256 = "820c5022ded989438c60a7c42122876ac936c4adcc6f01352d63f80c54b4aa5d"
+prebuilt = "prebuilt/bmm_Bfloat16_MxE2m1MxE4m3_Fp32_Ab32_Bb32_t128x128x256u2_s4_et128x64_m256x128x32_c2x1x1_rM_TN_transOut_schPd2x1x2x3_biasFp32M_bN_rgTma_clmp_dynB_sm100f.cubin"
 upstream = "flashinfer-cubin 0.6.18, cubins/8ec29a98612c3670f9f28825d1ed19f09496073b/batched_gemm-fa419f4-31ee4e5, TLLM_GEN_EXPORT_VERSION 7.0.4.0.4.0"
 
 [kernels."bmm_MxE4m3_MxE2m1MxE4m3_Fp32_Ab32_Bb32_Cb32_t128x128x256u2_s4x4x4x4x1x4_et128x32_m256x128x32_c2x1x1_rM_TN_transOut_schPd2x1x2x3_biasFp32M_fCp_bN_ldgsts_ldgstsSf_rgTma_clmp_siTuGlu_lbW4_lsfbW4_dynB_sm100f"]
 sha256 = "84075cb7dbd6887692cade23a8e7ec958af4fed12270a2f4cf8b5cf7aeda3bbe"
+prebuilt = "prebuilt/bmm_MxE4m3_MxE2m1MxE4m3_Fp32_Ab32_Bb32_Cb32_t128x128x256u2_s4x4x4x4x1x4_et128x32_m256x128x32_c2x1x1_rM_TN_transOut_schPd2x1x2x3_biasFp32M_fCp_bN_ldgsts_ldgstsSf_rgTma_clmp_siTuGlu_lbW4_lsfbW4_dynB_sm100f.cubin"
 upstream = "flashinfer-cubin 0.6.18, cubins/8ec29a98612c3670f9f28825d1ed19f09496073b/batched_gemm-fa419f4-31ee4e5, TLLM_GEN_EXPORT_VERSION 7.0.4.0.4.0"
 
 [kernels."copy_rows"]
@@ -16,6 +18,7 @@ source = "source/embedding.cu"
 
 [kernels."flash_kda_d128"]
 sha256 = "34b83d875a418f63d14daf73984c1b8de0d1616250915a7d7e4810f327ce3617"
+prebuilt = "prebuilt/flash_kda_d128.cubin"
 source = "source/flash-kda/kern_flash_kda.cu"
 build = "source/flash-kda/build.sh"
 
@@ -78,6 +81,7 @@ source = "source/sigmoid_mul.cu"
 
 [kernels."trtllm_fmha_ctx_h192_v128"]
 sha256 = "240811d976c01e4a9bee00041d98343f6f9254fefae598df46a97ff07c7df508"
+prebuilt = "prebuilt/trtllm_fmha_ctx_h192_v128.cubin"
 upstream = "flashinfer-cubin 0.6.18, bundle 2d6a5a029eefcc388ec0ceb87efb55d8bcce5c3c, fmha/trtllm-gen/fmhaSm103aKernel_QkvBfloat16OBfloat16HQk192HV128SeparateQkvCausalVarSeqQ256Kv128PersistentContext.cubin (the wheel's checksums.txt sha), the kernel flashinfer.prefill.trtllm_ragged_attention_deepseek selects on GB300 for one sequence"
 
 [kernels."weight_prep"]
