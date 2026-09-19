@@ -8,7 +8,7 @@ from hmz.runner import Runner
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--rounds", type=int, default=1)
+    parser.add_argument("--rounds", type=int, default=1, help="attempts; 0 runs until stopped")
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
