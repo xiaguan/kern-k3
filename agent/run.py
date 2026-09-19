@@ -2,7 +2,7 @@
 import argparse
 from pathlib import Path
 import os
-from hmz.agents.codex import CodexAgent, CodexAgentConfig
+from hmz.agents.claude import ClaudeCodeAgent, ClaudeCodeAgentConfig
 from hmz.runner import Runner
 
 
@@ -13,10 +13,10 @@ def main():
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     os.chdir(root)
-    agent = CodexAgent(CodexAgentConfig(model="gpt-6-astra", effort="medium", goals=False))
+    agent = ClaudeCodeAgent(ClaudeCodeAgentConfig(model="claude-fable-5-1", effort="high", goals=False))
     runner = Runner(root / "agent/flow.py", [agent], {"rounds": args.rounds})
     if args.check:
-        print("Valid: container Codex, gpt-6-astra, medium; no model request sent")
+        print("Valid: container Claude Code, claude-fable-5-1, high; no model request sent")
         return
     runner.run((root / "agent/TASK.md").read_text())
 

@@ -167,4 +167,4 @@ SHA-256 `7e5b1f63545efb343f93633f821112b8aaa9de62dcc90cb3119838afdba22fd1`. The 
 
 ## Optimization agent
 
-See [Humanize setup](agent/README.md) and the [optimization task](agent/TASK.md). The host Codex binary and login are reused; Humanize, compilation and evaluation run in a dedicated GPU container.
+See [Humanize setup](agent/README.md) and the [optimization task](agent/TASK.md). The host Claude Code binary and login are reused; Humanize, compilation and evaluation run in a dedicated GPU container.
