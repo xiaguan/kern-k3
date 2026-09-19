@@ -107,3 +107,60 @@ Kernel hashes were cross-checked against the private
 
 Imported kern sources retain their [Apache-2.0 license](source/LICENSE).
 Vendored FlashKDA retains its [MIT license](source/flash-kda/LICENSE).
+
+## Candidate: layer 0 BF16 gate/up output
+
+[`manifests/k3-tp4-prefill-16k-l0-bf16.json`](manifests/k3-tp4-prefill-16k-l0-bf16.json)
+changes `l0.wgu` to the existing BF16-output cuBLASLt op and `l0.situ` to a
+BF16-input kernel. `dense_partial` becomes BF16. The original SITU already
+rounds its FP32 inputs to BF16 before arithmetic; the candidate preserves its
+activation formula and approximations. Different GEMM algorithms can still
+produce different rounding, so this is an A/B candidate, not an approved replacement.
+
+The new cubin is bundled; the original manifest is unchanged. Reproduce the JSON
+with `python3 scripts/gen_l0_bf16.py`. Rebuild the candidate cubin with CUDA 13.0:
+
+```sh
+nvcc -cubin -arch=sm_103a -o build/k3_situ_bf16.cubin source/k3_situ_bf16.cu
+```
+
+To test after preparing the baseline cubins:
+
+```sh
+python3 scripts/build.py --prebuilt-only
+python3 scripts/check.py build
+kern test \
+  --reference manifests/k3-tp4-prefill-16k.json \
+  --manifest manifests/k3-tp4-prefill-16k-l0-bf16.json \
+  --kernels build --weights /path/to/kimi-k3-pruned-75pct \
+  --gpu 0,1,2,3 --capacity 16448 --prefill 16384 --chunk 16384 \
+  --decode-steps 1 --no-sweep --no-graph-step --iters 10 \
+  --out test-l0-bf16.json
+```
+
+`kern test --diff-only` identifies a single two-call span; the shared output to
+compare is `dense_act`. The internal `dense_partial` has different dtypes and
+is not a like-for-like comparison. The test also checks end-to-end logits.
+
+### Initial A/B result
+
+[`results/test-l0-bf16.json`](results/test-l0-bf16.json): **PASS**, 8/8 local
+comparisons and all eight end-to-end logits rows bit-identical; states and
+next-token outputs also match. One seeded workload (`0x5eed`), 16,384-token
+prefill plus one continuation token, four GB300 GPUs. This verifies that
+workload only, not arbitrary inputs or alternative compiler/runtime versions.
+
+| Measured section | Reference | Candidate |
+|---|---:|---:|
+| GEMM | 1.991 ms | 1.966 ms |
+| SITU | 0.441 ms | 0.577 ms |
+| Changed two-call span | 2.432 ms | 2.543 ms |
+
+The candidate is **4.5% slower in the changed span** and remains an experiment.
+The new SITU uses scalar element loads, whereas the baseline processes four
+FP32 elements per thread; further kernel tuning would be needed before judging
+the best achievable BF16 path. `kern test` also reports eager whole-program
+809.0 → 819.1 ms; this is not the CUDA graph timing used by the 749.5 ms benchmark.
+
+Runtime: `kern 0.2.3 (9d1230f-dirty, cuda 13.0)`, the historical benchmark binary;
+SHA-256 `7e5b1f63545efb343f93633f821112b8aaa9de62dcc90cb3119838afdba22fd1`. The test was not rerun with a fresh master build.

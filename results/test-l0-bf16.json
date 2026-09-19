@@ -1,0 +1,300 @@
+{
+  "detail": {
+    "end_to_end_outputs_differ": [],
+    "end_to_end_outputs_identical": true,
+    "local": [],
+    "logit_rows": [],
+    "noise": [],
+    "within_noise": false
+  },
+  "summary": {
+    "a": "manifests/k3-tp4-prefill-16k.json",
+    "b": "manifests/k3-tp4-prefill-16k-l0-bf16.json",
+    "diff": {
+      "buffers": [
+        {
+          "detail": "",
+          "kind": "changed",
+          "op": "dense_partial"
+        }
+      ],
+      "frontier_mismatch": false,
+      "ops": [
+        {
+          "detail": "3 → 3 params",
+          "kind": "interface",
+          "op": "land_situ_n33792"
+        }
+      ],
+      "programs": [
+        {
+          "calls": 3222,
+          "program": "prefill",
+          "shape": [
+            "gemm_f32+land_situ_n33792 → gemm_bf16+land_situ_n33792 normed → dense_act, dense_partial"
+          ],
+          "shared": 3220,
+          "spans": 1
+        }
+      ],
+      "skipped": []
+    },
+    "local": {
+      "bit_identical": 8,
+      "compared": 8,
+      "findings": [],
+      "omitted": 0,
+      "one_sided": [
+        "dense_partial"
+      ],
+      "outputs": [
+        {
+          "buffer": "rank 0 next_token",
+          "cmp": {
+            "max_abs": 0.0,
+            "max_ulp": null,
+            "n": 1,
+            "n_diff": 0,
+            "nan_only_one_side": 0,
+            "signed_zero": 0
+          },
+          "program": "",
+          "span": "end-to-end",
+          "what": "bit-identical"
+        },
+        {
+          "buffer": "rank 1 next_token",
+          "cmp": {
+            "max_abs": 0.0,
+            "max_ulp": null,
+            "n": 1,
+            "n_diff": 0,
+            "nan_only_one_side": 0,
+            "signed_zero": 0
+          },
+          "program": "",
+          "span": "end-to-end",
+          "what": "bit-identical"
+        },
+        {
+          "buffer": "rank 2 next_token",
+          "cmp": {
+            "max_abs": 0.0,
+            "max_ulp": null,
+            "n": 1,
+            "n_diff": 0,
+            "nan_only_one_side": 0,
+            "signed_zero": 0
+          },
+          "program": "",
+          "span": "end-to-end",
+          "what": "bit-identical"
+        },
+        {
+          "buffer": "rank 3 next_token",
+          "cmp": {
+            "max_abs": 0.0,
+            "max_ulp": null,
+            "n": 1,
+            "n_diff": 0,
+            "nan_only_one_side": 0,
+            "signed_zero": 0
+          },
+          "program": "",
+          "span": "end-to-end",
+          "what": "bit-identical"
+        }
+      ],
+      "states": [
+        {
+          "bytes": 337029120,
+          "differ": 0,
+          "name": "rank 0 kda"
+        },
+        {
+          "bytes": 454754304,
+          "differ": 0,
+          "name": "rank 0 kv"
+        },
+        {
+          "bytes": 337029120,
+          "differ": 0,
+          "name": "rank 1 kda"
+        },
+        {
+          "bytes": 454754304,
+          "differ": 0,
+          "name": "rank 1 kv"
+        },
+        {
+          "bytes": 337029120,
+          "differ": 0,
+          "name": "rank 2 kda"
+        },
+        {
+          "bytes": 454754304,
+          "differ": 0,
+          "name": "rank 2 kv"
+        },
+        {
+          "bytes": 337029120,
+          "differ": 0,
+          "name": "rank 3 kda"
+        },
+        {
+          "bytes": 454754304,
+          "differ": 0,
+          "name": "rank 3 kv"
+        }
+      ],
+      "undriven": [],
+      "value_identical": 0,
+      "violations": []
+    },
+    "logits": {
+      "differ": 0,
+      "elapsed_s": 0.08294535428285599,
+      "flipped": [],
+      "flips": 0,
+      "kl_at": "rank 3 step 0",
+      "kl_max": 0.0,
+      "limit_kl": 0.01,
+      "rows": 8,
+      "top_at": "rank 0 prefill chunk 0",
+      "top_differ": 0,
+      "top_min": 20,
+      "within": 0
+    },
+    "noise": {
+      "clean": 4,
+      "compared": 4,
+      "elapsed_s": 0.9403012990951538,
+      "findings": [],
+      "floor": {
+        "flips": 0,
+        "kl_at": "rank 3 step 0",
+        "kl_max": 0.0,
+        "rows": 8
+      },
+      "omitted": 0,
+      "states": []
+    },
+    "perf": {
+      "elapsed_s": 7.722710132598877,
+      "iters": 10,
+      "peak_bw_gbs": 8000.0,
+      "roofline": [
+        {
+          "bytes_per_call": 1581252608,
+          "calls": 1,
+          "gbs": [
+            null,
+            804.2666869841522
+          ],
+          "op": "gemm_bf16",
+          "peak_pct": [
+            null,
+            10.053333587301903
+          ],
+          "program": "prefill",
+          "us_per_call": [
+            null,
+            1966.0799560546875
+          ]
+        },
+        {
+          "bytes_per_call": 2134900736,
+          "calls": 1,
+          "gbs": [
+            1072.2195971400777,
+            null
+          ],
+          "op": "gemm_f32",
+          "peak_pct": [
+            13.40274496425097,
+            null
+          ],
+          "program": "prefill",
+          "us_per_call": [
+            1991.10400390625,
+            null
+          ]
+        },
+        {
+          "bytes_per_call": 1384120320,
+          "calls": 1,
+          "gbs": [
+            3136.376002121171,
+            1440.2717077318093
+          ],
+          "op": "land_situ_n33792",
+          "peak_pct": [
+            39.20470002651464,
+            18.003396346647616
+          ],
+          "program": "prefill",
+          "us_per_call": [
+            441.3119812011719,
+            576.6080322265625
+          ]
+        }
+      ],
+      "state_traffic": false,
+      "steps": [
+        {
+          "derived_ms": 809.113525390625,
+          "eager_ms": [
+            809.0032958984375,
+            819.0764770507812
+          ],
+          "program": "prefill",
+          "rows": 16384,
+          "span_ms": [
+            2.4324159622192383,
+            2.5426878929138184
+          ],
+          "spans": 1
+        }
+      ],
+      "sweep": [
+        {
+          "derived_ms": 809.113525390625,
+          "eager_ms": [
+            809.0032958984375,
+            819.0764770507812
+          ],
+          "rows": 16384,
+          "span_ms": [
+            2.4324159622192383,
+            2.5426878929138184
+          ]
+        }
+      ],
+      "sweep_program": "prefill"
+    },
+    "tap": {
+      "chunk": 16384,
+      "decode": 1,
+      "elapsed_s": 1.6828490495681763,
+      "free_run_ms": 821.0465698242188,
+      "how": "given",
+      "load_s": 74.31966400146484,
+      "prefill": 16384,
+      "ranks": 4,
+      "record_s": 9.803363800048828,
+      "runs": 2,
+      "seed": "0x5eed",
+      "snapshot_bytes": 2684624896,
+      "snapshot_pieces": 20,
+      "spans": 1,
+      "state_pre_image_bytes": 0,
+      "vocab": 163840
+    },
+    "verdict": {
+      "code": 0,
+      "elapsed_s": 93.62367248535156,
+      "pass": true,
+      "summary": "bit-identical at every span"
+    }
+  }
+}

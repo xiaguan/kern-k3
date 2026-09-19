@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--prebuilt-only", action="store_true", help="copy the four bundled cubins without invoking nvcc")
+    parser.add_argument("--prebuilt-only", action="store_true", help="copy bundled cubins without invoking nvcc")
     args = parser.parse_args()
     kernels = tomllib.loads((ROOT / "kernels.toml").read_text())["kernels"]
     out = ROOT / "build"

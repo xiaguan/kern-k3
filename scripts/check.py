@@ -27,7 +27,7 @@ def main():
             sha = module["sha256"]
             assert re.fullmatch(r"[0-9a-f]{64}", sha), name
             assert sha == kernel["sha256"], name
-            assert module["source"] == f"hf:Pegainfer/kern-kernels/blobs/{sha}", name
+            assert module["source"] in (f"hf:Pegainfer/kern-kernels/blobs/{sha}", f"{name}.cubin"), name
             for field in ("source", "build"):
                 if field in kernel:
                     assert (ROOT / kernel[field]).is_file(), (name, field)
