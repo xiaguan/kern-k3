@@ -3,17 +3,22 @@
 K3 manifests and kernel sources/build instructions, used with the
 [kern runtime](https://github.com/pegainfer-project/kern).
 
-- [`manifests/k3-tp4-prefill-16k.json`](manifests/k3-tp4-prefill-16k.json): the existing
-  93-layer **pruned-75pct** K3 prefill manifest, copied without changes. EP4/TP4,
-  16,384-token chunk, one sequence, maximum context 262,144. This is the
-  224-expert checkpoint, not the full 896-expert checkpoint.
-- [`kernels.toml`](kernels.toml): the 20 modules it pins, their SHA-256 values,
-  local `source` paths and compile-time `defines`, or bundled `prebuilt` paths and upstream origin.
-  Paths are relative to this repository root.
-- [`source/`](source/): 15 handwritten CUDA files and the vendored FlashKDA sources.
-  These produce 16 handwritten cubins and one FlashKDA cubin. The remaining three
+- [`manifests/k3-tp4-prefill-16k.json`](manifests/k3-tp4-prefill-16k.json): the
+  93-layer **pruned-75pct** K3 prefill manifest. EP4/TP4, 16,384-token chunk,
+  one sequence, maximum context 262,144. This is the 224-expert checkpoint, not
+  the full 896-expert checkpoint. Since 2026-09-19 it runs the residual kernels
+  on `k3_residual_v2` (see [Residual kernels v2](#residual-kernels-v2-adopted-2026-09-19));
+  the originally supplied manifest is the initial reference of the optimization
+  runs and is reproducible from it with the v1 residual ops.
+- [`kernels.toml`](kernels.toml): every module pinned by a manifest in `manifests/`
+  (20 per manifest), their SHA-256 values, local `source` paths and compile-time
+  `defines`, or bundled `prebuilt` paths and upstream origin. Paths are relative
+  to this repository root.
+- [`source/`](source/): the handwritten CUDA files and the vendored FlashKDA sources.
+  These produce the handwritten cubins and one FlashKDA cubin. The remaining three
   modules are prebuilt TRT-LLM kernels.
-- [`prebuilt/`](prebuilt/): the exact FlashKDA and three TRT-LLM cubins, bundled with licenses.
+- [`prebuilt/`](prebuilt/): the exact FlashKDA and three TRT-LLM cubins, bundled with
+  licenses, plus the bundled builds of `k3_situ_bf16` and `k3_residual_v2`.
 
 The manifest itself is the calling example: `ops` contains kernel entry names,
 parameter types/order, packed arguments, tensor maps and launch dimensions;
@@ -28,7 +33,7 @@ The recorded compiler is V13.0.88, build `cuda_13.0.r13.0/compiler.36424714_0`.
 NVCC=/path/to/cuda-13.0/bin/nvcc python3 scripts/build.py
 ```
 
-The script copies the four bundled cubins and builds the 16 handwritten module variants into `build/`, using
+The script copies the bundled cubins and builds the remaining handwritten module variants into `build/`, using
 `nvcc -cubin -arch=sm_103a` and the defines in `kernels.toml`, then compares each
 result with the manifest's SHA-256. All 20 match after building with the recorded compiler.
 It exits unsuccessfully if the build fails or any hash differs. A different
@@ -164,6 +169,51 @@ the best achievable BF16 path. `kern test` also reports eager whole-program
 
 Runtime: `kern 0.2.3 (9d1230f-dirty, cuda 13.0)`, the historical benchmark binary;
 SHA-256 `7e5b1f63545efb343f93633f821112b8aaa9de62dcc90cb3119838afdba22fd1`. The test was not rerun with a fresh master build.
+
+## Residual kernels v2 (adopted 2026-09-19)
+
+The default manifest now runs the K1 residual family (`attnres_rms`,
+`attnres_rms_first`, `land_add_attnres_rms_bf16`, `land_add2`) on
+[`source/k3_residual_v2.cu`](source/k3_residual_v2.cu), modules `k3_residual_v2`
+and `k3_residual_v2+LAND_BF16=1`, with 128-thread blocks instead of the
+1024-thread blocks of `k3_residual.cu`. Same entries, ABI, grid, math and
+landing points; each thread owns seven 16 B vectors of the row and the two
+passes issue the nb candidate loads of a vector back to back, so four rows are
+resident per SM and their DRAM latencies overlap. Reductions stay fixed-order
+but the order differs from v1, so `normed` can differ by one bf16 ulp in about
+0.02% of elements; `prefix2`, `hidden` and `blocks` are bit-identical.
+`python3 scripts/gen_residual_v2.py --reference <v1 manifest>` derives it from a
+v1 manifest (the one this replaced is the previous commit's file and the
+initial reference of the optimization runs).
+The v1 modules remain in `kernels.toml` and `build/` for the initial reference.
+
+The four ops carry a `_v2` suffix (`attnres_rms_v2`, ...): `kern test` counts
+a call as changed when its op name differs, and the runner keeps every changed
+span's outputs on the device, which runs out of memory with all 187 changed
+spans of this manifest at once. `gen_residual_v2.py --v1-layers 47-92` makes
+an intermediate manifest that keeps the reference's ops on layers 47-92, so
+the change is validated in two hops of ~94 spans (reference → intermediate,
+intermediate → this manifest), each with the fixed entry and thresholds.
+
+Measured with `kern bench` (12 samples, 16,384 tokens, empty KV cache, four
+GB300, graph p50 of the slowest rank) on the same node, alternating:
+
+| manifest | run 1 | run 2 |
+|---|---:|---:|
+| v1 residual (previous default) | 756.694 ms | 755.987 ms |
+| v2 residual, same launches as the committed file | 746.196 ms | 746.206 ms |
+| v2 residual, the committed file (`_v2` op names) | 746.150 ms | 745.849 ms (variant with an `attnres_rms` snapshot split, identical launches) |
+
+`attnres_rms` 15.19 → 9.26 ms and `land_add_attnres_rms_bf16` 17.05 → 12.04 ms
+summed over the 186 calls. `kern test` in two hops against the initial
+reference (byte-identical to the previous default), 16,384-token prefill plus
+one decode step, seed `0x5eed`: both **PASS** with the fixed thresholds.
+Hop 1 (layers 0-46): 1880 local comparisons, 1422 bit-identical, 0 violations,
+end-to-end KL ≤ 1.39e-3 (limit 1e-2), 8/8 argmax agree. Hop 2 (layers 47-92 and
+the final norm): 1856 comparisons, 1345 bit-identical, 0 violations, KL ≤
+1.61e-3, 8/8 argmax agree. Every differing comparison is `normed`, at most
+0.023% of its elements and 0.008 absolute; `next_token` is identical on all
+ranks in both hops. The eager per-span time the test reports fell 27-30%.
 
 ## Optimization agent
 

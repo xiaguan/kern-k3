@@ -12,3 +12,8 @@ SHA-256 alongside the handwritten kernels. CI checks these bundled bytes too.
 
 `k3_situ_bf16.cubin` is the candidate BF16-input SITU kernel, built from
 `../source/k3_situ_bf16.cu` with CUDA 13.0, under `../source/LICENSE`.
+
+`k3_residual_v2.cubin` and `k3_residual_v2+LAND_BF16=1.cubin` are the residual
+kernels used by the default prefill manifest since 2026-09-19, built from
+`../source/k3_residual_v2.cu` with CUDA 13.0 (`nvcc -cubin -arch=sm_103a`,
+the second with `-DLAND_BF16=1`), under `../source/LICENSE`.
