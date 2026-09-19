@@ -83,6 +83,12 @@ sha256 = "e8a0235ee32b82454a4843b6d7f02bbe58b53e7b6f0d724403f50055cb21295b"
 source = "source/k3_span_gather.cu"
 defines = { HEADS = 24 }
 
+[kernels."k3_span_gather_v2+HEADS=24"]
+sha256 = "8a20953c81db7bfd8ab5dc5c6eb36e899fb2441a02041b5c5590896d018a2292"
+source = "source/k3_span_gather_v2.cu"
+defines = { HEADS = 24 }
+prebuilt = "prebuilt/k3_span_gather_v2+HEADS=24.cubin"
+
 [kernels."k3_span_state+HEADS=24"]
 sha256 = "a1b9e40e420f4bcd4cd542006dd171dbcde299d6912b3a1b9ff5b04d8c171ffd"
 source = "source/k3_span_state.cu"

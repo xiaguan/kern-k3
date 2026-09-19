@@ -8,10 +8,13 @@ K3 manifests and kernel sources/build instructions, used with the
   one sequence, maximum context 262,144. This is the 224-expert checkpoint, not
   the full 896-expert checkpoint. Since 2026-09-19 it runs the residual kernels
   on `k3_residual_v2` (see [Residual kernels v2](#residual-kernels-v2-adopted-2026-09-19))
-  and the KDA output gate on `k3_kda_out_gate_v2` (see
-  [KDA output gate v2](#kda-output-gate-v2-adopted-2026-09-19));
+  the KDA output gate on `k3_kda_out_gate_v2` (see
+  [KDA output gate v2](#kda-output-gate-v2-adopted-2026-09-19)) and the KDA
+  span conv + SiLU on `k3_span_gather_v2` (see
+  [Span gather v2](#span-gather-v2-adopted-2026-09-19));
   the originally supplied manifest is the initial reference of the optimization
-  runs and is reproducible from it with the v1 residual and output-gate ops.
+  runs and is reproducible from it with the v1 residual, output-gate and
+  span-gather ops.
 - [`kernels.toml`](kernels.toml): every module pinned by a manifest in `manifests/`
   (20 per manifest), their SHA-256 values, local `source` paths and compile-time
   `defines`, or bundled `prebuilt` paths and upstream origin. Paths are relative
@@ -254,6 +257,52 @@ elements, ≤ 2 ulp, ≤ 0.0078 absolute), end-to-end KL ≤ 2.38e-3 / 1.35e-3 /
 6.47e-4 (limit 1e-2), 8/8 argmax agree, `next_token` identical on all ranks.
 The chain from the initial reference (the two residual-v2 hops) was rerun in
 the same session and passes as before (KL ≤ 1.39e-3 and 1.61e-3).
+
+## Span gather v2 (adopted 2026-09-19)
+
+The default manifest now runs the K9 span kernel `span_gather` (the K2 causal
+conv + SiLU of the q/k/v streams, one call per KDA layer, 69 calls) on
+[`source/k3_span_gather_v2.cu`](source/k3_span_gather_v2.cu), module
+`k3_span_gather_v2+HEADS=24`, as op `span_gather_v2` with grid
+(6, 4, ceil(tokens/16)) and block 128 instead of (6, 4, ceil(tokens/8)) and
+block 128. Same entry, ABI, arguments, per-element expression, landing points
+and window protocol. v1 was issue-bound rather than DRAM-bound (250 µs per
+call for ~0.9 GB): its SiLU used the IEEE division sequence and the
+non-flushing `__expf` expansion (~30 SASS instructions per element), and its
+8-row blocks re-read three tap rows per eight. v2 computes the sigmoid with
+`ex2.approx.ftz` / `rcp.approx.ftz`, rounds pairs of values through bf16x2,
+gives each block 16 rows loaded in chunks of four (the taps carried in
+registers) and is capped at 60 registers by `__launch_bounds__(128, 8)` so
+eight blocks are resident per SM. `sb` is bf16-rounded before the SiLU and
+the result is rounded to bf16, so the output can differ from v1 by one bf16
+ulp in rare elements; none were observed on random data or in the test.
+`python3 scripts/gen_span_gather_v2.py --reference <manifest with v1>`
+derives it (`--v1-layers A-B` makes hop manifests for `kern test`). The v1
+module remains in `kernels.toml` and `build/` for the initial reference.
+
+Measured with `kern bench` on the same node, alternating (graph p50 of the
+slowest rank, 12 samples, 16,384 tokens, empty KV cache, four GB300):
+
+| manifest | run 1 | run 2 | run 3 |
+|---|---:|---:|---:|
+| residual v2 + output gate v2 (previous default) | 736.458 ms | 736.576 ms | 736.746 ms |
+| + span gather v2 (this file) | | | 730.484 ms |
+
+−6.26 ms (−0.85%) against the same-session baseline run 3 (−6.09 ms against
+run 2); `span_gather` 17.22 → 11.03 ms summed over 69 calls (250 → 160 µs
+per call). Earlier layouts of the same kernel measured 198 / 183 / 166 µs per
+call in the graph (8 rows loaded up front, 32-row sequential loop, 32 rows in
+chunks of four); standalone timings did not predict the in-graph ranking.
+
+`kern test` (16k prefill + one decode step, seed 0x5eed) records the 805 MB
+`kda_partial` input of every changed span (~4.6 GB per span), so the change
+was validated in three hops of 23 spans with the same entry and thresholds
+(v2 on layers 0-29, then 0-60, then all): every hop is **PASS** with all
+1012 local comparisons bit-identical, logits bit-identical on 8/8 rows and
+next_token / KDA / KV states bit-identical on all ranks. The chain from the
+initial reference (residual v2 on layers 0-46 → round-1 default → output gate
+v2 on layers 0-30 → 0-61 → previous default) was rerun in the same session
+and passes as before (KL ≤ 1.39e-3, 1.61e-3, 2.38e-3, 1.35e-3, 6.47e-4).
 
 ## Optimization agent
 

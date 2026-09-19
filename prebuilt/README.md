@@ -22,3 +22,8 @@ the second with `-DLAND_BF16=1`), under `../source/LICENSE`.
 default prefill manifest since 2026-09-19 (round 2), built from
 `../source/k3_kda_out_gate_v2.cu` with CUDA 13.0 (`nvcc -cubin -arch=sm_103a
 -DHEADS=24`), under `../source/LICENSE`.
+
+`k3_span_gather_v2+HEADS=24.cubin` is the KDA span conv + SiLU kernel used by
+the default prefill manifest since 2026-09-19 (round 3), built from
+`../source/k3_span_gather_v2.cu` with CUDA 13.0 (`nvcc -cubin -arch=sm_103a
+-DHEADS=24`), under `../source/LICENSE`.

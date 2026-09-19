@@ -398095,10 +398095,6 @@
    "source": "hf:Pegainfer/kern-kernels/blobs/e3b8395c90e502b7afd4e844a57d060c682c7ab060a361befb9cbf4e61034b5a",
    "sha256": "e3b8395c90e502b7afd4e844a57d060c682c7ab060a361befb9cbf4e61034b5a"
   },
-  "k3_span_gather+HEADS=24": {
-   "source": "hf:Pegainfer/kern-kernels/blobs/e8a0235ee32b82454a4843b6d7f02bbe58b53e7b6f0d724403f50055cb21295b",
-   "sha256": "e8a0235ee32b82454a4843b6d7f02bbe58b53e7b6f0d724403f50055cb21295b"
-  },
   "k3_span_state+HEADS=24": {
    "source": "hf:Pegainfer/kern-kernels/blobs/a1b9e40e420f4bcd4cd542006dd171dbcde299d6912b3a1b9ff5b04d8c171ffd",
    "sha256": "a1b9e40e420f4bcd4cd542006dd171dbcde299d6912b3a1b9ff5b04d8c171ffd"
@@ -398130,6 +398126,10 @@
   "k3_kda_out_gate_v2+HEADS=24": {
    "source": "k3_kda_out_gate_v2+HEADS=24.cubin",
    "sha256": "f4363edfc6d1eb44d9326610ea800ecfc9a3b6f360db97871e639cdf45b592d6"
+  },
+  "k3_span_gather_v2+HEADS=24": {
+   "source": "k3_span_gather_v2+HEADS=24.cubin",
+   "sha256": "8a20953c81db7bfd8ab5dc5c6eb36e899fb2441a02041b5c5590896d018a2292"
   }
  },
  "ops": {
@@ -398328,101 +398328,6 @@
     "launches": [
      {
       "entry": "extern:cublaslt_bf16_tn"
-     }
-    ]
-   }
-  },
-  "span_gather": {
-   "params": [
-    "in buffer<f32>",
-    "in buffer<f32>",
-    "inout state",
-    "in buffer<i32>",
-    "in buffer<f32>",
-    "out buffer<bf16>",
-    "out buffer<bf16>",
-    "out buffer<bf16>",
-    "out buffer<bf16>",
-    "out buffer<bf16>",
-    "in buffer<i32>",
-    "i32"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "module": "k3_span_gather+HEADS=24",
-      "entry": "kern_k3_span_gather",
-      "params": [
-       "in buffer<f32>",
-       "in buffer<f32>",
-       "inout state",
-       "in buffer<i32>",
-       "i64",
-       "in buffer<f32>",
-       "out buffer<bf16>",
-       "out buffer<bf16>",
-       "out buffer<bf16>",
-       "out buffer<bf16>",
-       "out buffer<bf16>",
-       "in buffer<i32>",
-       "i32"
-      ],
-      "block": [
-       128,
-       1,
-       1
-      ],
-      "grid": [
-       6,
-       4,
-       {
-        "ceil_div": [
-         "tokens",
-         8
-        ]
-       }
-      ],
-      "args": [
-       {
-        "param": 0
-       },
-       {
-        "param": 1
-       },
-       {
-        "param": 2
-       },
-       {
-        "param": 3
-       },
-       {
-        "i64": 1628160
-       },
-       {
-        "param": 4
-       },
-       {
-        "param": 5
-       },
-       {
-        "param": 6
-       },
-       {
-        "param": 7
-       },
-       {
-        "param": 8
-       },
-       {
-        "param": 9
-       },
-       {
-        "param": 10
-       },
-       {
-        "param": 11
-       }
-      ]
      }
     ]
    }
@@ -401794,6 +401699,101 @@
      }
     ]
    }
+  },
+  "span_gather_v2": {
+   "params": [
+    "in buffer<f32>",
+    "in buffer<f32>",
+    "inout state",
+    "in buffer<i32>",
+    "in buffer<f32>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "in buffer<i32>",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_span_gather_v2+HEADS=24",
+      "entry": "kern_k3_span_gather",
+      "params": [
+       "in buffer<f32>",
+       "in buffer<f32>",
+       "inout state",
+       "in buffer<i32>",
+       "i64",
+       "in buffer<f32>",
+       "out buffer<bf16>",
+       "out buffer<bf16>",
+       "out buffer<bf16>",
+       "out buffer<bf16>",
+       "out buffer<bf16>",
+       "in buffer<i32>",
+       "i32"
+      ],
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       6,
+       4,
+       {
+        "ceil_div": [
+         "tokens",
+         16
+        ]
+       }
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
+        "param": 1
+       },
+       {
+        "param": 2
+       },
+       {
+        "param": 3
+       },
+       {
+        "i64": 1628160
+       },
+       {
+        "param": 4
+       },
+       {
+        "param": 5
+       },
+       {
+        "param": 6
+       },
+       {
+        "param": 7
+       },
+       {
+        "param": 8
+       },
+       {
+        "param": 9
+       },
+       {
+        "param": 10
+       },
+       {
+        "param": 11
+       }
+      ]
+     }
+    ]
+   }
   }
  },
  "programs": {
@@ -402003,7 +402003,7 @@
     },
     {
      "label": "l0.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -402509,7 +402509,7 @@
     },
     {
      "label": "l1.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -403510,7 +403510,7 @@
     },
     {
      "label": "l2.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -405477,7 +405477,7 @@
     },
     {
      "label": "l4.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -406478,7 +406478,7 @@
     },
     {
      "label": "l5.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -407479,7 +407479,7 @@
     },
     {
      "label": "l6.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -409446,7 +409446,7 @@
     },
     {
      "label": "l8.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -410447,7 +410447,7 @@
     },
     {
      "label": "l9.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -411448,7 +411448,7 @@
     },
     {
      "label": "l10.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -413415,7 +413415,7 @@
     },
     {
      "label": "l12.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -414416,7 +414416,7 @@
     },
     {
      "label": "l13.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -415417,7 +415417,7 @@
     },
     {
      "label": "l14.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -417384,7 +417384,7 @@
     },
     {
      "label": "l16.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -418385,7 +418385,7 @@
     },
     {
      "label": "l17.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -419386,7 +419386,7 @@
     },
     {
      "label": "l18.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -421353,7 +421353,7 @@
     },
     {
      "label": "l20.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -422354,7 +422354,7 @@
     },
     {
      "label": "l21.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -423355,7 +423355,7 @@
     },
     {
      "label": "l22.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -425322,7 +425322,7 @@
     },
     {
      "label": "l24.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -426323,7 +426323,7 @@
     },
     {
      "label": "l25.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -427324,7 +427324,7 @@
     },
     {
      "label": "l26.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -429291,7 +429291,7 @@
     },
     {
      "label": "l28.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -430292,7 +430292,7 @@
     },
     {
      "label": "l29.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -431293,7 +431293,7 @@
     },
     {
      "label": "l30.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -433260,7 +433260,7 @@
     },
     {
      "label": "l32.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -434261,7 +434261,7 @@
     },
     {
      "label": "l33.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -435262,7 +435262,7 @@
     },
     {
      "label": "l34.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -437229,7 +437229,7 @@
     },
     {
      "label": "l36.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -438230,7 +438230,7 @@
     },
     {
      "label": "l37.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -439231,7 +439231,7 @@
     },
     {
      "label": "l38.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -441198,7 +441198,7 @@
     },
     {
      "label": "l40.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -442199,7 +442199,7 @@
     },
     {
      "label": "l41.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -443200,7 +443200,7 @@
     },
     {
      "label": "l42.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -445167,7 +445167,7 @@
     },
     {
      "label": "l44.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -446168,7 +446168,7 @@
     },
     {
      "label": "l45.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -447169,7 +447169,7 @@
     },
     {
      "label": "l46.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -449136,7 +449136,7 @@
     },
     {
      "label": "l48.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -450137,7 +450137,7 @@
     },
     {
      "label": "l49.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -451138,7 +451138,7 @@
     },
     {
      "label": "l50.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -453105,7 +453105,7 @@
     },
     {
      "label": "l52.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -454106,7 +454106,7 @@
     },
     {
      "label": "l53.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -455107,7 +455107,7 @@
     },
     {
      "label": "l54.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -457074,7 +457074,7 @@
     },
     {
      "label": "l56.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -458075,7 +458075,7 @@
     },
     {
      "label": "l57.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -459076,7 +459076,7 @@
     },
     {
      "label": "l58.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -461043,7 +461043,7 @@
     },
     {
      "label": "l60.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -462044,7 +462044,7 @@
     },
     {
      "label": "l61.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -463045,7 +463045,7 @@
     },
     {
      "label": "l62.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -465012,7 +465012,7 @@
     },
     {
      "label": "l64.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -466013,7 +466013,7 @@
     },
     {
      "label": "l65.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -467014,7 +467014,7 @@
     },
     {
      "label": "l66.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -468981,7 +468981,7 @@
     },
     {
      "label": "l68.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -469982,7 +469982,7 @@
     },
     {
      "label": "l69.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -470983,7 +470983,7 @@
     },
     {
      "label": "l70.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -472950,7 +472950,7 @@
     },
     {
      "label": "l72.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -473951,7 +473951,7 @@
     },
     {
      "label": "l73.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -474952,7 +474952,7 @@
     },
     {
      "label": "l74.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -476919,7 +476919,7 @@
     },
     {
      "label": "l76.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -477920,7 +477920,7 @@
     },
     {
      "label": "l77.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -478921,7 +478921,7 @@
     },
     {
      "label": "l78.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -480888,7 +480888,7 @@
     },
     {
      "label": "l80.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -481889,7 +481889,7 @@
     },
     {
      "label": "l81.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -482890,7 +482890,7 @@
     },
     {
      "label": "l82.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -484857,7 +484857,7 @@
     },
     {
      "label": "l84.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -485858,7 +485858,7 @@
     },
     {
      "label": "l85.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -486859,7 +486859,7 @@
     },
     {
      "label": "l86.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -488826,7 +488826,7 @@
     },
     {
      "label": "l88.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -489827,7 +489827,7 @@
     },
     {
      "label": "l89.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
@@ -490828,7 +490828,7 @@
     },
     {
      "label": "l90.span_gather",
-     "op": "span_gather",
+     "op": "span_gather_v2",
      "args": [
       {
        "buf": "kda_partial"
