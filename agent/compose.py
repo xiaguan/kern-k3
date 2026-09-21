@@ -24,6 +24,7 @@ from pathlib import Path
 
 ROOT = Path.cwd()
 DEFAULT = Path("manifests/k3-tp4-prefill-16k.json")
+BEFORE = Path("build-before")
 NOTES = None
 
 
@@ -85,7 +86,10 @@ def replay(commit, out_dir):
     sh("git", "checkout", commit, "--", *taken)
     new_kernels = union_kernels(commit) if "kernels.toml" in files else []
     shutil.copy(DEFAULT, out_dir / "default-before.json")
-    # a generator may read its module's sha from build/, so the new entries are built first
+    # a generator may read its module's sha from build/, so the new entries are built first;
+    # a rebuilt module keeps its file name, so the previous default benches from a snapshot
+    shutil.rmtree(BEFORE, ignore_errors=True)
+    shutil.copytree("build", BEFORE)
     r = subprocess.run(["python3", "scripts/build.py"], text=True, capture_output=True)
     if r.returncode:
         return revert(commit, subject, f"scripts/build.py failed:\n{r.stdout}{r.stderr}"[-2000:])
@@ -106,10 +110,17 @@ def replay(commit, out_dir):
         return revert(commit, subject, f"scripts/check.py build failed:\n{r.stdout}{r.stderr}"[-2000:])
     base, cand = [], []
     for i in (1, 2):
-        evaluate("bench16k", out_dir / "default-before.json", out_dir / f"base{i}.json")
+        Path("build").rename("build-candidate")
+        BEFORE.rename("build")
+        try:
+            evaluate("bench16k", out_dir / "default-before.json", out_dir / f"base{i}.json")
+        finally:
+            Path("build").rename(BEFORE)
+            Path("build-candidate").rename("build")
         base.append(p50(out_dir / f"base{i}.json"))
         evaluate("bench16k", DEFAULT, out_dir / f"cand{i}.json")
         cand.append(p50(out_dir / f"cand{i}.json"))
+    shutil.rmtree(BEFORE)
     gain = statistics.mean(base) - statistics.mean(cand)
     judge = evaluate("judge16k", DEFAULT, out_dir / "judge.json")
     passed = judge.returncode == 0
@@ -127,6 +138,7 @@ def replay(commit, out_dir):
 
 
 def revert(commit, subject, why):
+    shutil.rmtree(BEFORE, ignore_errors=True)
     sh("git", "reset", "-q", "--hard", "HEAD")
     sh("git", "clean", "-fdq", "--", "manifests", "source", "prebuilt", "scripts", "results")
     return {"commit": commit, "subject": subject, "status": "rejected", "why": why}
