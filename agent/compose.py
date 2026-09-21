@@ -75,6 +75,10 @@ def replay(commit, out_dir):
     sh("git", "checkout", commit, "--", *taken)
     new_kernels = union_kernels(commit) if "kernels.toml" in files else []
     shutil.copy(DEFAULT, out_dir / "default-before.json")
+    # a generator may read its module's sha from build/, so the new entries are built first
+    r = subprocess.run(["python3", "scripts/build.py"], text=True, capture_output=True)
+    if r.returncode:
+        return revert(commit, subject, f"scripts/build.py failed:\n{r.stdout}{r.stderr}"[-2000:])
     # a generator the commit modified is an earlier step it builds on (idempotent by contract):
     # replay those first, then the one it added, each on what the previous one produced
     for gen in sorted(gens, key=lambda g: g in added):
@@ -86,10 +90,9 @@ def replay(commit, out_dir):
         # a generator may also rewrite the default in place; either way it must have changed it
         if r.returncode or len(produced) > 1 or DEFAULT.read_bytes() == before:
             return revert(commit, subject, f"{gen}: exit {r.returncode}, produced {produced}\n{r.stdout}{r.stderr}"[-2000:])
-    for step in (["python3", "scripts/build.py"], ["python3", "scripts/check.py", "build"]):
-        r = subprocess.run(step, text=True, capture_output=True)
-        if r.returncode:
-            return revert(commit, subject, f"{' '.join(step)} failed:\n{r.stdout}{r.stderr}"[-2000:])
+    r = subprocess.run(["python3", "scripts/check.py", "build"], text=True, capture_output=True)
+    if r.returncode:
+        return revert(commit, subject, f"scripts/check.py build failed:\n{r.stdout}{r.stderr}"[-2000:])
     base, cand = [], []
     for i in (1, 2):
         evaluate("bench16k", out_dir / "default-before.json", out_dir / f"base{i}.json")
