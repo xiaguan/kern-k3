@@ -221,3 +221,8 @@ build = "source/flash-kda-vllm/build.sh"
 defines = { K3_V_SW128 = 1 }
 prebuilt = "prebuilt/flash_kda_vllm_d128_hfma1.cubin"
 upstream = "https://github.com/vllm-project/FlashKDA/tree/b59532f1f464fbd536272780e30df5bf6a2ccc02"
+
+[kernels."k3_moe_prefill_v4+EP_RANKS=4+EP_STRIDED=1+TILE_SHIFT=7+SCATTER_WARPS=16"]
+sha256 = "5ae86d929d347748f15f7bf8a8e84b07bdfc6b2a953900340eca7ddef1f49bbc"
+source = "source/k3_moe_prefill_v4.cu"
+defines = { EP_RANKS = 4, EP_STRIDED = 1, TILE_SHIFT = 7, SCATTER_WARPS = 16 }

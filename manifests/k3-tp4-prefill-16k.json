@@ -398191,6 +398191,10 @@
   "flash_kda_vllm_d128_hfma1": {
    "source": "flash_kda_vllm_d128_hfma1.cubin",
    "sha256": "08cabb5a3a966a5e4fd5ec1893b71a11bb26c5118e63b4e06ef2f3e9d800defd"
+  },
+  "k3_moe_prefill_v4+EP_RANKS=4+EP_STRIDED=1+TILE_SHIFT=7+SCATTER_WARPS=16": {
+   "source": "k3_moe_prefill_v4+EP_RANKS=4+EP_STRIDED=1+TILE_SHIFT=7+SCATTER_WARPS=16.cubin",
+   "sha256": "5ae86d929d347748f15f7bf8a8e84b07bdfc6b2a953900340eca7ddef1f49bbc"
   }
  },
  "ops": {
@@ -399809,7 +399813,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_moe_prefill_v3+EP_STRIDED=1",
+      "module": "k3_moe_prefill_v4+EP_RANKS=4+EP_STRIDED=1+TILE_SHIFT=7+SCATTER_WARPS=16",
       "entry": "kern_k3_moe_route_tables",
       "params": [
        "in buffer<i32>",
@@ -399881,7 +399885,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_moe_prefill_v3+EP_STRIDED=1",
+      "module": "k3_moe_prefill_v4+EP_RANKS=4+EP_STRIDED=1+TILE_SHIFT=7+SCATTER_WARPS=16",
       "entry": "kern_k3_moe_route_scatter",
       "params": [
        "in buffer<i32>",
@@ -399893,7 +399897,7 @@
        "out buffer<i32>"
       ],
       "block": [
-       256,
+       512,
        1,
        1
       ],
