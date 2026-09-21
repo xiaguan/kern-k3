@@ -158,3 +158,7 @@ source = "source/k3_allgather4.cu"
 sha256 = "b4f8c82206ee1436a3e06c1dd58082aac2983686601fea741512f56a3d0a7a80"
 source = "source/k3_moe_prefill_v3.cu"
 defines = { EP_RANKS = 4, EP_STRIDED = 1 }
+
+[kernels.k3_land_fused]
+sha256 = "6807c5e0e677372fe49cc808c35f15718f5bcabe61189e56c7fda0b72dfe1c4e"
+source = "source/k3_land_fused.cu"

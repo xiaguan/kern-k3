@@ -669,7 +669,7 @@
    "kind": "workspace"
   },
   "shared_partial": {
-   "dtype": "f32",
+   "dtype": "bf16",
    "shape": [
     4096,
     12288
@@ -398219,6 +398219,10 @@
   "k3_moe_prefill_v3+EP_STRIDED=1": {
    "source": "k3_moe_prefill_v3+EP_STRIDED=1.cubin",
    "sha256": "b4f8c82206ee1436a3e06c1dd58082aac2983686601fea741512f56a3d0a7a80"
+  },
+  "k3_land_fused": {
+   "source": "k3_land_fused.cubin",
+   "sha256": "6807c5e0e677372fe49cc808c35f15718f5bcabe61189e56c7fda0b72dfe1c4e"
   }
  },
  "ops": {
@@ -399643,61 +399647,6 @@
     ]
    }
   },
-  "rms": {
-   "params": [
-    "in buffer<bf16>",
-    "in buffer<bf16>",
-    "out buffer<bf16>",
-    "i32"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "module": "k3_land",
-      "entry": "kern_k3_rms",
-      "params": [
-       "in buffer<bf16>",
-       "in buffer<bf16>",
-       "out buffer<bf16>",
-       "i32",
-       "i32"
-      ],
-      "block": [
-       512,
-       1,
-       1
-      ],
-      "grid": [
-       {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       },
-       1,
-       1
-      ],
-      "args": [
-       {
-        "param": 0
-       },
-       {
-        "param": 1
-       },
-       {
-        "param": 2
-       },
-       {
-        "i32": 3584
-       },
-       {
-        "param": 3
-       }
-      ]
-     }
-    ]
-   }
-  },
   "rank_rows": {
    "params": [
     "out buffer<i64>",
@@ -400644,56 +400593,6 @@
        },
        {
         "i32": 33792
-       },
-       {
-        "param": 2
-       }
-      ]
-     }
-    ]
-   }
-  },
-  "land_situ_n6144": {
-   "params": [
-    "in buffer<f32>",
-    "out buffer<bf16>",
-    "i32"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "module": "k3_land",
-      "entry": "kern_k3_land_situ",
-      "params": [
-       "in buffer<f32>",
-       "out buffer<bf16>",
-       "i32",
-       "i32"
-      ],
-      "block": [
-       128,
-       1,
-       1
-      ],
-      "grid": [
-       {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       },
-       6,
-       1
-      ],
-      "args": [
-       {
-        "param": 0
-       },
-       {
-        "param": 1
-       },
-       {
-        "i32": 6144
        },
        {
         "param": 2
@@ -401805,6 +401704,85 @@
        },
        1,
        1
+      ]
+     }
+    ]
+   }
+  },
+  "land_situ_rms": {
+   "params": [
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_land_fused",
+      "entry": "kern_k3_situ_rms_bf16",
+      "params": [
+       "in buffer<bf16>",
+       "out buffer<bf16>",
+       "in buffer<bf16>",
+       "in buffer<bf16>",
+       "out buffer<bf16>",
+       "i32",
+       "i32",
+       "i32",
+       "i32"
+      ],
+      "block": [
+       512,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           16
+          ]
+         },
+         3
+        ]
+       },
+       1,
+       1
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
+        "param": 1
+       },
+       {
+        "param": 2
+       },
+       {
+        "param": 3
+       },
+       {
+        "param": 4
+       },
+       {
+        "i32": 6144
+       },
+       {
+        "param": 5
+       },
+       {
+        "i32": 3584
+       },
+       {
+        "param": 6
+       }
       ]
      }
     ]
@@ -403312,9 +403290,47 @@
      ]
     },
     {
-     "label": "l1.lat_norm",
-     "op": "rms",
+     "label": "l1.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.1.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l1.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -403323,6 +403339,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -403363,58 +403387,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l1.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.1.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l1.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -404344,9 +404316,47 @@
      ]
     },
     {
-     "label": "l2.lat_norm",
-     "op": "rms",
+     "label": "l2.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.2.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l2.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -404355,6 +404365,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -404395,58 +404413,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l2.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.2.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l2.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -405341,9 +405307,47 @@
      ]
     },
     {
-     "label": "l3.lat_norm",
-     "op": "rms",
+     "label": "l3.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.3.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l3.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -405352,6 +405356,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -405392,58 +405404,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l3.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.3.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l3.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -406373,9 +406333,47 @@
      ]
     },
     {
-     "label": "l4.lat_norm",
-     "op": "rms",
+     "label": "l4.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.4.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l4.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -406384,6 +406382,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -406424,58 +406430,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l4.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.4.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l4.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -407405,9 +407359,47 @@
      ]
     },
     {
-     "label": "l5.lat_norm",
-     "op": "rms",
+     "label": "l5.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.5.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l5.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -407416,6 +407408,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -407456,58 +407456,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l5.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.5.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l5.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -408437,9 +408385,47 @@
      ]
     },
     {
-     "label": "l6.lat_norm",
-     "op": "rms",
+     "label": "l6.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.6.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l6.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -408448,6 +408434,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -408488,58 +408482,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l6.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.6.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l6.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -409434,9 +409376,47 @@
      ]
     },
     {
-     "label": "l7.lat_norm",
-     "op": "rms",
+     "label": "l7.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.7.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l7.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -409445,6 +409425,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -409485,58 +409473,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l7.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.7.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l7.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -410466,9 +410402,47 @@
      ]
     },
     {
-     "label": "l8.lat_norm",
-     "op": "rms",
+     "label": "l8.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.8.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l8.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -410477,6 +410451,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -410517,58 +410499,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l8.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.8.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l8.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -411498,9 +411428,47 @@
      ]
     },
     {
-     "label": "l9.lat_norm",
-     "op": "rms",
+     "label": "l9.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.9.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l9.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -411509,6 +411477,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -411549,58 +411525,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l9.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.9.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l9.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -412530,9 +412454,47 @@
      ]
     },
     {
-     "label": "l10.lat_norm",
-     "op": "rms",
+     "label": "l10.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.10.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l10.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -412541,6 +412503,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -412581,58 +412551,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l10.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.10.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l10.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -413527,9 +413445,47 @@
      ]
     },
     {
-     "label": "l11.lat_norm",
-     "op": "rms",
+     "label": "l11.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.11.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l11.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -413538,6 +413494,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -413578,58 +413542,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l11.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.11.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l11.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -414559,9 +414471,47 @@
      ]
     },
     {
-     "label": "l12.lat_norm",
-     "op": "rms",
+     "label": "l12.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.12.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l12.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -414570,6 +414520,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -414610,58 +414568,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l12.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.12.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l12.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -415591,9 +415497,47 @@
      ]
     },
     {
-     "label": "l13.lat_norm",
-     "op": "rms",
+     "label": "l13.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.13.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l13.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -415602,6 +415546,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -415642,58 +415594,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l13.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.13.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l13.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -416623,9 +416523,47 @@
      ]
     },
     {
-     "label": "l14.lat_norm",
-     "op": "rms",
+     "label": "l14.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.14.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l14.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -416634,6 +416572,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -416674,58 +416620,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l14.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.14.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l14.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -417620,9 +417514,47 @@
      ]
     },
     {
-     "label": "l15.lat_norm",
-     "op": "rms",
+     "label": "l15.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.15.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l15.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -417631,6 +417563,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -417671,58 +417611,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l15.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.15.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l15.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -418652,9 +418540,47 @@
      ]
     },
     {
-     "label": "l16.lat_norm",
-     "op": "rms",
+     "label": "l16.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.16.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l16.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -418663,6 +418589,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -418703,58 +418637,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l16.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.16.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l16.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -419684,9 +419566,47 @@
      ]
     },
     {
-     "label": "l17.lat_norm",
-     "op": "rms",
+     "label": "l17.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.17.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l17.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -419695,6 +419615,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -419735,58 +419663,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l17.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.17.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l17.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -420716,9 +420592,47 @@
      ]
     },
     {
-     "label": "l18.lat_norm",
-     "op": "rms",
+     "label": "l18.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.18.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l18.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -420727,6 +420641,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -420767,58 +420689,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l18.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.18.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l18.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -421713,9 +421583,47 @@
      ]
     },
     {
-     "label": "l19.lat_norm",
-     "op": "rms",
+     "label": "l19.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.19.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l19.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -421724,6 +421632,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -421764,58 +421680,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l19.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.19.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l19.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -422745,9 +422609,47 @@
      ]
     },
     {
-     "label": "l20.lat_norm",
-     "op": "rms",
+     "label": "l20.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.20.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l20.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -422756,6 +422658,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -422796,58 +422706,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l20.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.20.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l20.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -423777,9 +423635,47 @@
      ]
     },
     {
-     "label": "l21.lat_norm",
-     "op": "rms",
+     "label": "l21.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.21.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l21.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -423788,6 +423684,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -423828,58 +423732,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l21.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.21.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l21.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -424809,9 +424661,47 @@
      ]
     },
     {
-     "label": "l22.lat_norm",
-     "op": "rms",
+     "label": "l22.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.22.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l22.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -424820,6 +424710,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -424860,58 +424758,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l22.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.22.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l22.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -425806,9 +425652,47 @@
      ]
     },
     {
-     "label": "l23.lat_norm",
-     "op": "rms",
+     "label": "l23.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.23.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l23.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -425817,6 +425701,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -425857,58 +425749,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l23.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.23.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l23.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -426838,9 +426678,47 @@
      ]
     },
     {
-     "label": "l24.lat_norm",
-     "op": "rms",
+     "label": "l24.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.24.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l24.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -426849,6 +426727,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -426889,58 +426775,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l24.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.24.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l24.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -427870,9 +427704,47 @@
      ]
     },
     {
-     "label": "l25.lat_norm",
-     "op": "rms",
+     "label": "l25.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.25.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l25.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -427881,6 +427753,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -427921,58 +427801,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l25.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.25.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l25.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -428902,9 +428730,47 @@
      ]
     },
     {
-     "label": "l26.lat_norm",
-     "op": "rms",
+     "label": "l26.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.26.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l26.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -428913,6 +428779,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -428953,58 +428827,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l26.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.26.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l26.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -429899,9 +429721,47 @@
      ]
     },
     {
-     "label": "l27.lat_norm",
-     "op": "rms",
+     "label": "l27.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.27.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l27.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -429910,6 +429770,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -429950,58 +429818,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l27.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.27.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l27.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -430931,9 +430747,47 @@
      ]
     },
     {
-     "label": "l28.lat_norm",
-     "op": "rms",
+     "label": "l28.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.28.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l28.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -430942,6 +430796,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -430982,58 +430844,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l28.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.28.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l28.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -431963,9 +431773,47 @@
      ]
     },
     {
-     "label": "l29.lat_norm",
-     "op": "rms",
+     "label": "l29.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.29.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l29.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -431974,6 +431822,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -432014,58 +431870,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l29.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.29.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l29.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -432995,9 +432799,47 @@
      ]
     },
     {
-     "label": "l30.lat_norm",
-     "op": "rms",
+     "label": "l30.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.30.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l30.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -433006,6 +432848,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -433046,58 +432896,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l30.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.30.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l30.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -433992,9 +433790,47 @@
      ]
     },
     {
-     "label": "l31.lat_norm",
-     "op": "rms",
+     "label": "l31.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.31.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l31.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -434003,6 +433839,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -434043,58 +433887,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l31.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.31.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l31.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -435024,9 +434816,47 @@
      ]
     },
     {
-     "label": "l32.lat_norm",
-     "op": "rms",
+     "label": "l32.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.32.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l32.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -435035,6 +434865,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -435075,58 +434913,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l32.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.32.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l32.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -436056,9 +435842,47 @@
      ]
     },
     {
-     "label": "l33.lat_norm",
-     "op": "rms",
+     "label": "l33.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.33.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l33.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -436067,6 +435891,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -436107,58 +435939,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l33.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.33.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l33.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -437088,9 +436868,47 @@
      ]
     },
     {
-     "label": "l34.lat_norm",
-     "op": "rms",
+     "label": "l34.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.34.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l34.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -437099,6 +436917,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -437139,58 +436965,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l34.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.34.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l34.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -438085,9 +437859,47 @@
      ]
     },
     {
-     "label": "l35.lat_norm",
-     "op": "rms",
+     "label": "l35.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.35.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l35.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -438096,6 +437908,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -438136,58 +437956,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l35.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.35.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l35.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -439117,9 +438885,47 @@
      ]
     },
     {
-     "label": "l36.lat_norm",
-     "op": "rms",
+     "label": "l36.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.36.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l36.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -439128,6 +438934,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -439168,58 +438982,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l36.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.36.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l36.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -440149,9 +439911,47 @@
      ]
     },
     {
-     "label": "l37.lat_norm",
-     "op": "rms",
+     "label": "l37.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.37.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l37.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -440160,6 +439960,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -440200,58 +440008,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l37.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.37.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l37.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -441181,9 +440937,47 @@
      ]
     },
     {
-     "label": "l38.lat_norm",
-     "op": "rms",
+     "label": "l38.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.38.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l38.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -441192,6 +440986,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -441232,58 +441034,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l38.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.38.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l38.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -442178,9 +441928,47 @@
      ]
     },
     {
-     "label": "l39.lat_norm",
-     "op": "rms",
+     "label": "l39.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.39.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l39.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -442189,6 +441977,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -442229,58 +442025,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l39.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.39.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l39.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -443210,9 +442954,47 @@
      ]
     },
     {
-     "label": "l40.lat_norm",
-     "op": "rms",
+     "label": "l40.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.40.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l40.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -443221,6 +443003,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -443261,58 +443051,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l40.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.40.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l40.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -444242,9 +443980,47 @@
      ]
     },
     {
-     "label": "l41.lat_norm",
-     "op": "rms",
+     "label": "l41.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.41.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l41.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -444253,6 +444029,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -444293,58 +444077,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l41.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.41.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l41.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -445274,9 +445006,47 @@
      ]
     },
     {
-     "label": "l42.lat_norm",
-     "op": "rms",
+     "label": "l42.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.42.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l42.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -445285,6 +445055,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -445325,58 +445103,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l42.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.42.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l42.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -446271,9 +445997,47 @@
      ]
     },
     {
-     "label": "l43.lat_norm",
-     "op": "rms",
+     "label": "l43.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.43.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l43.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -446282,6 +446046,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -446322,58 +446094,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l43.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.43.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l43.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -447303,9 +447023,47 @@
      ]
     },
     {
-     "label": "l44.lat_norm",
-     "op": "rms",
+     "label": "l44.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.44.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l44.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -447314,6 +447072,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -447354,58 +447120,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l44.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.44.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l44.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -448335,9 +448049,47 @@
      ]
     },
     {
-     "label": "l45.lat_norm",
-     "op": "rms",
+     "label": "l45.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.45.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l45.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -448346,6 +448098,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -448386,58 +448146,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l45.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.45.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l45.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -449367,9 +449075,47 @@
      ]
     },
     {
-     "label": "l46.lat_norm",
-     "op": "rms",
+     "label": "l46.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.46.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l46.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -449378,6 +449124,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -449418,58 +449172,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l46.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.46.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l46.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -450364,9 +450066,47 @@
      ]
     },
     {
-     "label": "l47.lat_norm",
-     "op": "rms",
+     "label": "l47.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.47.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l47.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -450375,6 +450115,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -450415,58 +450163,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l47.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.47.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l47.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -451396,9 +451092,47 @@
      ]
     },
     {
-     "label": "l48.lat_norm",
-     "op": "rms",
+     "label": "l48.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.48.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l48.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -451407,6 +451141,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -451447,58 +451189,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l48.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.48.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l48.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -452428,9 +452118,47 @@
      ]
     },
     {
-     "label": "l49.lat_norm",
-     "op": "rms",
+     "label": "l49.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.49.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l49.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -452439,6 +452167,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -452479,58 +452215,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l49.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.49.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l49.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -453460,9 +453144,47 @@
      ]
     },
     {
-     "label": "l50.lat_norm",
-     "op": "rms",
+     "label": "l50.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.50.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l50.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -453471,6 +453193,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -453511,58 +453241,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l50.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.50.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l50.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -454457,9 +454135,47 @@
      ]
     },
     {
-     "label": "l51.lat_norm",
-     "op": "rms",
+     "label": "l51.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.51.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l51.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -454468,6 +454184,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -454508,58 +454232,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l51.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.51.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l51.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -455489,9 +455161,47 @@
      ]
     },
     {
-     "label": "l52.lat_norm",
-     "op": "rms",
+     "label": "l52.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.52.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l52.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -455500,6 +455210,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -455540,58 +455258,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l52.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.52.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l52.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -456521,9 +456187,47 @@
      ]
     },
     {
-     "label": "l53.lat_norm",
-     "op": "rms",
+     "label": "l53.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.53.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l53.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -456532,6 +456236,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -456572,58 +456284,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l53.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.53.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l53.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -457553,9 +457213,47 @@
      ]
     },
     {
-     "label": "l54.lat_norm",
-     "op": "rms",
+     "label": "l54.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.54.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l54.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -457564,6 +457262,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -457604,58 +457310,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l54.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.54.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l54.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -458550,9 +458204,47 @@
      ]
     },
     {
-     "label": "l55.lat_norm",
-     "op": "rms",
+     "label": "l55.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.55.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l55.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -458561,6 +458253,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -458601,58 +458301,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l55.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.55.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l55.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -459582,9 +459230,47 @@
      ]
     },
     {
-     "label": "l56.lat_norm",
-     "op": "rms",
+     "label": "l56.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.56.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l56.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -459593,6 +459279,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -459633,58 +459327,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l56.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.56.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l56.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -460614,9 +460256,47 @@
      ]
     },
     {
-     "label": "l57.lat_norm",
-     "op": "rms",
+     "label": "l57.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.57.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l57.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -460625,6 +460305,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -460665,58 +460353,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l57.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.57.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l57.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -461646,9 +461282,47 @@
      ]
     },
     {
-     "label": "l58.lat_norm",
-     "op": "rms",
+     "label": "l58.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.58.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l58.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -461657,6 +461331,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -461697,58 +461379,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l58.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.58.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l58.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -462643,9 +462273,47 @@
      ]
     },
     {
-     "label": "l59.lat_norm",
-     "op": "rms",
+     "label": "l59.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.59.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l59.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -462654,6 +462322,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -462694,58 +462370,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l59.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.59.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l59.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -463675,9 +463299,47 @@
      ]
     },
     {
-     "label": "l60.lat_norm",
-     "op": "rms",
+     "label": "l60.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.60.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l60.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -463686,6 +463348,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -463726,58 +463396,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l60.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.60.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l60.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -464707,9 +464325,47 @@
      ]
     },
     {
-     "label": "l61.lat_norm",
-     "op": "rms",
+     "label": "l61.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.61.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l61.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -464718,6 +464374,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -464758,58 +464422,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l61.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.61.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l61.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -465739,9 +465351,47 @@
      ]
     },
     {
-     "label": "l62.lat_norm",
-     "op": "rms",
+     "label": "l62.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.62.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l62.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -465750,6 +465400,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -465790,58 +465448,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l62.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.62.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l62.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -466736,9 +466342,47 @@
      ]
     },
     {
-     "label": "l63.lat_norm",
-     "op": "rms",
+     "label": "l63.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.63.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l63.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -466747,6 +466391,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -466787,58 +466439,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l63.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.63.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l63.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -467768,9 +467368,47 @@
      ]
     },
     {
-     "label": "l64.lat_norm",
-     "op": "rms",
+     "label": "l64.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.64.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l64.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -467779,6 +467417,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -467819,58 +467465,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l64.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.64.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l64.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -468800,9 +468394,47 @@
      ]
     },
     {
-     "label": "l65.lat_norm",
-     "op": "rms",
+     "label": "l65.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.65.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l65.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -468811,6 +468443,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -468851,58 +468491,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l65.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.65.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l65.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -469832,9 +469420,47 @@
      ]
     },
     {
-     "label": "l66.lat_norm",
-     "op": "rms",
+     "label": "l66.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.66.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l66.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -469843,6 +469469,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -469883,58 +469517,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l66.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.66.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l66.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -470829,9 +470411,47 @@
      ]
     },
     {
-     "label": "l67.lat_norm",
-     "op": "rms",
+     "label": "l67.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.67.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l67.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -470840,6 +470460,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -470880,58 +470508,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l67.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.67.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l67.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -471861,9 +471437,47 @@
      ]
     },
     {
-     "label": "l68.lat_norm",
-     "op": "rms",
+     "label": "l68.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.68.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l68.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -471872,6 +471486,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -471912,58 +471534,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l68.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.68.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l68.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -472893,9 +472463,47 @@
      ]
     },
     {
-     "label": "l69.lat_norm",
-     "op": "rms",
+     "label": "l69.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.69.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l69.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -472904,6 +472512,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -472944,58 +472560,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l69.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.69.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l69.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -473925,9 +473489,47 @@
      ]
     },
     {
-     "label": "l70.lat_norm",
-     "op": "rms",
+     "label": "l70.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.70.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l70.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -473936,6 +473538,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -473976,58 +473586,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l70.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.70.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l70.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -474922,9 +474480,47 @@
      ]
     },
     {
-     "label": "l71.lat_norm",
-     "op": "rms",
+     "label": "l71.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.71.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l71.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -474933,6 +474529,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -474973,58 +474577,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l71.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.71.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l71.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -475954,9 +475506,47 @@
      ]
     },
     {
-     "label": "l72.lat_norm",
-     "op": "rms",
+     "label": "l72.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.72.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l72.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -475965,6 +475555,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -476005,58 +475603,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l72.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.72.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l72.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -476986,9 +476532,47 @@
      ]
     },
     {
-     "label": "l73.lat_norm",
-     "op": "rms",
+     "label": "l73.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.73.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l73.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -476997,6 +476581,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -477037,58 +476629,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l73.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.73.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l73.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -478018,9 +477558,47 @@
      ]
     },
     {
-     "label": "l74.lat_norm",
-     "op": "rms",
+     "label": "l74.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.74.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l74.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -478029,6 +477607,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -478069,58 +477655,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l74.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.74.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l74.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -479015,9 +478549,47 @@
      ]
     },
     {
-     "label": "l75.lat_norm",
-     "op": "rms",
+     "label": "l75.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.75.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l75.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -479026,6 +478598,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -479066,58 +478646,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l75.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.75.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l75.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -480047,9 +479575,47 @@
      ]
     },
     {
-     "label": "l76.lat_norm",
-     "op": "rms",
+     "label": "l76.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.76.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l76.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -480058,6 +479624,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -480098,58 +479672,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l76.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.76.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l76.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -481079,9 +480601,47 @@
      ]
     },
     {
-     "label": "l77.lat_norm",
-     "op": "rms",
+     "label": "l77.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.77.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l77.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -481090,6 +480650,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -481130,58 +480698,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l77.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.77.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l77.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -482111,9 +481627,47 @@
      ]
     },
     {
-     "label": "l78.lat_norm",
-     "op": "rms",
+     "label": "l78.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.78.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l78.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -482122,6 +481676,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -482162,58 +481724,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l78.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.78.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l78.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -483108,9 +482618,47 @@
      ]
     },
     {
-     "label": "l79.lat_norm",
-     "op": "rms",
+     "label": "l79.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.79.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l79.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -483119,6 +482667,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -483159,58 +482715,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l79.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.79.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l79.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -484140,9 +483644,47 @@
      ]
     },
     {
-     "label": "l80.lat_norm",
-     "op": "rms",
+     "label": "l80.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.80.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l80.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -484151,6 +483693,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -484191,58 +483741,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l80.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.80.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l80.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -485172,9 +484670,47 @@
      ]
     },
     {
-     "label": "l81.lat_norm",
-     "op": "rms",
+     "label": "l81.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.81.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l81.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -485183,6 +484719,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -485223,58 +484767,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l81.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.81.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l81.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -486204,9 +485696,47 @@
      ]
     },
     {
-     "label": "l82.lat_norm",
-     "op": "rms",
+     "label": "l82.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.82.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l82.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -486215,6 +485745,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -486255,58 +485793,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l82.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.82.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l82.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -487201,9 +486687,47 @@
      ]
     },
     {
-     "label": "l83.lat_norm",
-     "op": "rms",
+     "label": "l83.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.83.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l83.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -487212,6 +486736,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -487252,58 +486784,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l83.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.83.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l83.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -488233,9 +487713,47 @@
      ]
     },
     {
-     "label": "l84.lat_norm",
-     "op": "rms",
+     "label": "l84.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.84.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l84.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -488244,6 +487762,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -488284,58 +487810,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l84.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.84.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l84.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -489265,9 +488739,47 @@
      ]
     },
     {
-     "label": "l85.lat_norm",
-     "op": "rms",
+     "label": "l85.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.85.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l85.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -489276,6 +488788,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -489316,58 +488836,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l85.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.85.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l85.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -490297,9 +489765,47 @@
      ]
     },
     {
-     "label": "l86.lat_norm",
-     "op": "rms",
+     "label": "l86.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.86.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l86.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -490308,6 +489814,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -490348,58 +489862,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l86.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.86.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l86.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -491294,9 +490756,47 @@
      ]
     },
     {
-     "label": "l87.lat_norm",
-     "op": "rms",
+     "label": "l87.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.87.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l87.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -491305,6 +490805,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -491345,58 +490853,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l87.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.87.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l87.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -492326,9 +491782,47 @@
      ]
     },
     {
-     "label": "l88.lat_norm",
-     "op": "rms",
+     "label": "l88.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.88.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l88.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -492337,6 +491831,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -492377,58 +491879,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l88.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.88.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l88.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -493358,9 +492808,47 @@
      ]
     },
     {
-     "label": "l89.lat_norm",
-     "op": "rms",
+     "label": "l89.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.89.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l89.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -493369,6 +492857,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -493409,58 +492905,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l89.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.89.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l89.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -494390,9 +493834,47 @@
      ]
     },
     {
-     "label": "l90.lat_norm",
-     "op": "rms",
+     "label": "l90.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.90.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l90.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -494401,6 +493883,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -494441,58 +493931,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l90.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.90.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l90.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -495387,9 +494825,47 @@
      ]
     },
     {
-     "label": "l91.lat_norm",
-     "op": "rms",
+     "label": "l91.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.91.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l91.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -495398,6 +494874,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -495438,58 +494922,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l91.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.91.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l91.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -496384,9 +495816,47 @@
      ]
     },
     {
-     "label": "l92.lat_norm",
-     "op": "rms",
+     "label": "l92.wsh",
+     "op": "gemm_bf16",
      "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "layers.92.wsh"
+      },
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
+      },
+      {
+       "i32": 12288
+      },
+      {
+       "i32": 7168
+      },
+      {
+       "i32": 12288
+      }
+     ]
+    },
+    {
+     "label": "l92.shared_situ",
+     "op": "land_situ_rms",
+     "args": [
+      {
+       "buf": "shared_partial"
+      },
+      {
+       "buf": "shared_act"
+      },
       {
        "buf": "routed_latent"
       },
@@ -496395,6 +495865,14 @@
       },
       {
        "buf": "routed_latent_norm"
+      },
+      {
+       "expr": {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       }
       },
       {
        "expr": {
@@ -496435,58 +495913,6 @@
       },
       {
        "i32": 7168
-      }
-     ]
-    },
-    {
-     "label": "l92.wsh",
-     "op": "gemm_f32",
-     "args": [
-      {
-       "buf": "normed"
-      },
-      {
-       "buf": "layers.92.wsh"
-      },
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      },
-      {
-       "i32": 12288
-      },
-      {
-       "i32": 7168
-      },
-      {
-       "i32": 12288
-      }
-     ]
-    },
-    {
-     "label": "l92.shared_situ",
-     "op": "land_situ_n6144",
-     "args": [
-      {
-       "buf": "shared_partial"
-      },
-      {
-       "buf": "shared_act"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
