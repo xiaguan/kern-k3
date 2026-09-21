@@ -614,7 +614,8 @@
     16384,
     3584
    ],
-   "kind": "workspace"
+   "kind": "workspace",
+   "export": true
   },
   "latent_sf_all": {
    "dtype": "u8",
@@ -622,7 +623,8 @@
     16384,
     112
    ],
-   "kind": "workspace"
+   "kind": "workspace",
+   "export": true
   },
   "topk_idx_all": {
    "dtype": "i32",
@@ -630,7 +632,8 @@
     16384,
     16
    ],
-   "kind": "workspace"
+   "kind": "workspace",
+   "export": true
   },
   "topk_weight_all": {
    "dtype": "f32",
@@ -638,7 +641,8 @@
     16384,
     16
    ],
-   "kind": "workspace"
+   "kind": "workspace",
+   "export": true
   },
   "moe_partial": {
    "dtype": "bf16",
@@ -398045,7 +398049,7 @@
   "coll_flags": {
    "dtype": "u64",
    "shape": [
-    280
+    372
    ],
    "kind": "workspace",
    "export": true
@@ -398084,6 +398088,42 @@
    ],
    "kind": "peer",
    "of": "rs_stage",
+   "group": "tp"
+  },
+  "latent_q_all_peer": {
+   "dtype": "u64",
+   "shape": [
+    4
+   ],
+   "kind": "peer",
+   "of": "latent_q_all",
+   "group": "tp"
+  },
+  "latent_sf_all_peer": {
+   "dtype": "u64",
+   "shape": [
+    4
+   ],
+   "kind": "peer",
+   "of": "latent_sf_all",
+   "group": "tp"
+  },
+  "topk_idx_all_peer": {
+   "dtype": "u64",
+   "shape": [
+    4
+   ],
+   "kind": "peer",
+   "of": "topk_idx_all",
+   "group": "tp"
+  },
+  "topk_weight_all_peer": {
+   "dtype": "u64",
+   "shape": [
+    4
+   ],
+   "kind": "peer",
+   "of": "topk_weight_all",
    "group": "tp"
   }
  },
@@ -398175,6 +398215,10 @@
   "k3_mla_prep_v2+INNER=3072+MLA_FUSED=5184": {
    "source": "k3_mla_prep_v2+INNER=3072+MLA_FUSED=5184.cubin",
    "sha256": "72d5cccce2c5583b3272b804bc69044e1e641b2e09fd6826af1d71b8cbfef638"
+  },
+  "k3_allgather4": {
+   "source": "k3_allgather4.cubin",
+   "sha256": "922033b1f92178e770779a07a6b75a3b3b75d0047431f9d590e7c39c7650a88f"
   }
  },
  "ops": {
@@ -399753,108 +399797,6 @@
        },
        {
         "param": 2
-       }
-      ]
-     }
-    ]
-   }
-  },
-  "nccl_allgather_u8": {
-   "params": [
-    "in buffer<u8>",
-    "out buffer<u8>",
-    "i64"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "entry": "extern:nccl_allgather_u8",
-      "params": [
-       "in buffer<u8>",
-       "out buffer<u8>",
-       "i64",
-       "i32"
-      ],
-      "args": [
-       {
-        "param": 0
-       },
-       {
-        "param": 1
-       },
-       {
-        "param": 2
-       },
-       {
-        "rank": "tp"
-       }
-      ]
-     }
-    ]
-   }
-  },
-  "nccl_allgather_i32": {
-   "params": [
-    "in buffer<i32>",
-    "out buffer<i32>",
-    "i64"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "entry": "extern:nccl_allgather_i32",
-      "params": [
-       "in buffer<i32>",
-       "out buffer<i32>",
-       "i64",
-       "i32"
-      ],
-      "args": [
-       {
-        "param": 0
-       },
-       {
-        "param": 1
-       },
-       {
-        "param": 2
-       },
-       {
-        "rank": "tp"
-       }
-      ]
-     }
-    ]
-   }
-  },
-  "nccl_allgather_f32": {
-   "params": [
-    "in buffer<f32>",
-    "out buffer<f32>",
-    "i64"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "entry": "extern:nccl_allgather_f32",
-      "params": [
-       "in buffer<f32>",
-       "out buffer<f32>",
-       "i64",
-       "i32"
-      ],
-      "args": [
-       {
-        "param": 0
-       },
-       {
-        "param": 1
-       },
-       {
-        "param": 2
-       },
-       {
-        "rank": "tp"
        }
       ]
      }
@@ -401723,6 +401665,150 @@
      }
     ]
    }
+  },
+  "k3_allgather4_push": {
+   "params": [
+    "in buffer<u8>",
+    "out buffer<u8>",
+    "in buffer<u64>",
+    "i64",
+    "in buffer<u8>",
+    "out buffer<u8>",
+    "in buffer<u64>",
+    "i64",
+    "in buffer<i32>",
+    "out buffer<i32>",
+    "in buffer<u64>",
+    "i64",
+    "in buffer<f32>",
+    "out buffer<f32>",
+    "in buffer<u64>",
+    "i64",
+    "out buffer<u64>",
+    "in buffer<u64>",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_allgather4",
+      "entry": "kern_k3_allgather4_push",
+      "params": [
+       "in buffer<u8>",
+       "out buffer<u8>",
+       "in buffer<u64>",
+       "i64",
+       "in buffer<u8>",
+       "out buffer<u8>",
+       "in buffer<u64>",
+       "i64",
+       "in buffer<i32>",
+       "out buffer<i32>",
+       "in buffer<u64>",
+       "i64",
+       "in buffer<f32>",
+       "out buffer<f32>",
+       "in buffer<u64>",
+       "i64",
+       "out buffer<u64>",
+       "in buffer<u64>",
+       "i32",
+       "i32",
+       "i32"
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
+        "param": 1
+       },
+       {
+        "param": 2
+       },
+       {
+        "param": 3
+       },
+       {
+        "param": 4
+       },
+       {
+        "param": 5
+       },
+       {
+        "param": 6
+       },
+       {
+        "param": 7
+       },
+       {
+        "param": 8
+       },
+       {
+        "param": 9
+       },
+       {
+        "param": 10
+       },
+       {
+        "param": 11
+       },
+       {
+        "param": 12
+       },
+       {
+        "param": 13
+       },
+       {
+        "param": 14
+       },
+       {
+        "param": 15
+       },
+       {
+        "param": 16
+       },
+       {
+        "param": 17
+       },
+       {
+        "param": 18
+       },
+       {
+        "rank": "tp"
+       },
+       {
+        "i32": 4
+       }
+      ],
+      "block": [
+       1024,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         {
+          "mul": [
+           {
+            "ceil_div": [
+             "tokens",
+             4
+            ]
+           },
+           7168
+          ]
+         },
+         32768
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
   }
  },
  "programs": {
@@ -402904,14 +402990,17 @@
      ]
     },
     {
-     "label": "l1.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l1.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -402925,18 +403014,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l1.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -402950,13 +403036,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l1.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -402964,6 +403044,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -402972,16 +403055,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l1.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -402989,6 +403066,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -402997,9 +403077,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 280
       }
      ]
     },
@@ -403933,14 +404022,17 @@
      ]
     },
     {
-     "label": "l2.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l2.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -403954,18 +404046,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l2.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -403979,13 +404068,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l2.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -403993,6 +404076,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -404001,16 +404087,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l2.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -404018,6 +404098,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -404026,9 +404109,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 281
       }
      ]
     },
@@ -404927,14 +405019,17 @@
      ]
     },
     {
-     "label": "l3.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l3.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -404948,18 +405043,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l3.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -404973,13 +405065,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l3.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -404987,6 +405073,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -404995,16 +405084,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l3.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -405012,6 +405095,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -405020,9 +405106,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 282
       }
      ]
     },
@@ -405956,14 +406051,17 @@
      ]
     },
     {
-     "label": "l4.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l4.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -405977,18 +406075,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l4.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -406002,13 +406097,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l4.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -406016,6 +406105,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -406024,16 +406116,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l4.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -406041,6 +406127,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -406049,9 +406138,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 283
       }
      ]
     },
@@ -406985,14 +407083,17 @@
      ]
     },
     {
-     "label": "l5.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l5.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -407006,18 +407107,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l5.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -407031,13 +407129,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l5.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -407045,6 +407137,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -407053,16 +407148,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l5.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -407070,6 +407159,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -407078,9 +407170,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 284
       }
      ]
     },
@@ -408014,14 +408115,17 @@
      ]
     },
     {
-     "label": "l6.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l6.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -408035,18 +408139,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l6.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -408060,13 +408161,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l6.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -408074,6 +408169,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -408082,16 +408180,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l6.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -408099,6 +408191,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -408107,9 +408202,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 285
       }
      ]
     },
@@ -409008,14 +409112,17 @@
      ]
     },
     {
-     "label": "l7.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l7.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -409029,18 +409136,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l7.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -409054,13 +409158,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l7.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -409068,6 +409166,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -409076,16 +409177,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l7.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -409093,6 +409188,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -409101,9 +409199,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 286
       }
      ]
     },
@@ -410037,14 +410144,17 @@
      ]
     },
     {
-     "label": "l8.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l8.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -410058,18 +410168,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l8.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -410083,13 +410190,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l8.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -410097,6 +410198,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -410105,16 +410209,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l8.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -410122,6 +410220,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -410130,9 +410231,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 287
       }
      ]
     },
@@ -411066,14 +411176,17 @@
      ]
     },
     {
-     "label": "l9.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l9.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -411087,18 +411200,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l9.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -411112,13 +411222,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l9.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -411126,6 +411230,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -411134,16 +411241,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l9.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -411151,6 +411252,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -411159,9 +411263,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 288
       }
      ]
     },
@@ -412095,14 +412208,17 @@
      ]
     },
     {
-     "label": "l10.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l10.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -412116,18 +412232,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l10.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -412141,13 +412254,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l10.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -412155,6 +412262,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -412163,16 +412273,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l10.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -412180,6 +412284,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -412188,9 +412295,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 289
       }
      ]
     },
@@ -413089,14 +413205,17 @@
      ]
     },
     {
-     "label": "l11.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l11.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -413110,18 +413229,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l11.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -413135,13 +413251,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l11.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -413149,6 +413259,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -413157,16 +413270,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l11.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -413174,6 +413281,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -413182,9 +413292,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 290
       }
      ]
     },
@@ -414118,14 +414237,17 @@
      ]
     },
     {
-     "label": "l12.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l12.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -414139,18 +414261,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l12.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -414164,13 +414283,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l12.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -414178,6 +414291,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -414186,16 +414302,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l12.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -414203,6 +414313,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -414211,9 +414324,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 291
       }
      ]
     },
@@ -415147,14 +415269,17 @@
      ]
     },
     {
-     "label": "l13.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l13.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -415168,18 +415293,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l13.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -415193,13 +415315,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l13.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -415207,6 +415323,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -415215,16 +415334,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l13.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -415232,6 +415345,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -415240,9 +415356,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 292
       }
      ]
     },
@@ -416176,14 +416301,17 @@
      ]
     },
     {
-     "label": "l14.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l14.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -416197,18 +416325,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l14.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -416222,13 +416347,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l14.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -416236,6 +416355,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -416244,16 +416366,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l14.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -416261,6 +416377,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -416269,9 +416388,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 293
       }
      ]
     },
@@ -417170,14 +417298,17 @@
      ]
     },
     {
-     "label": "l15.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l15.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -417191,18 +417322,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l15.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -417216,13 +417344,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l15.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -417230,6 +417352,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -417238,16 +417363,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l15.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -417255,6 +417374,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -417263,9 +417385,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 294
       }
      ]
     },
@@ -418199,14 +418330,17 @@
      ]
     },
     {
-     "label": "l16.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l16.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -418220,18 +418354,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l16.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -418245,13 +418376,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l16.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -418259,6 +418384,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -418267,16 +418395,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l16.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -418284,6 +418406,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -418292,9 +418417,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 295
       }
      ]
     },
@@ -419228,14 +419362,17 @@
      ]
     },
     {
-     "label": "l17.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l17.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -419249,18 +419386,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l17.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -419274,13 +419408,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l17.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -419288,6 +419416,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -419296,16 +419427,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l17.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -419313,6 +419438,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -419321,9 +419449,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 296
       }
      ]
     },
@@ -420257,14 +420394,17 @@
      ]
     },
     {
-     "label": "l18.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l18.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -420278,18 +420418,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l18.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -420303,13 +420440,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l18.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -420317,6 +420448,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -420325,16 +420459,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l18.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -420342,6 +420470,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -420350,9 +420481,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 297
       }
      ]
     },
@@ -421251,14 +421391,17 @@
      ]
     },
     {
-     "label": "l19.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l19.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -421272,18 +421415,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l19.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -421297,13 +421437,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l19.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -421311,6 +421445,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -421319,16 +421456,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l19.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -421336,6 +421467,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -421344,9 +421478,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 298
       }
      ]
     },
@@ -422280,14 +422423,17 @@
      ]
     },
     {
-     "label": "l20.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l20.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -422301,18 +422447,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l20.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -422326,13 +422469,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l20.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -422340,6 +422477,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -422348,16 +422488,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l20.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -422365,6 +422499,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -422373,9 +422510,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 299
       }
      ]
     },
@@ -423309,14 +423455,17 @@
      ]
     },
     {
-     "label": "l21.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l21.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -423330,18 +423479,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l21.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -423355,13 +423501,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l21.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -423369,6 +423509,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -423377,16 +423520,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l21.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -423394,6 +423531,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -423402,9 +423542,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 300
       }
      ]
     },
@@ -424338,14 +424487,17 @@
      ]
     },
     {
-     "label": "l22.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l22.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -424359,18 +424511,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l22.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -424384,13 +424533,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l22.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -424398,6 +424541,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -424406,16 +424552,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l22.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -424423,6 +424563,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -424431,9 +424574,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 301
       }
      ]
     },
@@ -425332,14 +425484,17 @@
      ]
     },
     {
-     "label": "l23.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l23.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -425353,18 +425508,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l23.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -425378,13 +425530,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l23.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -425392,6 +425538,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -425400,16 +425549,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l23.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -425417,6 +425560,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -425425,9 +425571,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 302
       }
      ]
     },
@@ -426361,14 +426516,17 @@
      ]
     },
     {
-     "label": "l24.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l24.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -426382,18 +426540,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l24.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -426407,13 +426562,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l24.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -426421,6 +426570,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -426429,16 +426581,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l24.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -426446,6 +426592,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -426454,9 +426603,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 303
       }
      ]
     },
@@ -427390,14 +427548,17 @@
      ]
     },
     {
-     "label": "l25.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l25.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -427411,18 +427572,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l25.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -427436,13 +427594,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l25.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -427450,6 +427602,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -427458,16 +427613,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l25.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -427475,6 +427624,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -427483,9 +427635,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 304
       }
      ]
     },
@@ -428419,14 +428580,17 @@
      ]
     },
     {
-     "label": "l26.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l26.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -428440,18 +428604,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l26.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -428465,13 +428626,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l26.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -428479,6 +428634,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -428487,16 +428645,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l26.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -428504,6 +428656,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -428512,9 +428667,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 305
       }
      ]
     },
@@ -429413,14 +429577,17 @@
      ]
     },
     {
-     "label": "l27.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l27.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -429434,18 +429601,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l27.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -429459,13 +429623,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l27.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -429473,6 +429631,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -429481,16 +429642,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l27.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -429498,6 +429653,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -429506,9 +429664,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 306
       }
      ]
     },
@@ -430442,14 +430609,17 @@
      ]
     },
     {
-     "label": "l28.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l28.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -430463,18 +430633,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l28.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -430488,13 +430655,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l28.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -430502,6 +430663,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -430510,16 +430674,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l28.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -430527,6 +430685,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -430535,9 +430696,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 307
       }
      ]
     },
@@ -431471,14 +431641,17 @@
      ]
     },
     {
-     "label": "l29.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l29.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -431492,18 +431665,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l29.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -431517,13 +431687,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l29.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -431531,6 +431695,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -431539,16 +431706,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l29.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -431556,6 +431717,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -431564,9 +431728,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 308
       }
      ]
     },
@@ -432500,14 +432673,17 @@
      ]
     },
     {
-     "label": "l30.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l30.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -432521,18 +432697,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l30.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -432546,13 +432719,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l30.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -432560,6 +432727,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -432568,16 +432738,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l30.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -432585,6 +432749,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -432593,9 +432760,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 309
       }
      ]
     },
@@ -433494,14 +433670,17 @@
      ]
     },
     {
-     "label": "l31.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l31.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -433515,18 +433694,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l31.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -433540,13 +433716,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l31.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -433554,6 +433724,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -433562,16 +433735,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l31.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -433579,6 +433746,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -433587,9 +433757,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 310
       }
      ]
     },
@@ -434523,14 +434702,17 @@
      ]
     },
     {
-     "label": "l32.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l32.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -434544,18 +434726,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l32.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -434569,13 +434748,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l32.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -434583,6 +434756,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -434591,16 +434767,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l32.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -434608,6 +434778,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -434616,9 +434789,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 311
       }
      ]
     },
@@ -435552,14 +435734,17 @@
      ]
     },
     {
-     "label": "l33.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l33.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -435573,18 +435758,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l33.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -435598,13 +435780,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l33.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -435612,6 +435788,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -435620,16 +435799,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l33.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -435637,6 +435810,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -435645,9 +435821,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 312
       }
      ]
     },
@@ -436581,14 +436766,17 @@
      ]
     },
     {
-     "label": "l34.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l34.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -436602,18 +436790,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l34.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -436627,13 +436812,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l34.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -436641,6 +436820,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -436649,16 +436831,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l34.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -436666,6 +436842,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -436674,9 +436853,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 313
       }
      ]
     },
@@ -437575,14 +437763,17 @@
      ]
     },
     {
-     "label": "l35.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l35.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -437596,18 +437787,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l35.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -437621,13 +437809,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l35.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -437635,6 +437817,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -437643,16 +437828,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l35.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -437660,6 +437839,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -437668,9 +437850,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 314
       }
      ]
     },
@@ -438604,14 +438795,17 @@
      ]
     },
     {
-     "label": "l36.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l36.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -438625,18 +438819,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l36.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -438650,13 +438841,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l36.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -438664,6 +438849,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -438672,16 +438860,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l36.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -438689,6 +438871,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -438697,9 +438882,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 315
       }
      ]
     },
@@ -439633,14 +439827,17 @@
      ]
     },
     {
-     "label": "l37.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l37.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -439654,18 +439851,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l37.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -439679,13 +439873,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l37.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -439693,6 +439881,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -439701,16 +439892,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l37.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -439718,6 +439903,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -439726,9 +439914,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 316
       }
      ]
     },
@@ -440662,14 +440859,17 @@
      ]
     },
     {
-     "label": "l38.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l38.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -440683,18 +440883,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l38.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -440708,13 +440905,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l38.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -440722,6 +440913,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -440730,16 +440924,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l38.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -440747,6 +440935,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -440755,9 +440946,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 317
       }
      ]
     },
@@ -441656,14 +441856,17 @@
      ]
     },
     {
-     "label": "l39.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l39.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -441677,18 +441880,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l39.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -441702,13 +441902,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l39.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -441716,6 +441910,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -441724,16 +441921,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l39.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -441741,6 +441932,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -441749,9 +441943,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 318
       }
      ]
     },
@@ -442685,14 +442888,17 @@
      ]
     },
     {
-     "label": "l40.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l40.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -442706,18 +442912,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l40.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -442731,13 +442934,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l40.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -442745,6 +442942,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -442753,16 +442953,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l40.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -442770,6 +442964,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -442778,9 +442975,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 319
       }
      ]
     },
@@ -443714,14 +443920,17 @@
      ]
     },
     {
-     "label": "l41.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l41.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -443735,18 +443944,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l41.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -443760,13 +443966,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l41.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -443774,6 +443974,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -443782,16 +443985,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l41.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -443799,6 +443996,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -443807,9 +444007,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 320
       }
      ]
     },
@@ -444743,14 +444952,17 @@
      ]
     },
     {
-     "label": "l42.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l42.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -444764,18 +444976,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l42.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -444789,13 +444998,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l42.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -444803,6 +445006,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -444811,16 +445017,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l42.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -444828,6 +445028,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -444836,9 +445039,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 321
       }
      ]
     },
@@ -445737,14 +445949,17 @@
      ]
     },
     {
-     "label": "l43.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l43.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -445758,18 +445973,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l43.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -445783,13 +445995,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l43.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -445797,6 +446003,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -445805,16 +446014,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l43.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -445822,6 +446025,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -445830,9 +446036,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 322
       }
      ]
     },
@@ -446766,14 +446981,17 @@
      ]
     },
     {
-     "label": "l44.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l44.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -446787,18 +447005,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l44.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -446812,13 +447027,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l44.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -446826,6 +447035,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -446834,16 +447046,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l44.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -446851,6 +447057,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -446859,9 +447068,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 323
       }
      ]
     },
@@ -447795,14 +448013,17 @@
      ]
     },
     {
-     "label": "l45.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l45.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -447816,18 +448037,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l45.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -447841,13 +448059,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l45.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -447855,6 +448067,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -447863,16 +448078,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l45.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -447880,6 +448089,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -447888,9 +448100,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 324
       }
      ]
     },
@@ -448824,14 +449045,17 @@
      ]
     },
     {
-     "label": "l46.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l46.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -448845,18 +449069,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l46.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -448870,13 +449091,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l46.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -448884,6 +449099,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -448892,16 +449110,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l46.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -448909,6 +449121,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -448917,9 +449132,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 325
       }
      ]
     },
@@ -449818,14 +450042,17 @@
      ]
     },
     {
-     "label": "l47.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l47.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -449839,18 +450066,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l47.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -449864,13 +450088,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l47.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -449878,6 +450096,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -449886,16 +450107,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l47.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -449903,6 +450118,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -449911,9 +450129,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 326
       }
      ]
     },
@@ -450847,14 +451074,17 @@
      ]
     },
     {
-     "label": "l48.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l48.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -450868,18 +451098,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l48.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -450893,13 +451120,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l48.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -450907,6 +451128,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -450915,16 +451139,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l48.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -450932,6 +451150,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -450940,9 +451161,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 327
       }
      ]
     },
@@ -451876,14 +452106,17 @@
      ]
     },
     {
-     "label": "l49.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l49.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -451897,18 +452130,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l49.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -451922,13 +452152,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l49.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -451936,6 +452160,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -451944,16 +452171,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l49.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -451961,6 +452182,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -451969,9 +452193,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 328
       }
      ]
     },
@@ -452905,14 +453138,17 @@
      ]
     },
     {
-     "label": "l50.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l50.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -452926,18 +453162,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l50.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -452951,13 +453184,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l50.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -452965,6 +453192,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -452973,16 +453203,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l50.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -452990,6 +453214,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -452998,9 +453225,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 329
       }
      ]
     },
@@ -453899,14 +454135,17 @@
      ]
     },
     {
-     "label": "l51.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l51.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -453920,18 +454159,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l51.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -453945,13 +454181,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l51.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -453959,6 +454189,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -453967,16 +454200,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l51.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -453984,6 +454211,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -453992,9 +454222,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 330
       }
      ]
     },
@@ -454928,14 +455167,17 @@
      ]
     },
     {
-     "label": "l52.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l52.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -454949,18 +455191,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l52.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -454974,13 +455213,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l52.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -454988,6 +455221,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -454996,16 +455232,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l52.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -455013,6 +455243,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -455021,9 +455254,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 331
       }
      ]
     },
@@ -455957,14 +456199,17 @@
      ]
     },
     {
-     "label": "l53.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l53.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -455978,18 +456223,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l53.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -456003,13 +456245,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l53.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -456017,6 +456253,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -456025,16 +456264,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l53.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -456042,6 +456275,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -456050,9 +456286,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 332
       }
      ]
     },
@@ -456986,14 +457231,17 @@
      ]
     },
     {
-     "label": "l54.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l54.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -457007,18 +457255,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l54.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -457032,13 +457277,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l54.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -457046,6 +457285,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -457054,16 +457296,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l54.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -457071,6 +457307,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -457079,9 +457318,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 333
       }
      ]
     },
@@ -457980,14 +458228,17 @@
      ]
     },
     {
-     "label": "l55.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l55.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -458001,18 +458252,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l55.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -458026,13 +458274,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l55.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -458040,6 +458282,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -458048,16 +458293,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l55.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -458065,6 +458304,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -458073,9 +458315,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 334
       }
      ]
     },
@@ -459009,14 +459260,17 @@
      ]
     },
     {
-     "label": "l56.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l56.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -459030,18 +459284,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l56.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -459055,13 +459306,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l56.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -459069,6 +459314,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -459077,16 +459325,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l56.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -459094,6 +459336,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -459102,9 +459347,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 335
       }
      ]
     },
@@ -460038,14 +460292,17 @@
      ]
     },
     {
-     "label": "l57.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l57.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -460059,18 +460316,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l57.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -460084,13 +460338,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l57.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -460098,6 +460346,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -460106,16 +460357,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l57.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -460123,6 +460368,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -460131,9 +460379,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 336
       }
      ]
     },
@@ -461067,14 +461324,17 @@
      ]
     },
     {
-     "label": "l58.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l58.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -461088,18 +461348,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l58.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -461113,13 +461370,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l58.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -461127,6 +461378,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -461135,16 +461389,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l58.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -461152,6 +461400,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -461160,9 +461411,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 337
       }
      ]
     },
@@ -462061,14 +462321,17 @@
      ]
     },
     {
-     "label": "l59.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l59.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -462082,18 +462345,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l59.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -462107,13 +462367,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l59.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -462121,6 +462375,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -462129,16 +462386,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l59.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -462146,6 +462397,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -462154,9 +462408,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 338
       }
      ]
     },
@@ -463090,14 +463353,17 @@
      ]
     },
     {
-     "label": "l60.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l60.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -463111,18 +463377,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l60.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -463136,13 +463399,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l60.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -463150,6 +463407,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -463158,16 +463418,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l60.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -463175,6 +463429,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -463183,9 +463440,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 339
       }
      ]
     },
@@ -464119,14 +464385,17 @@
      ]
     },
     {
-     "label": "l61.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l61.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -464140,18 +464409,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l61.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -464165,13 +464431,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l61.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -464179,6 +464439,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -464187,16 +464450,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l61.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -464204,6 +464461,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -464212,9 +464472,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 340
       }
      ]
     },
@@ -465148,14 +465417,17 @@
      ]
     },
     {
-     "label": "l62.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l62.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -465169,18 +465441,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l62.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -465194,13 +465463,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l62.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -465208,6 +465471,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -465216,16 +465482,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l62.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -465233,6 +465493,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -465241,9 +465504,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 341
       }
      ]
     },
@@ -466142,14 +466414,17 @@
      ]
     },
     {
-     "label": "l63.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l63.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -466163,18 +466438,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l63.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -466188,13 +466460,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l63.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -466202,6 +466468,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -466210,16 +466479,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l63.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -466227,6 +466490,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -466235,9 +466501,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 342
       }
      ]
     },
@@ -467171,14 +467446,17 @@
      ]
     },
     {
-     "label": "l64.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l64.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -467192,18 +467470,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l64.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -467217,13 +467492,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l64.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -467231,6 +467500,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -467239,16 +467511,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l64.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -467256,6 +467522,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -467264,9 +467533,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 343
       }
      ]
     },
@@ -468200,14 +468478,17 @@
      ]
     },
     {
-     "label": "l65.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l65.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -468221,18 +468502,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l65.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -468246,13 +468524,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l65.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -468260,6 +468532,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -468268,16 +468543,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l65.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -468285,6 +468554,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -468293,9 +468565,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 344
       }
      ]
     },
@@ -469229,14 +469510,17 @@
      ]
     },
     {
-     "label": "l66.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l66.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -469250,18 +469534,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l66.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -469275,13 +469556,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l66.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -469289,6 +469564,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -469297,16 +469575,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l66.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -469314,6 +469586,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -469322,9 +469597,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 345
       }
      ]
     },
@@ -470223,14 +470507,17 @@
      ]
     },
     {
-     "label": "l67.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l67.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -470244,18 +470531,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l67.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -470269,13 +470553,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l67.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -470283,6 +470561,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -470291,16 +470572,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l67.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -470308,6 +470583,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -470316,9 +470594,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 346
       }
      ]
     },
@@ -471252,14 +471539,17 @@
      ]
     },
     {
-     "label": "l68.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l68.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -471273,18 +471563,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l68.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -471298,13 +471585,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l68.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -471312,6 +471593,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -471320,16 +471604,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l68.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -471337,6 +471615,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -471345,9 +471626,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 347
       }
      ]
     },
@@ -472281,14 +472571,17 @@
      ]
     },
     {
-     "label": "l69.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l69.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -472302,18 +472595,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l69.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -472327,13 +472617,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l69.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -472341,6 +472625,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -472349,16 +472636,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l69.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -472366,6 +472647,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -472374,9 +472658,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 348
       }
      ]
     },
@@ -473310,14 +473603,17 @@
      ]
     },
     {
-     "label": "l70.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l70.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -473331,18 +473627,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l70.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -473356,13 +473649,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l70.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -473370,6 +473657,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -473378,16 +473668,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l70.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -473395,6 +473679,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -473403,9 +473690,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 349
       }
      ]
     },
@@ -474304,14 +474600,17 @@
      ]
     },
     {
-     "label": "l71.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l71.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -474325,18 +474624,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l71.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -474350,13 +474646,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l71.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -474364,6 +474654,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -474372,16 +474665,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l71.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -474389,6 +474676,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -474397,9 +474687,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 350
       }
      ]
     },
@@ -475333,14 +475632,17 @@
      ]
     },
     {
-     "label": "l72.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l72.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -475354,18 +475656,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l72.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -475379,13 +475678,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l72.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -475393,6 +475686,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -475401,16 +475697,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l72.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -475418,6 +475708,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -475426,9 +475719,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 351
       }
      ]
     },
@@ -476362,14 +476664,17 @@
      ]
     },
     {
-     "label": "l73.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l73.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -476383,18 +476688,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l73.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -476408,13 +476710,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l73.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -476422,6 +476718,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -476430,16 +476729,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l73.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -476447,6 +476740,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -476455,9 +476751,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 352
       }
      ]
     },
@@ -477391,14 +477696,17 @@
      ]
     },
     {
-     "label": "l74.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l74.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -477412,18 +477720,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l74.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -477437,13 +477742,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l74.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -477451,6 +477750,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -477459,16 +477761,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l74.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -477476,6 +477772,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -477484,9 +477783,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 353
       }
      ]
     },
@@ -478385,14 +478693,17 @@
      ]
     },
     {
-     "label": "l75.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l75.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -478406,18 +478717,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l75.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -478431,13 +478739,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l75.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -478445,6 +478747,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -478453,16 +478758,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l75.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -478470,6 +478769,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -478478,9 +478780,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 354
       }
      ]
     },
@@ -479414,14 +479725,17 @@
      ]
     },
     {
-     "label": "l76.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l76.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -479435,18 +479749,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l76.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -479460,13 +479771,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l76.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -479474,6 +479779,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -479482,16 +479790,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l76.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -479499,6 +479801,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -479507,9 +479812,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 355
       }
      ]
     },
@@ -480443,14 +480757,17 @@
      ]
     },
     {
-     "label": "l77.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l77.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -480464,18 +480781,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l77.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -480489,13 +480803,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l77.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -480503,6 +480811,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -480511,16 +480822,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l77.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -480528,6 +480833,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -480536,9 +480844,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 356
       }
      ]
     },
@@ -481472,14 +481789,17 @@
      ]
     },
     {
-     "label": "l78.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l78.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -481493,18 +481813,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l78.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -481518,13 +481835,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l78.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -481532,6 +481843,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -481540,16 +481854,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l78.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -481557,6 +481865,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -481565,9 +481876,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 357
       }
      ]
     },
@@ -482466,14 +482786,17 @@
      ]
     },
     {
-     "label": "l79.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l79.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -482487,18 +482810,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l79.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -482512,13 +482832,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l79.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -482526,6 +482840,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -482534,16 +482851,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l79.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -482551,6 +482862,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -482559,9 +482873,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 358
       }
      ]
     },
@@ -483495,14 +483818,17 @@
      ]
     },
     {
-     "label": "l80.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l80.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -483516,18 +483842,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l80.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -483541,13 +483864,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l80.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -483555,6 +483872,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -483563,16 +483883,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l80.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -483580,6 +483894,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -483588,9 +483905,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 359
       }
      ]
     },
@@ -484524,14 +484850,17 @@
      ]
     },
     {
-     "label": "l81.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l81.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -484545,18 +484874,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l81.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -484570,13 +484896,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l81.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -484584,6 +484904,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -484592,16 +484915,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l81.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -484609,6 +484926,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -484617,9 +484937,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 360
       }
      ]
     },
@@ -485553,14 +485882,17 @@
      ]
     },
     {
-     "label": "l82.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l82.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -485574,18 +485906,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l82.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -485599,13 +485928,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l82.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -485613,6 +485936,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -485621,16 +485947,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l82.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -485638,6 +485958,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -485646,9 +485969,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 361
       }
      ]
     },
@@ -486547,14 +486879,17 @@
      ]
     },
     {
-     "label": "l83.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l83.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -486568,18 +486903,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l83.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -486593,13 +486925,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l83.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -486607,6 +486933,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -486615,16 +486944,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l83.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -486632,6 +486955,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -486640,9 +486966,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 362
       }
      ]
     },
@@ -487576,14 +487911,17 @@
      ]
     },
     {
-     "label": "l84.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l84.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -487597,18 +487935,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l84.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -487622,13 +487957,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l84.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -487636,6 +487965,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -487644,16 +487976,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l84.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -487661,6 +487987,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -487669,9 +487998,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 363
       }
      ]
     },
@@ -488605,14 +488943,17 @@
      ]
     },
     {
-     "label": "l85.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l85.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -488626,18 +488967,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l85.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -488651,13 +488989,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l85.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -488665,6 +488997,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -488673,16 +489008,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l85.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -488690,6 +489019,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -488698,9 +489030,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 364
       }
      ]
     },
@@ -489634,14 +489975,17 @@
      ]
     },
     {
-     "label": "l86.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l86.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -489655,18 +489999,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l86.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -489680,13 +490021,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l86.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -489694,6 +490029,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -489702,16 +490040,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l86.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -489719,6 +490051,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -489727,9 +490062,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 365
       }
      ]
     },
@@ -490628,14 +490972,17 @@
      ]
     },
     {
-     "label": "l87.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l87.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -490649,18 +490996,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l87.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -490674,13 +491018,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l87.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -490688,6 +491026,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -490696,16 +491037,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l87.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -490713,6 +491048,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -490721,9 +491059,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 366
       }
      ]
     },
@@ -491657,14 +492004,17 @@
      ]
     },
     {
-     "label": "l88.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l88.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -491678,18 +492028,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l88.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -491703,13 +492050,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l88.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -491717,6 +492058,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -491725,16 +492069,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l88.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -491742,6 +492080,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -491750,9 +492091,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 367
       }
      ]
     },
@@ -492686,14 +493036,17 @@
      ]
     },
     {
-     "label": "l89.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l89.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -492707,18 +493060,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l89.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -492732,13 +493082,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l89.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -492746,6 +493090,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -492754,16 +493101,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l89.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -492771,6 +493112,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -492779,9 +493123,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 368
       }
      ]
     },
@@ -493715,14 +494068,17 @@
      ]
     },
     {
-     "label": "l90.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l90.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -493736,18 +494092,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l90.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -493761,13 +494114,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l90.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -493775,6 +494122,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -493783,16 +494133,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l90.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -493800,6 +494144,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -493808,9 +494155,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 369
       }
      ]
     },
@@ -494709,14 +495065,17 @@
      ]
     },
     {
-     "label": "l91.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l91.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -494730,18 +495089,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l91.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -494755,13 +495111,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l91.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -494769,6 +495119,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -494777,16 +495130,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l91.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -494794,6 +495141,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -494802,9 +495152,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 370
       }
      ]
     },
@@ -495703,14 +496062,17 @@
      ]
     },
     {
-     "label": "l92.gather_latent_q",
-     "op": "nccl_allgather_u8",
+     "label": "l92.gather_small",
+     "op": "k3_allgather4_push",
      "args": [
       {
        "buf": "latent_q"
       },
       {
        "buf": "latent_q_all"
+      },
+      {
+       "buf": "latent_q_all_peer"
       },
       {
        "expr": {
@@ -495724,18 +496086,15 @@
          3584
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l92.gather_latent_sf",
-     "op": "nccl_allgather_u8",
-     "args": [
+      },
       {
        "buf": "latent_sf"
       },
       {
        "buf": "latent_sf_all"
+      },
+      {
+       "buf": "latent_sf_all_peer"
       },
       {
        "expr": {
@@ -495749,13 +496108,7 @@
          112
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l92.gather_topk_idx",
-     "op": "nccl_allgather_i32",
-     "args": [
+      },
       {
        "buf": "topk_idx"
       },
@@ -495763,6 +496116,9 @@
        "buf": "topk_idx_all"
       },
       {
+       "buf": "topk_idx_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -495771,16 +496127,10 @@
            4
           ]
          },
-         16
+         64
         ]
        }
-      }
-     ]
-    },
-    {
-     "label": "l92.gather_topk_weight",
-     "op": "nccl_allgather_f32",
-     "args": [
+      },
       {
        "buf": "topk_weight"
       },
@@ -495788,6 +496138,9 @@
        "buf": "topk_weight_all"
       },
       {
+       "buf": "topk_weight_all_peer"
+      },
+      {
        "expr": {
         "mul": [
          {
@@ -495796,9 +496149,18 @@
            4
           ]
          },
-         16
+         64
         ]
        }
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
+      },
+      {
+       "i32": 371
       }
      ]
     },
@@ -496328,7 +496690,7 @@
        "buf": "coll_flags"
       },
       {
-       "i32": 280
+       "i32": 372
       }
      ]
     },

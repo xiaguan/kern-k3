@@ -149,3 +149,7 @@ source = "source/k3_collectives.cu"
 sha256 = "72d5cccce2c5583b3272b804bc69044e1e641b2e09fd6826af1d71b8cbfef638"
 source = "source/k3_mla_prep_v2.cu"
 defines = { INNER = 3072, MLA_FUSED = 5184 }
+
+[kernels."k3_allgather4"]
+sha256 = "922033b1f92178e770779a07a6b75a3b3b75d0047431f9d590e7c39c7650a88f"
+source = "source/k3_allgather4.cu"
