@@ -77,8 +77,8 @@ def replay(commit, out_dir):
     files = sh("git", "diff-tree", "--no-commit-id", "--name-only", "-r", commit).split()
     added = sh("git", "diff-tree", "--no-commit-id", "--name-only", "-r", "--diff-filter=A", commit).split()
     gens = [f for f in files if re.fullmatch(r"scripts/gen_.*\.py", f)]
-    if len([g for g in gens if g in added]) != 1:
-        return {"commit": commit, "subject": subject, "status": "skipped", "why": f"{len(gens)} generator scripts added by the commit"}
+    if not gens or len([g for g in gens if g in added]) > 1:
+        return {"commit": commit, "subject": subject, "status": "skipped", "why": f"{len(gens)} generator scripts touched, {len([g for g in gens if g in added])} added"}
     # only what the manifest needs to be reproduced: kernel sources, the generators, the kernel entries;
     # a branch's README, check harnesses and probes stay in its own record
     taken = [f for f in files if f.startswith("source/")] + gens
@@ -94,17 +94,19 @@ def replay(commit, out_dir):
     if r.returncode:
         return revert(commit, subject, f"scripts/build.py failed:\n{r.stdout}{r.stderr}"[-2000:])
     # a generator the commit modified is an earlier step it builds on (idempotent by contract):
-    # replay those first, then the one it added, each on what the previous one produced
+    # replay those first, then the one it added, each on what the previous one produced;
+    # a commit may also just change what an existing generator produces and add none
+    start = DEFAULT.read_bytes()
     for gen in sorted(gens, key=lambda g: g in added):
-        before = DEFAULT.read_bytes()
         r = subprocess.run(["python3", gen], text=True, capture_output=True)
         produced = sh("git", "ls-files", "--others", "--exclude-standard", "manifests").split()
         if len(produced) == 1:
             shutil.move(produced[0], DEFAULT)
-        # a generator may also rewrite the default in place; the added one must have changed it,
-        # an earlier step replayed on a default that already has its change may be a no-op
-        if r.returncode or len(produced) > 1 or (gen in added and DEFAULT.read_bytes() == before):
+        if r.returncode or len(produced) > 1:
             return revert(commit, subject, f"{gen}: exit {r.returncode}, produced {produced}\n{r.stdout}{r.stderr}"[-2000:])
+    # a generator may rewrite the default in place; the chain as a whole must have changed it
+    if DEFAULT.read_bytes() == start:
+        return revert(commit, subject, f"{gens}: replayed, the default is unchanged")
     r = subprocess.run(["python3", "scripts/check.py", "build"], text=True, capture_output=True)
     if r.returncode:
         return revert(commit, subject, f"scripts/check.py build failed:\n{r.stdout}{r.stderr}"[-2000:])
