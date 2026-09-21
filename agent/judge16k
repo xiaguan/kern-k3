@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+[[ $# -ge 2 ]] || { echo 'usage: judge16k CANDIDATE.json REPORT.json [--prompts N]' >&2; exit 2; }
+mkdir -p "$(dirname "$2")"
+exec flock /tmp/kern-eval.lock /opt/kern-eval/kern test "$1" \
+  --reference /opt/kern-eval/reference.parquet --kernels build --weights /weights --gpu 0,1,2,3 \
+  --out "$2" "${@:3}"

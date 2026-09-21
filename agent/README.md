@@ -1,6 +1,6 @@
 # Humanize optimization
 
-Humanize and Claude Code run directly inside one GPU container. Mount the host Claude Code binary read-only and reuse its Claude subscription login. No API key is required. Model: `claude-fable-5-1`, effort: `high`.
+Humanize and Kimi Code run directly inside one GPU container. Mount the host `kimi` binary read-only and its `~/.kimi-code` (login, `config.toml`) read-write: Humanize's `KimiCodeCLIAgent` starts a `kimi web` daemon of its own in there. Model: `kimi-code/k3-256k` (an alias of the host's `config.toml`), effort: `max` (one agent, not a swarm).
 
 Read [TASK.md](TASK.md) before launching. Each round makes one optimization attempt. No automatic push. Prepared with Humanize revision `413d02e44d0cc0514b9f5bd3fcefea156b047a49` (`hmz 0.1.0`) and Claude Code `2.1.276`.
 
@@ -10,16 +10,15 @@ export KERN_BINARY=<kern-binary>
 export NCCL_LIB_DIR=<directory-containing-libnccl.so>
 export WEIGHTS=<checkpoint-directory>
 export TOKENIZER=<tokenizer.json>
-export CLAUDE_AUTH_FILE=<existing-claude-credentials.json>
+export KIMI_HOME=<~/.kimi-code of a logged-in kimi>
 bash agent/prepare.sh
 ```
 
-The host must have `claude` on PATH. Login is mounted only at container creation, then copied to a private runtime directory so token refresh can write there. It is never added to the image or repository.
+The host must have `kimi` on PATH. Nothing of the login goes into the image or the repository.
 
 The image fixes the initial reference, runtime, CUDA and NCCL. Keep it for the whole campaign. Existing local cubins populate the hash-verified registry cache, avoiding HF downloads. After adding a registry-referenced cubin, run `python3 agent/cache.py` again; local module references use `build/` directly.
 
 ```sh
-docker exec kern-k3-opt claude auth status
 docker exec kern-k3-opt /opt/humanize/bin/python agent/run.py --check
 docker exec kern-k3-opt /opt/humanize/bin/python agent/run.py --rounds 1
 ```
@@ -30,10 +29,11 @@ Inside the container:
 
 ```sh
 bench16k manifests/k3-tp4-prefill-16k.json /home/worker/bench_results/<experiment>/results/baseline.json
+judge16k manifests/<candidate>.json /home/worker/bench_results/<experiment>/results/judge.json [--prompts 8]
 test16k manifests/k3-tp4-prefill-16k.json manifests/<candidate>.json /home/worker/bench_results/<experiment>/results/test.json
 ```
 
-Both commands serialize evaluations and preserve kern exit status. Bench uses 12 samples, seed 24301, 16384 tokens, empty KV cache. Test uses 16k prefill plus one decode step. Compare graph p50 on the slowest rank in this image. This test checks the specified workload; it does not prove correctness for every input.
+All three serialize evaluations and preserve kern exit status. Bench uses 12 samples, seed 24301, 16384 tokens, empty KV cache. Judge feeds the candidate `reference/corpus.json` and reads its distributions against `reference/k3-pruned.parquet` at 816 positions (41 s; `--prompts 8` for 136 in 7 s), the gate a candidate must PASS. Test is the A/B span replay against the initial reference, for attribution. Compare graph p50 on the slowest rank in this image.
 
 Historical Codex preparation: [smoke results](../results/humanize-smoke.json). Baseline graph p50 749.790 ms; bench wall time 47.749 s; the existing BF16 candidate test passed in 43.294 s. Runtime is the previously validated `9d1230f-dirty` binary, not a fresh master build.
 
