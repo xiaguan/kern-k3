@@ -1,6 +1,6 @@
 # Humanize optimization
 
-Humanize and Claude Code run directly inside one GPU container. Mount the host Claude Code binary read-only and reuse its Claude subscription login. No API key is required. Model: `claude-fable-5-1`, effort: `high`.
+Humanize drives DeepSeek Harness through the SDK it ships with (the runtime is bundled in the image; no `dsh` CLI needed). The only login is a DeepSeek API key, passed as `DEEPSEEK_API_KEY` (and optionally `DEEPSEEK_BASE_URL`) from an env file the container reads at creation. Model: `deepseek-v4-pro`, effort: `max`.
 
 Read [TASK.md](TASK.md) before launching. Each round makes one optimization attempt. No automatic push. Prepared with Humanize revision `413d02e44d0cc0514b9f5bd3fcefea156b047a49` (`hmz 0.1.0`) and Claude Code `2.1.276`.
 
@@ -10,11 +10,11 @@ export KERN_BINARY=<kern-binary>
 export NCCL_LIB_DIR=<directory-containing-libnccl.so>
 export WEIGHTS=<checkpoint-directory>
 export TOKENIZER=<tokenizer.json>
-export CLAUDE_AUTH_FILE=<existing-claude-credentials.json>
+export DEEPSEEK_ENV_FILE=<file with DEEPSEEK_API_KEY=...>   # mode 600, outside the repo
 bash agent/prepare.sh
 ```
 
-The host must have `claude` on PATH. Login is mounted only at container creation, then copied to a private runtime directory so token refresh can write there. It is never added to the image or repository.
+The key lives only in the container environment; it is never added to the image or repository.
 
 The image fixes the initial reference, runtime, CUDA and NCCL. Keep it for the whole campaign. Existing local cubins populate the hash-verified registry cache, avoiding HF downloads. After adding a registry-referenced cubin, run `python3 agent/cache.py` again; local module references use `build/` directly.
 

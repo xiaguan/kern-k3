@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
-: "${BASE_IMAGE:?}" "${KERN_BINARY:?}" "${NCCL_LIB_DIR:?}" "${WEIGHTS:?}" "${TOKENIZER:?}" "${CLAUDE_AUTH_FILE:?}"
+: "${BASE_IMAGE:?}" "${KERN_BINARY:?}" "${NCCL_LIB_DIR:?}" "${WEIGHTS:?}" "${TOKENIZER:?}" "${DEEPSEEK_ENV_FILE:?}"
 if [[ -n "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)" ]]; then
   echo 'GPUs have active compute processes; wait for an idle allocation.' >&2
   exit 1
 fi
-claude_binary="$(readlink -f "$(command -v claude)")"
 repo="$(cd "$(dirname "$0")/.." && pwd)"
 python3 "$repo/scripts/check.py" "$repo/build"
 experiment="${EXPERIMENT_DIR:-$HOME/bench_results/$(date -u +%F)-k3-humanize}"
@@ -25,14 +24,12 @@ cp "$repo/agent/"{Dockerfile,workload.toml,bench16k,test16k,judge16k} "$context/
 docker build --build-arg "BASE_IMAGE=$BASE_IMAGE" -t "$image" "$context"
 docker run -d --name "$container" --gpus all --ipc=host --ulimit memlock=-1:-1 \
   --user "$(id -u):$(id -g)" --env HOME=/home/worker \
-  --mount "type=bind,src=$claude_binary,dst=/usr/local/bin/claude,readonly" \
-  --mount "type=bind,src=$CLAUDE_AUTH_FILE,dst=/run/claude-auth.json,readonly" \
+  --env-file "$DEEPSEEK_ENV_FILE" \
   --mount "type=bind,src=$repo,dst=/workspace" \
   --mount "type=bind,src=$WEIGHTS,dst=/weights,readonly" \
   --mount "type=bind,src=$TOKENIZER,dst=/tokenizer.json,readonly" \
   --mount "type=bind,src=$experiment,dst=/home/worker/bench_results/$(basename "$experiment")" \
   "$image"
-docker exec "$container" sh -c 'mkdir -p "$HOME/.claude" && cp /run/claude-auth.json "$HOME/.claude/.credentials.json" && chmod 600 "$HOME/.claude/.credentials.json"'
 docker exec "$container" git config --global user.name 'JinYan Su'
 docker exec "$container" git config --global user.email '751080330@qq.com'
 docker image inspect "$image" --format '{{.Id}}' > "$experiment/results/image-id.txt"
