@@ -398229,6 +398229,10 @@
   "k3_residual_push": {
    "source": "k3_residual_push.cubin",
    "sha256": "66541aaa85ca198168bcb05c3db10a2a25615ca123281cb846f22f03ac268b4b"
+  },
+  "k3_reducescatter_pull_nr4": {
+   "source": "k3_reducescatter_pull_nr4.cubin",
+   "sha256": "1084e9cd81b267f7c9bf45e7afd509bab6294b1f9f1f63ffbe7d8a8bb2759d34"
   }
  },
  "ops": {
@@ -401407,7 +401411,7 @@
       ]
      },
      {
-      "module": "k3_reducescatter_pull",
+      "module": "k3_reducescatter_pull_nr4",
       "entry": "kern_k3_rs_pull",
       "params": [
        "in buffer<bf16>",

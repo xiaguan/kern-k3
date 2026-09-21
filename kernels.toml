@@ -170,3 +170,8 @@ source = "source/k3_reducescatter_pull.cu"
 [kernels.k3_residual_push]
 sha256 = "66541aaa85ca198168bcb05c3db10a2a25615ca123281cb846f22f03ac268b4b"
 source = "source/k3_residual_push.cu"
+
+[kernels.k3_reducescatter_pull_nr4]
+sha256 = "1084e9cd81b267f7c9bf45e7afd509bab6294b1f9f1f63ffbe7d8a8bb2759d34"
+source = "source/k3_reducescatter_pull_nr4.cu"
+defines = { NR = 4, ORDER = 6 }
