@@ -304,6 +304,29 @@ initial reference (residual v2 on layers 0-46 → round-1 default → output gat
 v2 on layers 0-30 → 0-61 → previous default) was rerun in the same session
 and passes as before (KL ≤ 1.39e-3, 1.61e-3, 2.38e-3, 1.35e-3, 6.47e-4).
 
+## SITU launch geometry (adopted 2026-09-21)
+
+The shared expert's SITU (`land_situ_n6144`, `kern_k3_land_situ` in
+`k3_land`) now runs with 128-thread blocks instead of 1024. The op is
+elementwise (`out[i] = situ(gate[i], up[i])`, `source/k3_land.cu`), so the
+thread mapping does not enter any value it computes; the 1024-thread launch was
+inherited from the supplied manifest, where a block covered a decode-sized row
+and each thread computed at most one element. With 128-thread blocks each
+thread computes eight elements of the row, the per-thread register budget buys
+eight times as many resident blocks per SM, and the same grid (tokens/4, 6)
+covers the row. Measured on the TP4 16k prefill graph (slowest rank, 12
+samples, seed 24301): 682.713 ms (three runs of the previous default,
+683.060/682.393/682.686) to 678.891 ms (two runs, 678.958/678.824), i.e.
+-3.82 ms / -0.56%, entirely in the 92 `shared_situ` calls (8.29 -> 4.36 ms per
+rank of instrumented time). The judge over the recorded reference passes on all
+816 positions with the same per-position detail as the previous default, and
+the output is bit-identical because no cross-thread reduction is involved.
+`python3 scripts/gen_situ_geom.py` derives the change from the previous default;
+it is one field, `ops.land_situ_n6144.impl.launches[0].block`. The `rms` op of
+the same module has the same problem (1024 threads for a 3584-element row, 5.6x
+off its bandwidth roofline) but a different fix, because its block-wide
+reduction makes the thread count part of the result.
+
 ## Optimization agent
 
 See [Humanize setup](agent/README.md) and the [optimization task](agent/TASK.md). The host Claude Code binary and login are reused; Humanize, compilation and evaluation run in a dedicated GPU container.
