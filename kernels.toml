@@ -166,3 +166,7 @@ source = "source/k3_land_fused.cu"
 [kernels.k3_reducescatter_pull]
 sha256 = "6b077862ca912d4da77e7d092fc535f33328a832683d2ca753ce9c275b174297"
 source = "source/k3_reducescatter_pull.cu"
+
+[kernels.k3_residual_push]
+sha256 = "66541aaa85ca198168bcb05c3db10a2a25615ca123281cb846f22f03ac268b4b"
+source = "source/k3_residual_push.cu"

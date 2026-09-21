@@ -398182,10 +398182,6 @@
    "source": "hf:Pegainfer/kern-kernels/blobs/040f51b01c421b9c69a2090034ff1bc4741e40c02f5ea52bd04a3e62e5c1af4d",
    "sha256": "040f51b01c421b9c69a2090034ff1bc4741e40c02f5ea52bd04a3e62e5c1af4d"
   },
-  "k3_residual_v2": {
-   "source": "k3_residual_v2.cubin",
-   "sha256": "8e369d0065ccc2b27b4cf3f7516114a89ec373fe6edb20d2e9dc7050f0b6af9b"
-  },
   "k3_residual_v2+LAND_BF16=1": {
    "source": "k3_residual_v2+LAND_BF16=1.cubin",
    "sha256": "828465bbc084becdb8a73f5223a68a264c52dfe9858820bc0adcafbf7168809f"
@@ -398229,6 +398225,10 @@
   "k3_reducescatter_pull": {
    "source": "k3_reducescatter_pull.cubin",
    "sha256": "6b077862ca912d4da77e7d092fc535f33328a832683d2ca753ce9c275b174297"
+  },
+  "k3_residual_push": {
+   "source": "k3_residual_push.cubin",
+   "sha256": "66541aaa85ca198168bcb05c3db10a2a25615ca123281cb846f22f03ac268b4b"
   }
  },
  "ops": {
@@ -400981,110 +400981,6 @@
     ]
    }
   },
-  "attnres_rms_v2": {
-   "params": [
-    "in buffer<bf16>",
-    "inout buffer<bf16>",
-    "in buffer<f32>",
-    "in buffer<bf16>",
-    "out buffer<bf16>",
-    "i32",
-    "i32",
-    "i32"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "module": "k3_residual_v2",
-      "entry": "kern_k3_attnres_rms",
-      "block": [
-       128,
-       1,
-       1
-      ],
-      "grid": [
-       {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       },
-       1,
-       1
-      ]
-     }
-    ]
-   }
-  },
-  "attnres_rms_first_v2": {
-   "params": [
-    "in buffer<bf16>",
-    "out buffer<bf16>",
-    "in buffer<f32>",
-    "in buffer<bf16>",
-    "out buffer<bf16>",
-    "i32"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "module": "k3_residual_v2",
-      "entry": "kern_k3_attnres_rms",
-      "params": [
-       "in buffer<bf16>",
-       "out buffer<bf16>",
-       "in buffer<f32>",
-       "in buffer<bf16>",
-       "out buffer<bf16>",
-       "i32",
-       "i32",
-       "i32"
-      ],
-      "block": [
-       128,
-       1,
-       1
-      ],
-      "grid": [
-       {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       },
-       1,
-       1
-      ],
-      "args": [
-       {
-        "param": 0
-       },
-       {
-        "param": 1
-       },
-       {
-        "param": 2
-       },
-       {
-        "param": 3
-       },
-       {
-        "param": 4
-       },
-       {
-        "i32": 0
-       },
-       {
-        "i32": 1
-       },
-       {
-        "param": 5
-       }
-      ]
-     }
-    ]
-   }
-  },
   "land_add2_v2": {
    "params": [
     "in buffer<bf16>",
@@ -401396,7 +401292,7 @@
        }
       ],
       "block": [
-       1024,
+       32,
        1,
        1
       ],
@@ -401808,6 +401704,172 @@
      }
     ]
    }
+  },
+  "attnres_rms_push_v3": {
+   "params": [
+    "in buffer<bf16>",
+    "inout buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "in buffer<u64>",
+    "i32",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_residual_push",
+      "entry": "kern_k3_attnres_rms_push",
+      "params": [
+       "in buffer<bf16>",
+       "inout buffer<bf16>",
+       "in buffer<f32>",
+       "in buffer<bf16>",
+       "out buffer<bf16>",
+       "in buffer<u64>",
+       "i32",
+       "i32",
+       "i32",
+       "i32",
+       "i32"
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
+        "param": 1
+       },
+       {
+        "param": 2
+       },
+       {
+        "param": 3
+       },
+       {
+        "param": 4
+       },
+       {
+        "param": 5
+       },
+       {
+        "param": 6
+       },
+       {
+        "param": 7
+       },
+       {
+        "param": 8
+       },
+       {
+        "rank": "tp"
+       },
+       {
+        "i32": 4
+       }
+      ],
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  "attnres_rms_push_first_v3": {
+   "params": [
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "in buffer<u64>",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_residual_push",
+      "entry": "kern_k3_attnres_rms_push",
+      "params": [
+       "in buffer<bf16>",
+       "out buffer<bf16>",
+       "in buffer<f32>",
+       "in buffer<bf16>",
+       "out buffer<bf16>",
+       "in buffer<u64>",
+       "i32",
+       "i32",
+       "i32",
+       "i32",
+       "i32"
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
+        "param": 1
+       },
+       {
+        "param": 2
+       },
+       {
+        "param": 3
+       },
+       {
+        "param": 4
+       },
+       {
+        "param": 5
+       },
+       {
+        "i32": 0
+       },
+       {
+        "i32": 1
+       },
+       {
+        "param": 6
+       },
+       {
+        "rank": "tp"
+       },
+       {
+        "i32": 4
+       }
+      ],
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
   }
  },
  "programs": {
@@ -401918,7 +401980,7 @@
     },
     {
      "label": "l0.res_in",
-     "op": "attnres_rms_first_v2",
+     "op": "attnres_rms_push_first_v3",
      "args": [
       {
        "buf": "hidden"
@@ -401933,7 +401995,10 @@
        "buf": "layers.0.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "expr": {
@@ -401946,11 +402011,11 @@
      ]
     },
     {
-     "label": "l0.gather_normed",
+     "label": "l0.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -401965,17 +402030,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 1
@@ -402445,7 +402500,7 @@
     },
     {
      "label": "l1.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -402460,7 +402515,10 @@
        "buf": "layers.1.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -402479,11 +402537,11 @@
      ]
     },
     {
-     "label": "l1.gather_normed",
+     "label": "l1.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -402498,17 +402556,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 2
@@ -403465,7 +403513,7 @@
     },
     {
      "label": "l2.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -403480,7 +403528,10 @@
        "buf": "layers.2.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -403499,11 +403550,11 @@
      ]
     },
     {
-     "label": "l2.gather_normed",
+     "label": "l2.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -403518,17 +403569,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 3
@@ -404485,7 +404526,7 @@
     },
     {
      "label": "l3.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -404500,7 +404541,10 @@
        "buf": "layers.3.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -404519,11 +404563,11 @@
      ]
     },
     {
-     "label": "l3.gather_normed",
+     "label": "l3.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -404538,17 +404582,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 4
@@ -405470,7 +405504,7 @@
     },
     {
      "label": "l4.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -405485,7 +405519,10 @@
        "buf": "layers.4.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -405504,11 +405541,11 @@
      ]
     },
     {
-     "label": "l4.gather_normed",
+     "label": "l4.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -405523,17 +405560,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 5
@@ -406490,7 +406517,7 @@
     },
     {
      "label": "l5.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -406505,7 +406532,10 @@
        "buf": "layers.5.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -406524,11 +406554,11 @@
      ]
     },
     {
-     "label": "l5.gather_normed",
+     "label": "l5.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -406543,17 +406573,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 6
@@ -407510,7 +407530,7 @@
     },
     {
      "label": "l6.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -407525,7 +407545,10 @@
        "buf": "layers.6.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -407544,11 +407567,11 @@
      ]
     },
     {
-     "label": "l6.gather_normed",
+     "label": "l6.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -407563,17 +407586,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 7
@@ -408530,7 +408543,7 @@
     },
     {
      "label": "l7.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -408545,7 +408558,10 @@
        "buf": "layers.7.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -408564,11 +408580,11 @@
      ]
     },
     {
-     "label": "l7.gather_normed",
+     "label": "l7.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -408583,17 +408599,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 8
@@ -409515,7 +409521,7 @@
     },
     {
      "label": "l8.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -409530,7 +409536,10 @@
        "buf": "layers.8.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -409549,11 +409558,11 @@
      ]
     },
     {
-     "label": "l8.gather_normed",
+     "label": "l8.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -409568,17 +409577,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 9
@@ -410535,7 +410534,7 @@
     },
     {
      "label": "l9.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -410550,7 +410549,10 @@
        "buf": "layers.9.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -410569,11 +410571,11 @@
      ]
     },
     {
-     "label": "l9.gather_normed",
+     "label": "l9.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -410588,17 +410590,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 10
@@ -411555,7 +411547,7 @@
     },
     {
      "label": "l10.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -411570,7 +411562,10 @@
        "buf": "layers.10.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -411589,11 +411584,11 @@
      ]
     },
     {
-     "label": "l10.gather_normed",
+     "label": "l10.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -411608,17 +411603,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 11
@@ -412575,7 +412560,7 @@
     },
     {
      "label": "l11.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -412590,7 +412575,10 @@
        "buf": "layers.11.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -412609,11 +412597,11 @@
      ]
     },
     {
-     "label": "l11.gather_normed",
+     "label": "l11.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -412628,17 +412616,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 12
@@ -413560,7 +413538,7 @@
     },
     {
      "label": "l12.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -413575,7 +413553,10 @@
        "buf": "layers.12.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 1
@@ -413594,11 +413575,11 @@
      ]
     },
     {
-     "label": "l12.gather_normed",
+     "label": "l12.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -413613,17 +413594,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 13
@@ -414580,7 +414551,7 @@
     },
     {
      "label": "l13.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -414595,7 +414566,10 @@
        "buf": "layers.13.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -414614,11 +414588,11 @@
      ]
     },
     {
-     "label": "l13.gather_normed",
+     "label": "l13.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -414633,17 +414607,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 14
@@ -415600,7 +415564,7 @@
     },
     {
      "label": "l14.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -415615,7 +415579,10 @@
        "buf": "layers.14.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -415634,11 +415601,11 @@
      ]
     },
     {
-     "label": "l14.gather_normed",
+     "label": "l14.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -415653,17 +415620,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 15
@@ -416620,7 +416577,7 @@
     },
     {
      "label": "l15.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -416635,7 +416592,10 @@
        "buf": "layers.15.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -416654,11 +416614,11 @@
      ]
     },
     {
-     "label": "l15.gather_normed",
+     "label": "l15.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -416673,17 +416633,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 16
@@ -417605,7 +417555,7 @@
     },
     {
      "label": "l16.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -417620,7 +417570,10 @@
        "buf": "layers.16.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -417639,11 +417592,11 @@
      ]
     },
     {
-     "label": "l16.gather_normed",
+     "label": "l16.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -417658,17 +417611,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 17
@@ -418625,7 +418568,7 @@
     },
     {
      "label": "l17.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -418640,7 +418583,10 @@
        "buf": "layers.17.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -418659,11 +418605,11 @@
      ]
     },
     {
-     "label": "l17.gather_normed",
+     "label": "l17.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -418678,17 +418624,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 18
@@ -419645,7 +419581,7 @@
     },
     {
      "label": "l18.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -419660,7 +419596,10 @@
        "buf": "layers.18.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -419679,11 +419618,11 @@
      ]
     },
     {
-     "label": "l18.gather_normed",
+     "label": "l18.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -419698,17 +419637,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 19
@@ -420665,7 +420594,7 @@
     },
     {
      "label": "l19.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -420680,7 +420609,10 @@
        "buf": "layers.19.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -420699,11 +420631,11 @@
      ]
     },
     {
-     "label": "l19.gather_normed",
+     "label": "l19.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -420718,17 +420650,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 20
@@ -421650,7 +421572,7 @@
     },
     {
      "label": "l20.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -421665,7 +421587,10 @@
        "buf": "layers.20.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -421684,11 +421609,11 @@
      ]
     },
     {
-     "label": "l20.gather_normed",
+     "label": "l20.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -421703,17 +421628,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 21
@@ -422670,7 +422585,7 @@
     },
     {
      "label": "l21.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -422685,7 +422600,10 @@
        "buf": "layers.21.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -422704,11 +422622,11 @@
      ]
     },
     {
-     "label": "l21.gather_normed",
+     "label": "l21.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -422723,17 +422641,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 22
@@ -423690,7 +423598,7 @@
     },
     {
      "label": "l22.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -423705,7 +423613,10 @@
        "buf": "layers.22.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -423724,11 +423635,11 @@
      ]
     },
     {
-     "label": "l22.gather_normed",
+     "label": "l22.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -423743,17 +423654,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 23
@@ -424710,7 +424611,7 @@
     },
     {
      "label": "l23.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -424725,7 +424626,10 @@
        "buf": "layers.23.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -424744,11 +424648,11 @@
      ]
     },
     {
-     "label": "l23.gather_normed",
+     "label": "l23.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -424763,17 +424667,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 24
@@ -425695,7 +425589,7 @@
     },
     {
      "label": "l24.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -425710,7 +425604,10 @@
        "buf": "layers.24.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 2
@@ -425729,11 +425626,11 @@
      ]
     },
     {
-     "label": "l24.gather_normed",
+     "label": "l24.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -425748,17 +425645,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 25
@@ -426715,7 +426602,7 @@
     },
     {
      "label": "l25.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -426730,7 +426617,10 @@
        "buf": "layers.25.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -426749,11 +426639,11 @@
      ]
     },
     {
-     "label": "l25.gather_normed",
+     "label": "l25.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -426768,17 +426658,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 26
@@ -427735,7 +427615,7 @@
     },
     {
      "label": "l26.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -427750,7 +427630,10 @@
        "buf": "layers.26.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -427769,11 +427652,11 @@
      ]
     },
     {
-     "label": "l26.gather_normed",
+     "label": "l26.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -427788,17 +427671,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 27
@@ -428755,7 +428628,7 @@
     },
     {
      "label": "l27.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -428770,7 +428643,10 @@
        "buf": "layers.27.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -428789,11 +428665,11 @@
      ]
     },
     {
-     "label": "l27.gather_normed",
+     "label": "l27.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -428808,17 +428684,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 28
@@ -429740,7 +429606,7 @@
     },
     {
      "label": "l28.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -429755,7 +429621,10 @@
        "buf": "layers.28.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -429774,11 +429643,11 @@
      ]
     },
     {
-     "label": "l28.gather_normed",
+     "label": "l28.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -429793,17 +429662,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 29
@@ -430760,7 +430619,7 @@
     },
     {
      "label": "l29.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -430775,7 +430634,10 @@
        "buf": "layers.29.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -430794,11 +430656,11 @@
      ]
     },
     {
-     "label": "l29.gather_normed",
+     "label": "l29.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -430813,17 +430675,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 30
@@ -431780,7 +431632,7 @@
     },
     {
      "label": "l30.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -431795,7 +431647,10 @@
        "buf": "layers.30.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -431814,11 +431669,11 @@
      ]
     },
     {
-     "label": "l30.gather_normed",
+     "label": "l30.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -431833,17 +431688,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 31
@@ -432800,7 +432645,7 @@
     },
     {
      "label": "l31.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -432815,7 +432660,10 @@
        "buf": "layers.31.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -432834,11 +432682,11 @@
      ]
     },
     {
-     "label": "l31.gather_normed",
+     "label": "l31.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -432853,17 +432701,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 32
@@ -433785,7 +433623,7 @@
     },
     {
      "label": "l32.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -433800,7 +433638,10 @@
        "buf": "layers.32.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -433819,11 +433660,11 @@
      ]
     },
     {
-     "label": "l32.gather_normed",
+     "label": "l32.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -433838,17 +433679,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 33
@@ -434805,7 +434636,7 @@
     },
     {
      "label": "l33.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -434820,7 +434651,10 @@
        "buf": "layers.33.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -434839,11 +434673,11 @@
      ]
     },
     {
-     "label": "l33.gather_normed",
+     "label": "l33.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -434858,17 +434692,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 34
@@ -435825,7 +435649,7 @@
     },
     {
      "label": "l34.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -435840,7 +435664,10 @@
        "buf": "layers.34.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -435859,11 +435686,11 @@
      ]
     },
     {
-     "label": "l34.gather_normed",
+     "label": "l34.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -435878,17 +435705,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 35
@@ -436845,7 +436662,7 @@
     },
     {
      "label": "l35.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -436860,7 +436677,10 @@
        "buf": "layers.35.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -436879,11 +436699,11 @@
      ]
     },
     {
-     "label": "l35.gather_normed",
+     "label": "l35.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -436898,17 +436718,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 36
@@ -437830,7 +437640,7 @@
     },
     {
      "label": "l36.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -437845,7 +437655,10 @@
        "buf": "layers.36.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 3
@@ -437864,11 +437677,11 @@
      ]
     },
     {
-     "label": "l36.gather_normed",
+     "label": "l36.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -437883,17 +437696,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 37
@@ -438850,7 +438653,7 @@
     },
     {
      "label": "l37.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -438865,7 +438668,10 @@
        "buf": "layers.37.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -438884,11 +438690,11 @@
      ]
     },
     {
-     "label": "l37.gather_normed",
+     "label": "l37.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -438903,17 +438709,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 38
@@ -439870,7 +439666,7 @@
     },
     {
      "label": "l38.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -439885,7 +439681,10 @@
        "buf": "layers.38.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -439904,11 +439703,11 @@
      ]
     },
     {
-     "label": "l38.gather_normed",
+     "label": "l38.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -439923,17 +439722,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 39
@@ -440890,7 +440679,7 @@
     },
     {
      "label": "l39.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -440905,7 +440694,10 @@
        "buf": "layers.39.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -440924,11 +440716,11 @@
      ]
     },
     {
-     "label": "l39.gather_normed",
+     "label": "l39.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -440943,17 +440735,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 40
@@ -441875,7 +441657,7 @@
     },
     {
      "label": "l40.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -441890,7 +441672,10 @@
        "buf": "layers.40.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -441909,11 +441694,11 @@
      ]
     },
     {
-     "label": "l40.gather_normed",
+     "label": "l40.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -441928,17 +441713,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 41
@@ -442895,7 +442670,7 @@
     },
     {
      "label": "l41.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -442910,7 +442685,10 @@
        "buf": "layers.41.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -442929,11 +442707,11 @@
      ]
     },
     {
-     "label": "l41.gather_normed",
+     "label": "l41.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -442948,17 +442726,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 42
@@ -443915,7 +443683,7 @@
     },
     {
      "label": "l42.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -443930,7 +443698,10 @@
        "buf": "layers.42.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -443949,11 +443720,11 @@
      ]
     },
     {
-     "label": "l42.gather_normed",
+     "label": "l42.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -443968,17 +443739,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 43
@@ -444935,7 +444696,7 @@
     },
     {
      "label": "l43.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -444950,7 +444711,10 @@
        "buf": "layers.43.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -444969,11 +444733,11 @@
      ]
     },
     {
-     "label": "l43.gather_normed",
+     "label": "l43.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -444988,17 +444752,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 44
@@ -445920,7 +445674,7 @@
     },
     {
      "label": "l44.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -445935,7 +445689,10 @@
        "buf": "layers.44.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -445954,11 +445711,11 @@
      ]
     },
     {
-     "label": "l44.gather_normed",
+     "label": "l44.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -445973,17 +445730,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 45
@@ -446940,7 +446687,7 @@
     },
     {
      "label": "l45.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -446955,7 +446702,10 @@
        "buf": "layers.45.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -446974,11 +446724,11 @@
      ]
     },
     {
-     "label": "l45.gather_normed",
+     "label": "l45.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -446993,17 +446743,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 46
@@ -447960,7 +447700,7 @@
     },
     {
      "label": "l46.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -447975,7 +447715,10 @@
        "buf": "layers.46.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -447994,11 +447737,11 @@
      ]
     },
     {
-     "label": "l46.gather_normed",
+     "label": "l46.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -448013,17 +447756,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 47
@@ -448980,7 +448713,7 @@
     },
     {
      "label": "l47.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -448995,7 +448728,10 @@
        "buf": "layers.47.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -449014,11 +448750,11 @@
      ]
     },
     {
-     "label": "l47.gather_normed",
+     "label": "l47.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -449033,17 +448769,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 48
@@ -449965,7 +449691,7 @@
     },
     {
      "label": "l48.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -449980,7 +449706,10 @@
        "buf": "layers.48.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 4
@@ -449999,11 +449728,11 @@
      ]
     },
     {
-     "label": "l48.gather_normed",
+     "label": "l48.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -450018,17 +449747,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 49
@@ -450985,7 +450704,7 @@
     },
     {
      "label": "l49.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -451000,7 +450719,10 @@
        "buf": "layers.49.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -451019,11 +450741,11 @@
      ]
     },
     {
-     "label": "l49.gather_normed",
+     "label": "l49.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -451038,17 +450760,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 50
@@ -452005,7 +451717,7 @@
     },
     {
      "label": "l50.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -452020,7 +451732,10 @@
        "buf": "layers.50.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -452039,11 +451754,11 @@
      ]
     },
     {
-     "label": "l50.gather_normed",
+     "label": "l50.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -452058,17 +451773,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 51
@@ -453025,7 +452730,7 @@
     },
     {
      "label": "l51.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -453040,7 +452745,10 @@
        "buf": "layers.51.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -453059,11 +452767,11 @@
      ]
     },
     {
-     "label": "l51.gather_normed",
+     "label": "l51.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -453078,17 +452786,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 52
@@ -454010,7 +453708,7 @@
     },
     {
      "label": "l52.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -454025,7 +453723,10 @@
        "buf": "layers.52.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -454044,11 +453745,11 @@
      ]
     },
     {
-     "label": "l52.gather_normed",
+     "label": "l52.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -454063,17 +453764,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 53
@@ -455030,7 +454721,7 @@
     },
     {
      "label": "l53.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -455045,7 +454736,10 @@
        "buf": "layers.53.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -455064,11 +454758,11 @@
      ]
     },
     {
-     "label": "l53.gather_normed",
+     "label": "l53.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -455083,17 +454777,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 54
@@ -456050,7 +455734,7 @@
     },
     {
      "label": "l54.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -456065,7 +455749,10 @@
        "buf": "layers.54.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -456084,11 +455771,11 @@
      ]
     },
     {
-     "label": "l54.gather_normed",
+     "label": "l54.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -456103,17 +455790,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 55
@@ -457070,7 +456747,7 @@
     },
     {
      "label": "l55.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -457085,7 +456762,10 @@
        "buf": "layers.55.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -457104,11 +456784,11 @@
      ]
     },
     {
-     "label": "l55.gather_normed",
+     "label": "l55.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -457123,17 +456803,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 56
@@ -458055,7 +457725,7 @@
     },
     {
      "label": "l56.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -458070,7 +457740,10 @@
        "buf": "layers.56.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -458089,11 +457762,11 @@
      ]
     },
     {
-     "label": "l56.gather_normed",
+     "label": "l56.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -458108,17 +457781,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 57
@@ -459075,7 +458738,7 @@
     },
     {
      "label": "l57.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -459090,7 +458753,10 @@
        "buf": "layers.57.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -459109,11 +458775,11 @@
      ]
     },
     {
-     "label": "l57.gather_normed",
+     "label": "l57.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -459128,17 +458794,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 58
@@ -460095,7 +459751,7 @@
     },
     {
      "label": "l58.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -460110,7 +459766,10 @@
        "buf": "layers.58.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -460129,11 +459788,11 @@
      ]
     },
     {
-     "label": "l58.gather_normed",
+     "label": "l58.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -460148,17 +459807,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 59
@@ -461115,7 +460764,7 @@
     },
     {
      "label": "l59.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -461130,7 +460779,10 @@
        "buf": "layers.59.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -461149,11 +460801,11 @@
      ]
     },
     {
-     "label": "l59.gather_normed",
+     "label": "l59.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -461168,17 +460820,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 60
@@ -462100,7 +461742,7 @@
     },
     {
      "label": "l60.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -462115,7 +461757,10 @@
        "buf": "layers.60.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 5
@@ -462134,11 +461779,11 @@
      ]
     },
     {
-     "label": "l60.gather_normed",
+     "label": "l60.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -462153,17 +461798,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 61
@@ -463120,7 +462755,7 @@
     },
     {
      "label": "l61.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -463135,7 +462770,10 @@
        "buf": "layers.61.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -463154,11 +462792,11 @@
      ]
     },
     {
-     "label": "l61.gather_normed",
+     "label": "l61.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -463173,17 +462811,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 62
@@ -464140,7 +463768,7 @@
     },
     {
      "label": "l62.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -464155,7 +463783,10 @@
        "buf": "layers.62.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -464174,11 +463805,11 @@
      ]
     },
     {
-     "label": "l62.gather_normed",
+     "label": "l62.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -464193,17 +463824,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 63
@@ -465160,7 +464781,7 @@
     },
     {
      "label": "l63.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -465175,7 +464796,10 @@
        "buf": "layers.63.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -465194,11 +464818,11 @@
      ]
     },
     {
-     "label": "l63.gather_normed",
+     "label": "l63.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -465213,17 +464837,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 64
@@ -466145,7 +465759,7 @@
     },
     {
      "label": "l64.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -466160,7 +465774,10 @@
        "buf": "layers.64.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -466179,11 +465796,11 @@
      ]
     },
     {
-     "label": "l64.gather_normed",
+     "label": "l64.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -466198,17 +465815,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 65
@@ -467165,7 +466772,7 @@
     },
     {
      "label": "l65.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -467180,7 +466787,10 @@
        "buf": "layers.65.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -467199,11 +466809,11 @@
      ]
     },
     {
-     "label": "l65.gather_normed",
+     "label": "l65.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -467218,17 +466828,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 66
@@ -468185,7 +467785,7 @@
     },
     {
      "label": "l66.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -468200,7 +467800,10 @@
        "buf": "layers.66.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -468219,11 +467822,11 @@
      ]
     },
     {
-     "label": "l66.gather_normed",
+     "label": "l66.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -468238,17 +467841,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 67
@@ -469205,7 +468798,7 @@
     },
     {
      "label": "l67.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -469220,7 +468813,10 @@
        "buf": "layers.67.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -469239,11 +468835,11 @@
      ]
     },
     {
-     "label": "l67.gather_normed",
+     "label": "l67.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -469258,17 +468854,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 68
@@ -470190,7 +469776,7 @@
     },
     {
      "label": "l68.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -470205,7 +469791,10 @@
        "buf": "layers.68.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -470224,11 +469813,11 @@
      ]
     },
     {
-     "label": "l68.gather_normed",
+     "label": "l68.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -470243,17 +469832,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 69
@@ -471210,7 +470789,7 @@
     },
     {
      "label": "l69.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -471225,7 +470804,10 @@
        "buf": "layers.69.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -471244,11 +470826,11 @@
      ]
     },
     {
-     "label": "l69.gather_normed",
+     "label": "l69.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -471263,17 +470845,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 70
@@ -472230,7 +471802,7 @@
     },
     {
      "label": "l70.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -472245,7 +471817,10 @@
        "buf": "layers.70.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -472264,11 +471839,11 @@
      ]
     },
     {
-     "label": "l70.gather_normed",
+     "label": "l70.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -472283,17 +471858,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 71
@@ -473250,7 +472815,7 @@
     },
     {
      "label": "l71.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -473265,7 +472830,10 @@
        "buf": "layers.71.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -473284,11 +472852,11 @@
      ]
     },
     {
-     "label": "l71.gather_normed",
+     "label": "l71.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -473303,17 +472871,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 72
@@ -474235,7 +473793,7 @@
     },
     {
      "label": "l72.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -474250,7 +473808,10 @@
        "buf": "layers.72.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 6
@@ -474269,11 +473830,11 @@
      ]
     },
     {
-     "label": "l72.gather_normed",
+     "label": "l72.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -474288,17 +473849,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 73
@@ -475255,7 +474806,7 @@
     },
     {
      "label": "l73.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -475270,7 +474821,10 @@
        "buf": "layers.73.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -475289,11 +474843,11 @@
      ]
     },
     {
-     "label": "l73.gather_normed",
+     "label": "l73.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -475308,17 +474862,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 74
@@ -476275,7 +475819,7 @@
     },
     {
      "label": "l74.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -476290,7 +475834,10 @@
        "buf": "layers.74.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -476309,11 +475856,11 @@
      ]
     },
     {
-     "label": "l74.gather_normed",
+     "label": "l74.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -476328,17 +475875,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 75
@@ -477295,7 +476832,7 @@
     },
     {
      "label": "l75.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -477310,7 +476847,10 @@
        "buf": "layers.75.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -477329,11 +476869,11 @@
      ]
     },
     {
-     "label": "l75.gather_normed",
+     "label": "l75.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -477348,17 +476888,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 76
@@ -478280,7 +477810,7 @@
     },
     {
      "label": "l76.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -478295,7 +477825,10 @@
        "buf": "layers.76.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -478314,11 +477847,11 @@
      ]
     },
     {
-     "label": "l76.gather_normed",
+     "label": "l76.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -478333,17 +477866,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 77
@@ -479300,7 +478823,7 @@
     },
     {
      "label": "l77.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -479315,7 +478838,10 @@
        "buf": "layers.77.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -479334,11 +478860,11 @@
      ]
     },
     {
-     "label": "l77.gather_normed",
+     "label": "l77.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -479353,17 +478879,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 78
@@ -480320,7 +479836,7 @@
     },
     {
      "label": "l78.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -480335,7 +479851,10 @@
        "buf": "layers.78.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -480354,11 +479873,11 @@
      ]
     },
     {
-     "label": "l78.gather_normed",
+     "label": "l78.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -480373,17 +479892,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 79
@@ -481340,7 +480849,7 @@
     },
     {
      "label": "l79.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -481355,7 +480864,10 @@
        "buf": "layers.79.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -481374,11 +480886,11 @@
      ]
     },
     {
-     "label": "l79.gather_normed",
+     "label": "l79.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -481393,17 +480905,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 80
@@ -482325,7 +481827,7 @@
     },
     {
      "label": "l80.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -482340,7 +481842,10 @@
        "buf": "layers.80.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -482359,11 +481864,11 @@
      ]
     },
     {
-     "label": "l80.gather_normed",
+     "label": "l80.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -482378,17 +481883,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 81
@@ -483345,7 +482840,7 @@
     },
     {
      "label": "l81.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -483360,7 +482855,10 @@
        "buf": "layers.81.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -483379,11 +482877,11 @@
      ]
     },
     {
-     "label": "l81.gather_normed",
+     "label": "l81.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -483398,17 +482896,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 82
@@ -484365,7 +483853,7 @@
     },
     {
      "label": "l82.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -484380,7 +483868,10 @@
        "buf": "layers.82.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -484399,11 +483890,11 @@
      ]
     },
     {
-     "label": "l82.gather_normed",
+     "label": "l82.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -484418,17 +483909,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 83
@@ -485385,7 +484866,7 @@
     },
     {
      "label": "l83.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -485400,7 +484881,10 @@
        "buf": "layers.83.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -485419,11 +484903,11 @@
      ]
     },
     {
-     "label": "l83.gather_normed",
+     "label": "l83.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -485438,17 +484922,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 84
@@ -486370,7 +485844,7 @@
     },
     {
      "label": "l84.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -486385,7 +485859,10 @@
        "buf": "layers.84.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 7
@@ -486404,11 +485881,11 @@
      ]
     },
     {
-     "label": "l84.gather_normed",
+     "label": "l84.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -486423,17 +485900,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 85
@@ -487390,7 +486857,7 @@
     },
     {
      "label": "l85.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -487405,7 +486872,10 @@
        "buf": "layers.85.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 8
@@ -487424,11 +486894,11 @@
      ]
     },
     {
-     "label": "l85.gather_normed",
+     "label": "l85.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -487443,17 +486913,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 86
@@ -488410,7 +487870,7 @@
     },
     {
      "label": "l86.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -488425,7 +487885,10 @@
        "buf": "layers.86.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 8
@@ -488444,11 +487907,11 @@
      ]
     },
     {
-     "label": "l86.gather_normed",
+     "label": "l86.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -488463,17 +487926,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 87
@@ -489430,7 +488883,7 @@
     },
     {
      "label": "l87.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -489445,7 +488898,10 @@
        "buf": "layers.87.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 8
@@ -489464,11 +488920,11 @@
      ]
     },
     {
-     "label": "l87.gather_normed",
+     "label": "l87.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -489483,17 +488939,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 88
@@ -490415,7 +489861,7 @@
     },
     {
      "label": "l88.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -490430,7 +489876,10 @@
        "buf": "layers.88.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 8
@@ -490449,11 +489898,11 @@
      ]
     },
     {
-     "label": "l88.gather_normed",
+     "label": "l88.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -490468,17 +489917,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 89
@@ -491435,7 +490874,7 @@
     },
     {
      "label": "l89.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -491450,7 +490889,10 @@
        "buf": "layers.89.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 8
@@ -491469,11 +490911,11 @@
      ]
     },
     {
-     "label": "l89.gather_normed",
+     "label": "l89.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -491488,17 +490930,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 90
@@ -492455,7 +491887,7 @@
     },
     {
      "label": "l90.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -492470,7 +491902,10 @@
        "buf": "layers.90.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 8
@@ -492489,11 +491924,11 @@
      ]
     },
     {
-     "label": "l90.gather_normed",
+     "label": "l90.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -492508,17 +491943,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 91
@@ -493475,7 +492900,7 @@
     },
     {
      "label": "l91.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -493490,7 +492915,10 @@
        "buf": "layers.91.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 8
@@ -493509,11 +492937,11 @@
      ]
     },
     {
-     "label": "l91.gather_normed",
+     "label": "l91.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -493528,17 +492956,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 92
@@ -494460,7 +493878,7 @@
     },
     {
      "label": "l92.res_in",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -494475,7 +493893,10 @@
        "buf": "layers.92.gamma_in"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 8
@@ -494494,11 +493915,11 @@
      ]
     },
     {
-     "label": "l92.gather_normed",
+     "label": "l92.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -494513,17 +493934,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 93
@@ -495445,7 +494856,7 @@
     },
     {
      "label": "out.res",
-     "op": "attnres_rms_v2",
+     "op": "attnres_rms_push_v3",
      "args": [
       {
        "buf": "hidden"
@@ -495460,7 +494871,10 @@
        "buf": "gamma_final"
       },
       {
-       "buf": "normed"
+       "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
       },
       {
        "i32": 8
@@ -495479,11 +494893,11 @@
      ]
     },
     {
-     "label": "out.gather",
+     "label": "out.normed_sync",
      "op": "k3_allgather_push",
      "args": [
       {
-       "buf": "normed"
+       "buf": "normed_all"
       },
       {
        "buf": "normed_all"
@@ -495498,17 +494912,7 @@
        "buf": "coll_flags_peer"
       },
       {
-       "expr": {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         7168
-        ]
-       }
+       "i64": 0
       },
       {
        "i32": 94
