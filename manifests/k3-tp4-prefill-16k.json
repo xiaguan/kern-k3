@@ -304,7 +304,8 @@
     16384,
     7168
    ],
-   "kind": "workspace"
+   "kind": "workspace",
+   "export": true
   },
   "attn_own": {
    "dtype": "bf16",
@@ -398040,6 +398041,32 @@
     56
    ],
    "kind": "carry"
+  },
+  "coll_flags": {
+   "dtype": "u64",
+   "shape": [
+    95
+   ],
+   "kind": "workspace",
+   "export": true
+  },
+  "coll_flags_peer": {
+   "dtype": "u64",
+   "shape": [
+    4
+   ],
+   "kind": "peer",
+   "of": "coll_flags",
+   "group": "tp"
+  },
+  "normed_all_peer": {
+   "dtype": "u64",
+   "shape": [
+    4
+   ],
+   "kind": "peer",
+   "of": "normed_all",
+   "group": "tp"
   }
  },
  "modules": {
@@ -398126,6 +398153,10 @@
   "k3_moe_prefill_v2": {
    "source": "k3_moe_prefill_v2.cubin",
    "sha256": "dc3cc8805dbbb0c198d9d06001923f542cd9058875ca745e8a767541985e4531"
+  },
+  "k3_collectives": {
+   "source": "k3_collectives.cubin",
+   "sha256": "262ced6f18c91edba87b0ad026ad1474d24c746b14f72e8d9688cdf08f9c8a54"
   }
  },
  "ops": {
@@ -399668,40 +399699,6 @@
        },
        {
         "param": 2
-       }
-      ]
-     }
-    ]
-   }
-  },
-  "nccl_allgather_bf16": {
-   "params": [
-    "in buffer<bf16>",
-    "out buffer<bf16>",
-    "i64"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "entry": "extern:nccl_allgather_bf16",
-      "params": [
-       "in buffer<bf16>",
-       "out buffer<bf16>",
-       "i64",
-       "i32"
-      ],
-      "args": [
-       {
-        "param": 0
-       },
-       {
-        "param": 1
-       },
-       {
-        "param": 2
-       },
-       {
-        "rank": "tp"
        }
       ]
      }
@@ -401413,6 +401410,152 @@
      }
     ]
    }
+  },
+  "k3_epoch_bump": {
+   "params": [
+    "out buffer<u64>"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_collectives",
+      "entry": "kern_k3_epoch_bump",
+      "block": [
+       1024,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         {
+          "mul": [
+           {
+            "ceil_div": [
+             "tokens",
+             4
+            ]
+           },
+           7168
+          ]
+         },
+         32768
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  "k3_flags_init": {
+   "params": [
+    "out buffer<u64>",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_collectives",
+      "entry": "kern_k3_flags_init",
+      "block": [
+       256,
+       1,
+       1
+      ],
+      "grid": [
+       1,
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  "k3_allgather_push": {
+   "params": [
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "in buffer<u64>",
+    "out buffer<u64>",
+    "in buffer<u64>",
+    "i64",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_collectives",
+      "entry": "kern_k3_allgather_push",
+      "params": [
+       "in buffer<bf16>",
+       "out buffer<bf16>",
+       "in buffer<u64>",
+       "out buffer<u64>",
+       "in buffer<u64>",
+       "i64",
+       "i32",
+       "i32",
+       "i32"
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
+        "param": 1
+       },
+       {
+        "param": 2
+       },
+       {
+        "param": 3
+       },
+       {
+        "param": 4
+       },
+       {
+        "param": 5
+       },
+       {
+        "param": 6
+       },
+       {
+        "rank": "tp"
+       },
+       {
+        "i32": 4
+       }
+      ],
+      "block": [
+       1024,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         {
+          "mul": [
+           {
+            "ceil_div": [
+             "tokens",
+             4
+            ]
+           },
+           7168
+          ]
+         },
+         32768
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
   }
  },
  "programs": {
@@ -401423,6 +401566,15 @@
     "context": "ctx"
    },
    "calls": [
+    {
+     "label": "coll_epoch",
+     "op": "k3_epoch_bump",
+     "args": [
+      {
+       "buf": "coll_flags"
+      }
+     ]
+    },
     {
      "label": "own_ids",
      "op": "rank_rows",
@@ -401543,13 +401695,22 @@
     },
     {
      "label": "l0.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -401563,6 +401724,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -402049,13 +402213,22 @@
     },
     {
      "label": "l1.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -402069,6 +402242,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 2
       }
      ]
     },
@@ -403030,13 +403206,22 @@
     },
     {
      "label": "l2.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -403050,6 +403235,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 3
       }
      ]
     },
@@ -404011,13 +404199,22 @@
     },
     {
      "label": "l3.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -404031,6 +404228,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -404957,13 +405157,22 @@
     },
     {
      "label": "l4.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -404977,6 +405186,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -405938,13 +406150,22 @@
     },
     {
      "label": "l5.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -405958,6 +406179,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -406919,13 +407143,22 @@
     },
     {
      "label": "l6.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -406939,6 +407172,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -407900,13 +408136,22 @@
     },
     {
      "label": "l7.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -407920,6 +408165,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 8
       }
      ]
     },
@@ -408846,13 +409094,22 @@
     },
     {
      "label": "l8.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -408866,6 +409123,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 9
       }
      ]
     },
@@ -409827,13 +410087,22 @@
     },
     {
      "label": "l9.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -409847,6 +410116,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 10
       }
      ]
     },
@@ -410808,13 +411080,22 @@
     },
     {
      "label": "l10.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -410828,6 +411109,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 11
       }
      ]
     },
@@ -411789,13 +412073,22 @@
     },
     {
      "label": "l11.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -411809,6 +412102,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 12
       }
      ]
     },
@@ -412735,13 +413031,22 @@
     },
     {
      "label": "l12.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -412755,6 +413060,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 13
       }
      ]
     },
@@ -413716,13 +414024,22 @@
     },
     {
      "label": "l13.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -413736,6 +414053,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 14
       }
      ]
     },
@@ -414697,13 +415017,22 @@
     },
     {
      "label": "l14.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -414717,6 +415046,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 15
       }
      ]
     },
@@ -415678,13 +416010,22 @@
     },
     {
      "label": "l15.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -415698,6 +416039,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 16
       }
      ]
     },
@@ -416624,13 +416968,22 @@
     },
     {
      "label": "l16.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -416644,6 +416997,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 17
       }
      ]
     },
@@ -417605,13 +417961,22 @@
     },
     {
      "label": "l17.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -417625,6 +417990,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 18
       }
      ]
     },
@@ -418586,13 +418954,22 @@
     },
     {
      "label": "l18.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -418606,6 +418983,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 19
       }
      ]
     },
@@ -419567,13 +419947,22 @@
     },
     {
      "label": "l19.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -419587,6 +419976,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 20
       }
      ]
     },
@@ -420513,13 +420905,22 @@
     },
     {
      "label": "l20.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -420533,6 +420934,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 21
       }
      ]
     },
@@ -421494,13 +421898,22 @@
     },
     {
      "label": "l21.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -421514,6 +421927,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 22
       }
      ]
     },
@@ -422475,13 +422891,22 @@
     },
     {
      "label": "l22.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -422495,6 +422920,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 23
       }
      ]
     },
@@ -423456,13 +423884,22 @@
     },
     {
      "label": "l23.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -423476,6 +423913,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 24
       }
      ]
     },
@@ -424402,13 +424842,22 @@
     },
     {
      "label": "l24.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -424422,6 +424871,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 25
       }
      ]
     },
@@ -425383,13 +425835,22 @@
     },
     {
      "label": "l25.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -425403,6 +425864,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 26
       }
      ]
     },
@@ -426364,13 +426828,22 @@
     },
     {
      "label": "l26.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -426384,6 +426857,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 27
       }
      ]
     },
@@ -427345,13 +427821,22 @@
     },
     {
      "label": "l27.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -427365,6 +427850,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 28
       }
      ]
     },
@@ -428291,13 +428779,22 @@
     },
     {
      "label": "l28.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -428311,6 +428808,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 29
       }
      ]
     },
@@ -429272,13 +429772,22 @@
     },
     {
      "label": "l29.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -429292,6 +429801,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 30
       }
      ]
     },
@@ -430253,13 +430765,22 @@
     },
     {
      "label": "l30.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -430273,6 +430794,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 31
       }
      ]
     },
@@ -431234,13 +431758,22 @@
     },
     {
      "label": "l31.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -431254,6 +431787,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 32
       }
      ]
     },
@@ -432180,13 +432716,22 @@
     },
     {
      "label": "l32.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -432200,6 +432745,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 33
       }
      ]
     },
@@ -433161,13 +433709,22 @@
     },
     {
      "label": "l33.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -433181,6 +433738,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 34
       }
      ]
     },
@@ -434142,13 +434702,22 @@
     },
     {
      "label": "l34.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -434162,6 +434731,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 35
       }
      ]
     },
@@ -435123,13 +435695,22 @@
     },
     {
      "label": "l35.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -435143,6 +435724,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 36
       }
      ]
     },
@@ -436069,13 +436653,22 @@
     },
     {
      "label": "l36.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -436089,6 +436682,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 37
       }
      ]
     },
@@ -437050,13 +437646,22 @@
     },
     {
      "label": "l37.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -437070,6 +437675,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 38
       }
      ]
     },
@@ -438031,13 +438639,22 @@
     },
     {
      "label": "l38.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -438051,6 +438668,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 39
       }
      ]
     },
@@ -439012,13 +439632,22 @@
     },
     {
      "label": "l39.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -439032,6 +439661,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 40
       }
      ]
     },
@@ -439958,13 +440590,22 @@
     },
     {
      "label": "l40.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -439978,6 +440619,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 41
       }
      ]
     },
@@ -440939,13 +441583,22 @@
     },
     {
      "label": "l41.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -440959,6 +441612,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 42
       }
      ]
     },
@@ -441920,13 +442576,22 @@
     },
     {
      "label": "l42.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -441940,6 +442605,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 43
       }
      ]
     },
@@ -442901,13 +443569,22 @@
     },
     {
      "label": "l43.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -442921,6 +443598,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 44
       }
      ]
     },
@@ -443847,13 +444527,22 @@
     },
     {
      "label": "l44.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -443867,6 +444556,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 45
       }
      ]
     },
@@ -444828,13 +445520,22 @@
     },
     {
      "label": "l45.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -444848,6 +445549,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 46
       }
      ]
     },
@@ -445809,13 +446513,22 @@
     },
     {
      "label": "l46.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -445829,6 +446542,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 47
       }
      ]
     },
@@ -446790,13 +447506,22 @@
     },
     {
      "label": "l47.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -446810,6 +447535,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 48
       }
      ]
     },
@@ -447736,13 +448464,22 @@
     },
     {
      "label": "l48.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -447756,6 +448493,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 49
       }
      ]
     },
@@ -448717,13 +449457,22 @@
     },
     {
      "label": "l49.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -448737,6 +449486,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 50
       }
      ]
     },
@@ -449698,13 +450450,22 @@
     },
     {
      "label": "l50.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -449718,6 +450479,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 51
       }
      ]
     },
@@ -450679,13 +451443,22 @@
     },
     {
      "label": "l51.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -450699,6 +451472,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 52
       }
      ]
     },
@@ -451625,13 +452401,22 @@
     },
     {
      "label": "l52.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -451645,6 +452430,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 53
       }
      ]
     },
@@ -452606,13 +453394,22 @@
     },
     {
      "label": "l53.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -452626,6 +453423,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 54
       }
      ]
     },
@@ -453587,13 +454387,22 @@
     },
     {
      "label": "l54.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -453607,6 +454416,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 55
       }
      ]
     },
@@ -454568,13 +455380,22 @@
     },
     {
      "label": "l55.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -454588,6 +455409,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 56
       }
      ]
     },
@@ -455514,13 +456338,22 @@
     },
     {
      "label": "l56.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -455534,6 +456367,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 57
       }
      ]
     },
@@ -456495,13 +457331,22 @@
     },
     {
      "label": "l57.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -456515,6 +457360,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 58
       }
      ]
     },
@@ -457476,13 +458324,22 @@
     },
     {
      "label": "l58.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -457496,6 +458353,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 59
       }
      ]
     },
@@ -458457,13 +459317,22 @@
     },
     {
      "label": "l59.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -458477,6 +459346,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 60
       }
      ]
     },
@@ -459403,13 +460275,22 @@
     },
     {
      "label": "l60.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -459423,6 +460304,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 61
       }
      ]
     },
@@ -460384,13 +461268,22 @@
     },
     {
      "label": "l61.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -460404,6 +461297,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 62
       }
      ]
     },
@@ -461365,13 +462261,22 @@
     },
     {
      "label": "l62.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -461385,6 +462290,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 63
       }
      ]
     },
@@ -462346,13 +463254,22 @@
     },
     {
      "label": "l63.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -462366,6 +463283,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 64
       }
      ]
     },
@@ -463292,13 +464212,22 @@
     },
     {
      "label": "l64.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -463312,6 +464241,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 65
       }
      ]
     },
@@ -464273,13 +465205,22 @@
     },
     {
      "label": "l65.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -464293,6 +465234,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 66
       }
      ]
     },
@@ -465254,13 +466198,22 @@
     },
     {
      "label": "l66.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -465274,6 +466227,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 67
       }
      ]
     },
@@ -466235,13 +467191,22 @@
     },
     {
      "label": "l67.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -466255,6 +467220,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 68
       }
      ]
     },
@@ -467181,13 +468149,22 @@
     },
     {
      "label": "l68.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -467201,6 +468178,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 69
       }
      ]
     },
@@ -468162,13 +469142,22 @@
     },
     {
      "label": "l69.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -468182,6 +469171,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 70
       }
      ]
     },
@@ -469143,13 +470135,22 @@
     },
     {
      "label": "l70.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -469163,6 +470164,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 71
       }
      ]
     },
@@ -470124,13 +471128,22 @@
     },
     {
      "label": "l71.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -470144,6 +471157,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 72
       }
      ]
     },
@@ -471070,13 +472086,22 @@
     },
     {
      "label": "l72.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -471090,6 +472115,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 73
       }
      ]
     },
@@ -472051,13 +473079,22 @@
     },
     {
      "label": "l73.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -472071,6 +473108,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 74
       }
      ]
     },
@@ -473032,13 +474072,22 @@
     },
     {
      "label": "l74.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -473052,6 +474101,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 75
       }
      ]
     },
@@ -474013,13 +475065,22 @@
     },
     {
      "label": "l75.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -474033,6 +475094,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 76
       }
      ]
     },
@@ -474959,13 +476023,22 @@
     },
     {
      "label": "l76.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -474979,6 +476052,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 77
       }
      ]
     },
@@ -475940,13 +477016,22 @@
     },
     {
      "label": "l77.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -475960,6 +477045,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 78
       }
      ]
     },
@@ -476921,13 +478009,22 @@
     },
     {
      "label": "l78.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -476941,6 +478038,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 79
       }
      ]
     },
@@ -477902,13 +479002,22 @@
     },
     {
      "label": "l79.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -477922,6 +479031,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 80
       }
      ]
     },
@@ -478848,13 +479960,22 @@
     },
     {
      "label": "l80.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -478868,6 +479989,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 81
       }
      ]
     },
@@ -479829,13 +480953,22 @@
     },
     {
      "label": "l81.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -479849,6 +480982,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 82
       }
      ]
     },
@@ -480810,13 +481946,22 @@
     },
     {
      "label": "l82.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -480830,6 +481975,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 83
       }
      ]
     },
@@ -481791,13 +482939,22 @@
     },
     {
      "label": "l83.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -481811,6 +482968,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 84
       }
      ]
     },
@@ -482737,13 +483897,22 @@
     },
     {
      "label": "l84.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -482757,6 +483926,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 85
       }
      ]
     },
@@ -483718,13 +484890,22 @@
     },
     {
      "label": "l85.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -483738,6 +484919,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 86
       }
      ]
     },
@@ -484699,13 +485883,22 @@
     },
     {
      "label": "l86.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -484719,6 +485912,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 87
       }
      ]
     },
@@ -485680,13 +486876,22 @@
     },
     {
      "label": "l87.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -485700,6 +486905,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 88
       }
      ]
     },
@@ -486626,13 +487834,22 @@
     },
     {
      "label": "l88.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -486646,6 +487863,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 89
       }
      ]
     },
@@ -487607,13 +488827,22 @@
     },
     {
      "label": "l89.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -487627,6 +488856,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 90
       }
      ]
     },
@@ -488588,13 +489820,22 @@
     },
     {
      "label": "l90.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -488608,6 +489849,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 91
       }
      ]
     },
@@ -489569,13 +490813,22 @@
     },
     {
      "label": "l91.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -489589,6 +490842,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 92
       }
      ]
     },
@@ -490515,13 +491771,22 @@
     },
     {
      "label": "l92.gather_normed",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -490535,6 +491800,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 93
       }
      ]
     },
@@ -491461,13 +492729,22 @@
     },
     {
      "label": "out.gather",
-     "op": "nccl_allgather_bf16",
+     "op": "k3_allgather_push",
      "args": [
       {
        "buf": "normed"
       },
       {
        "buf": "normed_all"
+      },
+      {
+       "buf": "normed_all_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -491481,6 +492758,9 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 94
       }
      ]
     },
@@ -491543,6 +492823,18 @@
   "load": {
    "once": true,
    "calls": [
+    {
+     "label": "coll_init",
+     "op": "k3_flags_init",
+     "args": [
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "i32": 95
+      }
+     ]
+    },
     {
      "label": "load.k3_scoring.0",
      "op": "k3_scoring",
