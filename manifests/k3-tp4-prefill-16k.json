@@ -398071,10 +398071,6 @@
    "source": "hf:Pegainfer/kern-kernels/blobs/436c9ebb766141276fd52d431f238f3f5d92ed1d9359d39372208c2c72503a16",
    "sha256": "436c9ebb766141276fd52d431f238f3f5d92ed1d9359d39372208c2c72503a16"
   },
-  "k3_moe_prefill": {
-   "source": "hf:Pegainfer/kern-kernels/blobs/6b4d144e735a4b08d29bf8d6e302107a4d1396a6967b0b6d342fe263ff6c8bca",
-   "sha256": "6b4d144e735a4b08d29bf8d6e302107a4d1396a6967b0b6d342fe263ff6c8bca"
-  },
   "k3_prefill": {
    "source": "hf:Pegainfer/kern-kernels/blobs/eac5d5cef8d504f7141281177fb934b5df522a963cc18df0ffa4f7a662d7817c",
    "sha256": "eac5d5cef8d504f7141281177fb934b5df522a963cc18df0ffa4f7a662d7817c"
@@ -398126,6 +398122,10 @@
   "k3_land_bf16": {
    "source": "k3_land_bf16.cubin",
    "sha256": "cd51a952d7a7b160d6660bab53e0b1f6ff09f8168a230b964719772546fc1e62"
+  },
+  "k3_moe_prefill_v2": {
+   "source": "k3_moe_prefill_v2.cubin",
+   "sha256": "dc3cc8805dbbb0c198d9d06001923f542cd9058875ca745e8a767541985e4531"
   }
  },
  "ops": {
@@ -399854,7 +399854,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_moe_prefill",
+      "module": "k3_moe_prefill_v2",
       "entry": "kern_k3_moe_quant",
       "params": [
        "in buffer<bf16>",
@@ -399919,7 +399919,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_moe_prefill",
+      "module": "k3_moe_prefill_v2",
       "entry": "kern_k3_moe_route_count",
       "params": [
        "in buffer<i32>",
@@ -399978,7 +399978,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_moe_prefill",
+      "module": "k3_moe_prefill_v2",
       "entry": "kern_k3_moe_route_tables",
       "params": [
        "in buffer<i32>",
@@ -400050,7 +400050,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_moe_prefill",
+      "module": "k3_moe_prefill_v2",
       "entry": "kern_k3_moe_route_scatter",
       "params": [
        "in buffer<i32>",
@@ -400595,7 +400595,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_moe_prefill",
+      "module": "k3_moe_prefill_v2",
       "entry": "kern_k3_moe_finalize",
       "params": [
        "in buffer<bf16>",
@@ -400606,20 +400606,15 @@
        "i32"
       ],
       "block": [
-       256,
+       128,
        1,
        1
       ],
       "grid": [
        {
-        "mul": [
-         {
-          "ceil_div": [
-           "tokens",
-           4
-          ]
-         },
-         4
+        "ceil_div": [
+         "tokens",
+         2
         ]
        },
        1,
@@ -400943,7 +400938,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_moe_prefill",
+      "module": "k3_moe_prefill_v2",
       "entry": "kern_k3_moe_w_shuffle",
       "params": [
        "in buffer<u8>",
@@ -400998,7 +400993,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_moe_prefill",
+      "module": "k3_moe_prefill_v2",
       "entry": "kern_k3_moe_sf_shuffle",
       "params": [
        "in buffer<u8>",

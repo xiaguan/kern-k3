@@ -136,3 +136,7 @@ defines = { HEADS = 24 }
 [kernels.k3_land_bf16]
 sha256 = "cd51a952d7a7b160d6660bab53e0b1f6ff09f8168a230b964719772546fc1e62"
 source = "source/k3_land_bf16.cu"
+
+[kernels."k3_moe_prefill_v2"]
+sha256 = "dc3cc8805dbbb0c198d9d06001923f542cd9058875ca745e8a767541985e4531"
+source = "source/k3_moe_prefill_v2.cu"
