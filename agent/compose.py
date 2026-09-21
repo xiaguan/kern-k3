@@ -78,11 +78,14 @@ def replay(commit, out_dir):
     # a generator the commit modified is an earlier step it builds on (idempotent by contract):
     # replay those first, then the one it added, each on what the previous one produced
     for gen in sorted(gens, key=lambda g: g in added):
+        before = DEFAULT.read_bytes()
         r = subprocess.run(["python3", gen], text=True, capture_output=True)
         produced = sh("git", "ls-files", "--others", "--exclude-standard", "manifests").split()
-        if r.returncode or len(produced) != 1:
+        if len(produced) == 1:
+            shutil.move(produced[0], DEFAULT)
+        # a generator may also rewrite the default in place; either way it must have changed it
+        if r.returncode or len(produced) > 1 or DEFAULT.read_bytes() == before:
             return revert(commit, subject, f"{gen}: exit {r.returncode}, produced {produced}\n{r.stdout}{r.stderr}"[-2000:])
-        shutil.move(produced[0], DEFAULT)
     for step in (["python3", "scripts/build.py"], ["python3", "scripts/check.py", "build"]):
         r = subprocess.run(step, text=True, capture_output=True)
         if r.returncode:
