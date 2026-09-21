@@ -398090,10 +398090,6 @@
    "source": "hf:Pegainfer/kern-kernels/blobs/2cd68c79bf3243f37d2f1406880060f610b4028f9e843bb356ea8ef0a0352fcc",
    "sha256": "2cd68c79bf3243f37d2f1406880060f610b4028f9e843bb356ea8ef0a0352fcc"
   },
-  "k3_mla_prep+INNER=3072+MLA_FUSED=5184": {
-   "source": "hf:Pegainfer/kern-kernels/blobs/b127629c8b98ea2f1f242e8dd1fa2fd74868dc3464dcd946a74f1a747e30779d",
-   "sha256": "b127629c8b98ea2f1f242e8dd1fa2fd74868dc3464dcd946a74f1a747e30779d"
-  },
   "k3_mla_v2": {
    "source": "hf:Pegainfer/kern-kernels/blobs/436c9ebb766141276fd52d431f238f3f5d92ed1d9359d39372208c2c72503a16",
    "sha256": "436c9ebb766141276fd52d431f238f3f5d92ed1d9359d39372208c2c72503a16"
@@ -398157,6 +398153,10 @@
   "k3_collectives": {
    "source": "k3_collectives.cubin",
    "sha256": "262ced6f18c91edba87b0ad026ad1474d24c746b14f72e8d9688cdf08f9c8a54"
+  },
+  "k3_mla_prep_v2+INNER=3072+MLA_FUSED=5184": {
+   "source": "k3_mla_prep_v2+INNER=3072+MLA_FUSED=5184.cubin",
+   "sha256": "72d5cccce2c5583b3272b804bc69044e1e641b2e09fd6826af1d71b8cbfef638"
   }
  },
  "ops": {
@@ -399452,8 +399452,8 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_mla_prep+INNER=3072+MLA_FUSED=5184",
-      "entry": "kern_k3_mla_prep",
+      "module": "k3_mla_prep_v2+INNER=3072+MLA_FUSED=5184",
+      "entry": "kern_k3_mla_prep_head",
       "params": [
        "in buffer<f32>",
        "in buffer<bf16>",
@@ -399463,18 +399463,7 @@
        "i64",
        "i64",
        "out buffer<bf16>",
-       "out buffer<bf16>",
        "i32"
-      ],
-      "block": [
-       512,
-       1,
-       1
-      ],
-      "grid": [
-       "tokens",
-       3,
-       1
       ],
       "args": [
        {
@@ -399502,11 +399491,58 @@
         "param": 6
        },
        {
+        "param": 8
+       }
+      ],
+      "block": [
+       512,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     },
+     {
+      "module": "k3_mla_prep_v2+INNER=3072+MLA_FUSED=5184",
+      "entry": "kern_k3_mla_prep_gate",
+      "params": [
+       "in buffer<f32>",
+       "out buffer<bf16>",
+       "i32"
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
         "param": 7
        },
        {
         "param": 8
        }
+      ],
+      "block": [
+       384,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
       ]
      }
     ]
