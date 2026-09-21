@@ -575,14 +575,6 @@
    ],
    "kind": "workspace"
   },
-  "latent_partial": {
-   "dtype": "f32",
-   "shape": [
-    4096,
-    3584
-   ],
-   "kind": "workspace"
-  },
   "latent": {
    "dtype": "bf16",
    "shape": [
@@ -400703,64 +400695,6 @@
     ]
    }
   },
-  "land_n3584": {
-   "params": [
-    "in buffer<f32>",
-    "out buffer<bf16>",
-    "i32"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "module": "k3_land",
-      "entry": "kern_k3_land",
-      "params": [
-       "in buffer<f32>",
-       "out buffer<bf16>",
-       "i32",
-       "i32",
-       "i32",
-       "i32"
-      ],
-      "block": [
-       1024,
-       1,
-       1
-      ],
-      "grid": [
-       {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       },
-       4,
-       1
-      ],
-      "args": [
-       {
-        "param": 0
-       },
-       {
-        "param": 1
-       },
-       {
-        "i32": 3584
-       },
-       {
-        "i32": 0
-       },
-       {
-        "i32": 3584
-       },
-       {
-        "param": 2
-       }
-      ]
-     }
-    ]
-   }
-  },
   "land_situ_n6144": {
    "params": [
     "in buffer<f32>",
@@ -402538,7 +402472,7 @@
     },
     {
      "label": "l1.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -402547,7 +402481,7 @@
        "buf": "layers.1.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -402565,26 +402499,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l1.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -403539,7 +403453,7 @@
     },
     {
      "label": "l2.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -403548,7 +403462,7 @@
        "buf": "layers.2.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -403566,26 +403480,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l2.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -404505,7 +404399,7 @@
     },
     {
      "label": "l3.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -404514,7 +404408,7 @@
        "buf": "layers.3.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -404532,26 +404426,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l3.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -405506,7 +405380,7 @@
     },
     {
      "label": "l4.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -405515,7 +405389,7 @@
        "buf": "layers.4.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -405533,26 +405407,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l4.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -406507,7 +406361,7 @@
     },
     {
      "label": "l5.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -406516,7 +406370,7 @@
        "buf": "layers.5.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -406534,26 +406388,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l5.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -407508,7 +407342,7 @@
     },
     {
      "label": "l6.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -407517,7 +407351,7 @@
        "buf": "layers.6.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -407535,26 +407369,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l6.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -408474,7 +408288,7 @@
     },
     {
      "label": "l7.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -408483,7 +408297,7 @@
        "buf": "layers.7.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -408501,26 +408315,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l7.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -409475,7 +409269,7 @@
     },
     {
      "label": "l8.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -409484,7 +409278,7 @@
        "buf": "layers.8.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -409502,26 +409296,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l8.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -410476,7 +410250,7 @@
     },
     {
      "label": "l9.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -410485,7 +410259,7 @@
        "buf": "layers.9.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -410503,26 +410277,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l9.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -411477,7 +411231,7 @@
     },
     {
      "label": "l10.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -411486,7 +411240,7 @@
        "buf": "layers.10.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -411504,26 +411258,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l10.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -412443,7 +412177,7 @@
     },
     {
      "label": "l11.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -412452,7 +412186,7 @@
        "buf": "layers.11.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -412470,26 +412204,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l11.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -413444,7 +413158,7 @@
     },
     {
      "label": "l12.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -413453,7 +413167,7 @@
        "buf": "layers.12.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -413471,26 +413185,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l12.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -414445,7 +414139,7 @@
     },
     {
      "label": "l13.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -414454,7 +414148,7 @@
        "buf": "layers.13.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -414472,26 +414166,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l13.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -415446,7 +415120,7 @@
     },
     {
      "label": "l14.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -415455,7 +415129,7 @@
        "buf": "layers.14.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -415473,26 +415147,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l14.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -416412,7 +416066,7 @@
     },
     {
      "label": "l15.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -416421,7 +416075,7 @@
        "buf": "layers.15.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -416439,26 +416093,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l15.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -417413,7 +417047,7 @@
     },
     {
      "label": "l16.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -417422,7 +417056,7 @@
        "buf": "layers.16.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -417440,26 +417074,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l16.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -418414,7 +418028,7 @@
     },
     {
      "label": "l17.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -418423,7 +418037,7 @@
        "buf": "layers.17.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -418441,26 +418055,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l17.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -419415,7 +419009,7 @@
     },
     {
      "label": "l18.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -419424,7 +419018,7 @@
        "buf": "layers.18.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -419442,26 +419036,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l18.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -420381,7 +419955,7 @@
     },
     {
      "label": "l19.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -420390,7 +419964,7 @@
        "buf": "layers.19.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -420408,26 +419982,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l19.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -421382,7 +420936,7 @@
     },
     {
      "label": "l20.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -421391,7 +420945,7 @@
        "buf": "layers.20.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -421409,26 +420963,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l20.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -422383,7 +421917,7 @@
     },
     {
      "label": "l21.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -422392,7 +421926,7 @@
        "buf": "layers.21.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -422410,26 +421944,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l21.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -423384,7 +422898,7 @@
     },
     {
      "label": "l22.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -423393,7 +422907,7 @@
        "buf": "layers.22.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -423411,26 +422925,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l22.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -424350,7 +423844,7 @@
     },
     {
      "label": "l23.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -424359,7 +423853,7 @@
        "buf": "layers.23.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -424377,26 +423871,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l23.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -425351,7 +424825,7 @@
     },
     {
      "label": "l24.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -425360,7 +424834,7 @@
        "buf": "layers.24.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -425378,26 +424852,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l24.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -426352,7 +425806,7 @@
     },
     {
      "label": "l25.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -426361,7 +425815,7 @@
        "buf": "layers.25.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -426379,26 +425833,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l25.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -427353,7 +426787,7 @@
     },
     {
      "label": "l26.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -427362,7 +426796,7 @@
        "buf": "layers.26.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -427380,26 +426814,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l26.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -428319,7 +427733,7 @@
     },
     {
      "label": "l27.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -428328,7 +427742,7 @@
        "buf": "layers.27.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -428346,26 +427760,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l27.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -429320,7 +428714,7 @@
     },
     {
      "label": "l28.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -429329,7 +428723,7 @@
        "buf": "layers.28.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -429347,26 +428741,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l28.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -430321,7 +429695,7 @@
     },
     {
      "label": "l29.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -430330,7 +429704,7 @@
        "buf": "layers.29.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -430348,26 +429722,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l29.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -431322,7 +430676,7 @@
     },
     {
      "label": "l30.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -431331,7 +430685,7 @@
        "buf": "layers.30.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -431349,26 +430703,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l30.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -432288,7 +431622,7 @@
     },
     {
      "label": "l31.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -432297,7 +431631,7 @@
        "buf": "layers.31.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -432315,26 +431649,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l31.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -433289,7 +432603,7 @@
     },
     {
      "label": "l32.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -433298,7 +432612,7 @@
        "buf": "layers.32.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -433316,26 +432630,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l32.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -434290,7 +433584,7 @@
     },
     {
      "label": "l33.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -434299,7 +433593,7 @@
        "buf": "layers.33.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -434317,26 +433611,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l33.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -435291,7 +434565,7 @@
     },
     {
      "label": "l34.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -435300,7 +434574,7 @@
        "buf": "layers.34.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -435318,26 +434592,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l34.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -436257,7 +435511,7 @@
     },
     {
      "label": "l35.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -436266,7 +435520,7 @@
        "buf": "layers.35.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -436284,26 +435538,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l35.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -437258,7 +436492,7 @@
     },
     {
      "label": "l36.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -437267,7 +436501,7 @@
        "buf": "layers.36.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -437285,26 +436519,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l36.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -438259,7 +437473,7 @@
     },
     {
      "label": "l37.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -438268,7 +437482,7 @@
        "buf": "layers.37.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -438286,26 +437500,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l37.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -439260,7 +438454,7 @@
     },
     {
      "label": "l38.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -439269,7 +438463,7 @@
        "buf": "layers.38.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -439287,26 +438481,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l38.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -440226,7 +439400,7 @@
     },
     {
      "label": "l39.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -440235,7 +439409,7 @@
        "buf": "layers.39.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -440253,26 +439427,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l39.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -441227,7 +440381,7 @@
     },
     {
      "label": "l40.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -441236,7 +440390,7 @@
        "buf": "layers.40.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -441254,26 +440408,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l40.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -442228,7 +441362,7 @@
     },
     {
      "label": "l41.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -442237,7 +441371,7 @@
        "buf": "layers.41.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -442255,26 +441389,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l41.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -443229,7 +442343,7 @@
     },
     {
      "label": "l42.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -443238,7 +442352,7 @@
        "buf": "layers.42.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -443256,26 +442370,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l42.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -444195,7 +443289,7 @@
     },
     {
      "label": "l43.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -444204,7 +443298,7 @@
        "buf": "layers.43.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -444222,26 +443316,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l43.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -445196,7 +444270,7 @@
     },
     {
      "label": "l44.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -445205,7 +444279,7 @@
        "buf": "layers.44.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -445223,26 +444297,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l44.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -446197,7 +445251,7 @@
     },
     {
      "label": "l45.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -446206,7 +445260,7 @@
        "buf": "layers.45.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -446224,26 +445278,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l45.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -447198,7 +446232,7 @@
     },
     {
      "label": "l46.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -447207,7 +446241,7 @@
        "buf": "layers.46.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -447225,26 +446259,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l46.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -448164,7 +447178,7 @@
     },
     {
      "label": "l47.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -448173,7 +447187,7 @@
        "buf": "layers.47.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -448191,26 +447205,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l47.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -449165,7 +448159,7 @@
     },
     {
      "label": "l48.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -449174,7 +448168,7 @@
        "buf": "layers.48.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -449192,26 +448186,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l48.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -450166,7 +449140,7 @@
     },
     {
      "label": "l49.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -450175,7 +449149,7 @@
        "buf": "layers.49.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -450193,26 +449167,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l49.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -451167,7 +450121,7 @@
     },
     {
      "label": "l50.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -451176,7 +450130,7 @@
        "buf": "layers.50.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -451194,26 +450148,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l50.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -452133,7 +451067,7 @@
     },
     {
      "label": "l51.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -452142,7 +451076,7 @@
        "buf": "layers.51.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -452160,26 +451094,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l51.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -453134,7 +452048,7 @@
     },
     {
      "label": "l52.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -453143,7 +452057,7 @@
        "buf": "layers.52.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -453161,26 +452075,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l52.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -454135,7 +453029,7 @@
     },
     {
      "label": "l53.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -454144,7 +453038,7 @@
        "buf": "layers.53.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -454162,26 +453056,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l53.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -455136,7 +454010,7 @@
     },
     {
      "label": "l54.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -455145,7 +454019,7 @@
        "buf": "layers.54.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -455163,26 +454037,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l54.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -456102,7 +454956,7 @@
     },
     {
      "label": "l55.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -456111,7 +454965,7 @@
        "buf": "layers.55.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -456129,26 +454983,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l55.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -457103,7 +455937,7 @@
     },
     {
      "label": "l56.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -457112,7 +455946,7 @@
        "buf": "layers.56.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -457130,26 +455964,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l56.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -458104,7 +456918,7 @@
     },
     {
      "label": "l57.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -458113,7 +456927,7 @@
        "buf": "layers.57.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -458131,26 +456945,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l57.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -459105,7 +457899,7 @@
     },
     {
      "label": "l58.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -459114,7 +457908,7 @@
        "buf": "layers.58.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -459132,26 +457926,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l58.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -460071,7 +458845,7 @@
     },
     {
      "label": "l59.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -460080,7 +458854,7 @@
        "buf": "layers.59.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -460098,26 +458872,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l59.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -461072,7 +459826,7 @@
     },
     {
      "label": "l60.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -461081,7 +459835,7 @@
        "buf": "layers.60.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -461099,26 +459853,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l60.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -462073,7 +460807,7 @@
     },
     {
      "label": "l61.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -462082,7 +460816,7 @@
        "buf": "layers.61.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -462100,26 +460834,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l61.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -463074,7 +461788,7 @@
     },
     {
      "label": "l62.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -463083,7 +461797,7 @@
        "buf": "layers.62.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -463101,26 +461815,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l62.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -464040,7 +462734,7 @@
     },
     {
      "label": "l63.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -464049,7 +462743,7 @@
        "buf": "layers.63.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -464067,26 +462761,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l63.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -465041,7 +463715,7 @@
     },
     {
      "label": "l64.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -465050,7 +463724,7 @@
        "buf": "layers.64.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -465068,26 +463742,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l64.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -466042,7 +464696,7 @@
     },
     {
      "label": "l65.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -466051,7 +464705,7 @@
        "buf": "layers.65.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -466069,26 +464723,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l65.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -467043,7 +465677,7 @@
     },
     {
      "label": "l66.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -467052,7 +465686,7 @@
        "buf": "layers.66.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -467070,26 +465704,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l66.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -468009,7 +466623,7 @@
     },
     {
      "label": "l67.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -468018,7 +466632,7 @@
        "buf": "layers.67.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -468036,26 +466650,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l67.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -469010,7 +467604,7 @@
     },
     {
      "label": "l68.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -469019,7 +467613,7 @@
        "buf": "layers.68.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -469037,26 +467631,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l68.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -470011,7 +468585,7 @@
     },
     {
      "label": "l69.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -470020,7 +468594,7 @@
        "buf": "layers.69.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -470038,26 +468612,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l69.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -471012,7 +469566,7 @@
     },
     {
      "label": "l70.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -471021,7 +469575,7 @@
        "buf": "layers.70.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -471039,26 +469593,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l70.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -471978,7 +470512,7 @@
     },
     {
      "label": "l71.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -471987,7 +470521,7 @@
        "buf": "layers.71.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -472005,26 +470539,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l71.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -472979,7 +471493,7 @@
     },
     {
      "label": "l72.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -472988,7 +471502,7 @@
        "buf": "layers.72.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -473006,26 +471520,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l72.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -473980,7 +472474,7 @@
     },
     {
      "label": "l73.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -473989,7 +472483,7 @@
        "buf": "layers.73.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -474007,26 +472501,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l73.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -474981,7 +473455,7 @@
     },
     {
      "label": "l74.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -474990,7 +473464,7 @@
        "buf": "layers.74.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -475008,26 +473482,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l74.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -475947,7 +474401,7 @@
     },
     {
      "label": "l75.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -475956,7 +474410,7 @@
        "buf": "layers.75.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -475974,26 +474428,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l75.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -476948,7 +475382,7 @@
     },
     {
      "label": "l76.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -476957,7 +475391,7 @@
        "buf": "layers.76.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -476975,26 +475409,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l76.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -477949,7 +476363,7 @@
     },
     {
      "label": "l77.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -477958,7 +476372,7 @@
        "buf": "layers.77.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -477976,26 +476390,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l77.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -478950,7 +477344,7 @@
     },
     {
      "label": "l78.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -478959,7 +477353,7 @@
        "buf": "layers.78.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -478977,26 +477371,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l78.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -479916,7 +478290,7 @@
     },
     {
      "label": "l79.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -479925,7 +478299,7 @@
        "buf": "layers.79.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -479943,26 +478317,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l79.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -480917,7 +479271,7 @@
     },
     {
      "label": "l80.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -480926,7 +479280,7 @@
        "buf": "layers.80.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -480944,26 +479298,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l80.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -481918,7 +480252,7 @@
     },
     {
      "label": "l81.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -481927,7 +480261,7 @@
        "buf": "layers.81.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -481945,26 +480279,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l81.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -482919,7 +481233,7 @@
     },
     {
      "label": "l82.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -482928,7 +481242,7 @@
        "buf": "layers.82.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -482946,26 +481260,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l82.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -483885,7 +482179,7 @@
     },
     {
      "label": "l83.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -483894,7 +482188,7 @@
        "buf": "layers.83.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -483912,26 +482206,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l83.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -484886,7 +483160,7 @@
     },
     {
      "label": "l84.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -484895,7 +483169,7 @@
        "buf": "layers.84.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -484913,26 +483187,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l84.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -485887,7 +484141,7 @@
     },
     {
      "label": "l85.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -485896,7 +484150,7 @@
        "buf": "layers.85.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -485914,26 +484168,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l85.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -486888,7 +485122,7 @@
     },
     {
      "label": "l86.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -486897,7 +485131,7 @@
        "buf": "layers.86.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -486915,26 +485149,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l86.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -487854,7 +486068,7 @@
     },
     {
      "label": "l87.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -487863,7 +486077,7 @@
        "buf": "layers.87.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -487881,26 +486095,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l87.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -488855,7 +487049,7 @@
     },
     {
      "label": "l88.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -488864,7 +487058,7 @@
        "buf": "layers.88.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -488882,26 +487076,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l88.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -489856,7 +488030,7 @@
     },
     {
      "label": "l89.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -489865,7 +488039,7 @@
        "buf": "layers.89.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -489883,26 +488057,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l89.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -490857,7 +489011,7 @@
     },
     {
      "label": "l90.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -490866,7 +489020,7 @@
        "buf": "layers.90.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -490884,26 +489038,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l90.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -491823,7 +489957,7 @@
     },
     {
      "label": "l91.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -491832,7 +489966,7 @@
        "buf": "layers.91.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -491850,26 +489984,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l91.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
@@ -492789,7 +490903,7 @@
     },
     {
      "label": "l92.lat_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed"
@@ -492798,7 +490912,7 @@
        "buf": "layers.92.w_lat_down"
       },
       {
-       "buf": "latent_partial"
+       "buf": "latent"
       },
       {
        "expr": {
@@ -492816,26 +490930,6 @@
       },
       {
        "i32": 3584
-      }
-     ]
-    },
-    {
-     "label": "l92.latent",
-     "op": "land_n3584",
-     "args": [
-      {
-       "buf": "latent_partial"
-      },
-      {
-       "buf": "latent"
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
       }
      ]
     },
