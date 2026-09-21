@@ -21,3 +21,10 @@ FlashInfer 有 tcgen05 版本的 KDA prefill：/opt/flashinfer/csrc/kda/ 里 `ca
 搞清每个变体的契约（q/k/v/g/beta 布局、chunk、state 布局、输出），对上我们 span_* buffer 的布局后，用 nvcc 编成
 cubin，manifest 里换掉 flash_kda 那个 op（op 序列可以改，K1/K2 可以拆成多个 op）。judge 决定数值。这一刀值
 K2 的大半（52 ms/rank 里估计 −25 到 −35），比继续调 vLLM 那份核的 TMA 次数值钱得多。
+核对过的三点（人）：(1) 门控别选 `*_unbounded_softplus`，那是另一种门（softplus）；`persistent_m128` /
+`piece_persistent_m128` 这一族算的就是我们 K1 的门：`lower_bound * log2e * sigmoid(exp(A_log) * (g + dt_bias))`，
+连 `tanh.approx(x*0.5)` 的近似都一样。(2) 直接的 fused m128 一个 (seq, head) 一个 block，我们单序列 24 头只占
+24 个 SM；`piece_persistent_m128` 把序列切成 piece 用 `mid_state` 交接，才能铺满 148 个 SM，这是给我们这种
+形状准备的。(3) 它们的 initial/final state 是 bf16，我们的 span_state 是 f32：只影响 decode 接续那一处，由
+judge 的 decode 位置判。K2 的瓶颈是 mma.sync 的发射，不是 workspace 字节（去掉全部 K1 workspace 拷贝只值
+3.3 ms），收益来自 tcgen05 和 chunk 16→32 把串行深度减半。
