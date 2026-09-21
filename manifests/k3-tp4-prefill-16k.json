@@ -656,7 +656,7 @@
    "kind": "workspace"
   },
   "routed_partial": {
-   "dtype": "f32",
+   "dtype": "bf16",
    "shape": [
     4096,
     7168
@@ -680,7 +680,7 @@
    "kind": "workspace"
   },
   "shared_partial2": {
-   "dtype": "f32",
+   "dtype": "bf16",
    "shape": [
     4096,
     7168
@@ -398122,6 +398122,10 @@
   "k3_kda_out_gate_v3+HEADS=24": {
    "source": "k3_kda_out_gate_v3+HEADS=24.cubin",
    "sha256": "9e1de0c40f58bd748e604efcabee8d8c535b9a60a0e28adb2ce942dcacdbf069"
+  },
+  "k3_land_bf16": {
+   "source": "k3_land_bf16.cubin",
+   "sha256": "cd51a952d7a7b160d6660bab53e0b1f6ff09f8168a230b964719772546fc1e62"
   }
  },
  "ops": {
@@ -401224,8 +401228,8 @@
   },
   "land_add2_v2": {
    "params": [
-    "in buffer<f32>",
-    "in buffer<f32>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
     "in buffer<bf16>",
     "out buffer<bf16>",
     "i32",
@@ -401234,10 +401238,10 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_residual_v2",
-      "entry": "kern_k3_land_add2",
+      "module": "k3_land_bf16",
+      "entry": "kern_k3_land_add2_bf16",
       "block": [
-       128,
+       448,
        1,
        1
       ],
@@ -401954,7 +401958,7 @@
     },
     {
      "label": "l0.w_dn",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "dense_act"
@@ -402851,7 +402855,7 @@
     },
     {
      "label": "l1.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -402935,7 +402939,7 @@
     },
     {
      "label": "l1.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -403832,7 +403836,7 @@
     },
     {
      "label": "l2.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -403916,7 +403920,7 @@
     },
     {
      "label": "l2.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -404778,7 +404782,7 @@
     },
     {
      "label": "l3.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -404862,7 +404866,7 @@
     },
     {
      "label": "l3.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -405759,7 +405763,7 @@
     },
     {
      "label": "l4.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -405843,7 +405847,7 @@
     },
     {
      "label": "l4.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -406740,7 +406744,7 @@
     },
     {
      "label": "l5.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -406824,7 +406828,7 @@
     },
     {
      "label": "l5.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -407721,7 +407725,7 @@
     },
     {
      "label": "l6.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -407805,7 +407809,7 @@
     },
     {
      "label": "l6.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -408667,7 +408671,7 @@
     },
     {
      "label": "l7.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -408751,7 +408755,7 @@
     },
     {
      "label": "l7.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -409648,7 +409652,7 @@
     },
     {
      "label": "l8.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -409732,7 +409736,7 @@
     },
     {
      "label": "l8.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -410629,7 +410633,7 @@
     },
     {
      "label": "l9.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -410713,7 +410717,7 @@
     },
     {
      "label": "l9.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -411610,7 +411614,7 @@
     },
     {
      "label": "l10.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -411694,7 +411698,7 @@
     },
     {
      "label": "l10.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -412556,7 +412560,7 @@
     },
     {
      "label": "l11.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -412640,7 +412644,7 @@
     },
     {
      "label": "l11.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -413537,7 +413541,7 @@
     },
     {
      "label": "l12.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -413621,7 +413625,7 @@
     },
     {
      "label": "l12.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -414518,7 +414522,7 @@
     },
     {
      "label": "l13.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -414602,7 +414606,7 @@
     },
     {
      "label": "l13.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -415499,7 +415503,7 @@
     },
     {
      "label": "l14.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -415583,7 +415587,7 @@
     },
     {
      "label": "l14.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -416445,7 +416449,7 @@
     },
     {
      "label": "l15.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -416529,7 +416533,7 @@
     },
     {
      "label": "l15.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -417426,7 +417430,7 @@
     },
     {
      "label": "l16.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -417510,7 +417514,7 @@
     },
     {
      "label": "l16.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -418407,7 +418411,7 @@
     },
     {
      "label": "l17.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -418491,7 +418495,7 @@
     },
     {
      "label": "l17.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -419388,7 +419392,7 @@
     },
     {
      "label": "l18.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -419472,7 +419476,7 @@
     },
     {
      "label": "l18.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -420334,7 +420338,7 @@
     },
     {
      "label": "l19.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -420418,7 +420422,7 @@
     },
     {
      "label": "l19.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -421315,7 +421319,7 @@
     },
     {
      "label": "l20.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -421399,7 +421403,7 @@
     },
     {
      "label": "l20.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -422296,7 +422300,7 @@
     },
     {
      "label": "l21.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -422380,7 +422384,7 @@
     },
     {
      "label": "l21.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -423277,7 +423281,7 @@
     },
     {
      "label": "l22.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -423361,7 +423365,7 @@
     },
     {
      "label": "l22.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -424223,7 +424227,7 @@
     },
     {
      "label": "l23.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -424307,7 +424311,7 @@
     },
     {
      "label": "l23.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -425204,7 +425208,7 @@
     },
     {
      "label": "l24.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -425288,7 +425292,7 @@
     },
     {
      "label": "l24.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -426185,7 +426189,7 @@
     },
     {
      "label": "l25.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -426269,7 +426273,7 @@
     },
     {
      "label": "l25.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -427166,7 +427170,7 @@
     },
     {
      "label": "l26.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -427250,7 +427254,7 @@
     },
     {
      "label": "l26.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -428112,7 +428116,7 @@
     },
     {
      "label": "l27.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -428196,7 +428200,7 @@
     },
     {
      "label": "l27.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -429093,7 +429097,7 @@
     },
     {
      "label": "l28.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -429177,7 +429181,7 @@
     },
     {
      "label": "l28.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -430074,7 +430078,7 @@
     },
     {
      "label": "l29.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -430158,7 +430162,7 @@
     },
     {
      "label": "l29.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -431055,7 +431059,7 @@
     },
     {
      "label": "l30.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -431139,7 +431143,7 @@
     },
     {
      "label": "l30.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -432001,7 +432005,7 @@
     },
     {
      "label": "l31.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -432085,7 +432089,7 @@
     },
     {
      "label": "l31.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -432982,7 +432986,7 @@
     },
     {
      "label": "l32.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -433066,7 +433070,7 @@
     },
     {
      "label": "l32.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -433963,7 +433967,7 @@
     },
     {
      "label": "l33.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -434047,7 +434051,7 @@
     },
     {
      "label": "l33.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -434944,7 +434948,7 @@
     },
     {
      "label": "l34.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -435028,7 +435032,7 @@
     },
     {
      "label": "l34.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -435890,7 +435894,7 @@
     },
     {
      "label": "l35.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -435974,7 +435978,7 @@
     },
     {
      "label": "l35.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -436871,7 +436875,7 @@
     },
     {
      "label": "l36.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -436955,7 +436959,7 @@
     },
     {
      "label": "l36.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -437852,7 +437856,7 @@
     },
     {
      "label": "l37.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -437936,7 +437940,7 @@
     },
     {
      "label": "l37.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -438833,7 +438837,7 @@
     },
     {
      "label": "l38.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -438917,7 +438921,7 @@
     },
     {
      "label": "l38.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -439779,7 +439783,7 @@
     },
     {
      "label": "l39.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -439863,7 +439867,7 @@
     },
     {
      "label": "l39.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -440760,7 +440764,7 @@
     },
     {
      "label": "l40.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -440844,7 +440848,7 @@
     },
     {
      "label": "l40.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -441741,7 +441745,7 @@
     },
     {
      "label": "l41.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -441825,7 +441829,7 @@
     },
     {
      "label": "l41.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -442722,7 +442726,7 @@
     },
     {
      "label": "l42.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -442806,7 +442810,7 @@
     },
     {
      "label": "l42.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -443668,7 +443672,7 @@
     },
     {
      "label": "l43.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -443752,7 +443756,7 @@
     },
     {
      "label": "l43.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -444649,7 +444653,7 @@
     },
     {
      "label": "l44.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -444733,7 +444737,7 @@
     },
     {
      "label": "l44.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -445630,7 +445634,7 @@
     },
     {
      "label": "l45.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -445714,7 +445718,7 @@
     },
     {
      "label": "l45.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -446611,7 +446615,7 @@
     },
     {
      "label": "l46.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -446695,7 +446699,7 @@
     },
     {
      "label": "l46.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -447557,7 +447561,7 @@
     },
     {
      "label": "l47.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -447641,7 +447645,7 @@
     },
     {
      "label": "l47.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -448538,7 +448542,7 @@
     },
     {
      "label": "l48.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -448622,7 +448626,7 @@
     },
     {
      "label": "l48.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -449519,7 +449523,7 @@
     },
     {
      "label": "l49.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -449603,7 +449607,7 @@
     },
     {
      "label": "l49.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -450500,7 +450504,7 @@
     },
     {
      "label": "l50.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -450584,7 +450588,7 @@
     },
     {
      "label": "l50.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -451446,7 +451450,7 @@
     },
     {
      "label": "l51.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -451530,7 +451534,7 @@
     },
     {
      "label": "l51.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -452427,7 +452431,7 @@
     },
     {
      "label": "l52.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -452511,7 +452515,7 @@
     },
     {
      "label": "l52.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -453408,7 +453412,7 @@
     },
     {
      "label": "l53.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -453492,7 +453496,7 @@
     },
     {
      "label": "l53.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -454389,7 +454393,7 @@
     },
     {
      "label": "l54.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -454473,7 +454477,7 @@
     },
     {
      "label": "l54.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -455335,7 +455339,7 @@
     },
     {
      "label": "l55.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -455419,7 +455423,7 @@
     },
     {
      "label": "l55.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -456316,7 +456320,7 @@
     },
     {
      "label": "l56.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -456400,7 +456404,7 @@
     },
     {
      "label": "l56.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -457297,7 +457301,7 @@
     },
     {
      "label": "l57.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -457381,7 +457385,7 @@
     },
     {
      "label": "l57.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -458278,7 +458282,7 @@
     },
     {
      "label": "l58.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -458362,7 +458366,7 @@
     },
     {
      "label": "l58.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -459224,7 +459228,7 @@
     },
     {
      "label": "l59.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -459308,7 +459312,7 @@
     },
     {
      "label": "l59.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -460205,7 +460209,7 @@
     },
     {
      "label": "l60.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -460289,7 +460293,7 @@
     },
     {
      "label": "l60.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -461186,7 +461190,7 @@
     },
     {
      "label": "l61.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -461270,7 +461274,7 @@
     },
     {
      "label": "l61.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -462167,7 +462171,7 @@
     },
     {
      "label": "l62.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -462251,7 +462255,7 @@
     },
     {
      "label": "l62.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -463113,7 +463117,7 @@
     },
     {
      "label": "l63.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -463197,7 +463201,7 @@
     },
     {
      "label": "l63.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -464094,7 +464098,7 @@
     },
     {
      "label": "l64.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -464178,7 +464182,7 @@
     },
     {
      "label": "l64.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -465075,7 +465079,7 @@
     },
     {
      "label": "l65.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -465159,7 +465163,7 @@
     },
     {
      "label": "l65.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -466056,7 +466060,7 @@
     },
     {
      "label": "l66.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -466140,7 +466144,7 @@
     },
     {
      "label": "l66.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -467002,7 +467006,7 @@
     },
     {
      "label": "l67.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -467086,7 +467090,7 @@
     },
     {
      "label": "l67.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -467983,7 +467987,7 @@
     },
     {
      "label": "l68.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -468067,7 +468071,7 @@
     },
     {
      "label": "l68.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -468964,7 +468968,7 @@
     },
     {
      "label": "l69.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -469048,7 +469052,7 @@
     },
     {
      "label": "l69.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -469945,7 +469949,7 @@
     },
     {
      "label": "l70.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -470029,7 +470033,7 @@
     },
     {
      "label": "l70.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -470891,7 +470895,7 @@
     },
     {
      "label": "l71.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -470975,7 +470979,7 @@
     },
     {
      "label": "l71.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -471872,7 +471876,7 @@
     },
     {
      "label": "l72.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -471956,7 +471960,7 @@
     },
     {
      "label": "l72.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -472853,7 +472857,7 @@
     },
     {
      "label": "l73.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -472937,7 +472941,7 @@
     },
     {
      "label": "l73.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -473834,7 +473838,7 @@
     },
     {
      "label": "l74.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -473918,7 +473922,7 @@
     },
     {
      "label": "l74.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -474780,7 +474784,7 @@
     },
     {
      "label": "l75.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -474864,7 +474868,7 @@
     },
     {
      "label": "l75.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -475761,7 +475765,7 @@
     },
     {
      "label": "l76.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -475845,7 +475849,7 @@
     },
     {
      "label": "l76.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -476742,7 +476746,7 @@
     },
     {
      "label": "l77.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -476826,7 +476830,7 @@
     },
     {
      "label": "l77.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -477723,7 +477727,7 @@
     },
     {
      "label": "l78.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -477807,7 +477811,7 @@
     },
     {
      "label": "l78.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -478669,7 +478673,7 @@
     },
     {
      "label": "l79.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -478753,7 +478757,7 @@
     },
     {
      "label": "l79.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -479650,7 +479654,7 @@
     },
     {
      "label": "l80.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -479734,7 +479738,7 @@
     },
     {
      "label": "l80.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -480631,7 +480635,7 @@
     },
     {
      "label": "l81.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -480715,7 +480719,7 @@
     },
     {
      "label": "l81.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -481612,7 +481616,7 @@
     },
     {
      "label": "l82.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -481696,7 +481700,7 @@
     },
     {
      "label": "l82.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -482558,7 +482562,7 @@
     },
     {
      "label": "l83.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -482642,7 +482646,7 @@
     },
     {
      "label": "l83.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -483539,7 +483543,7 @@
     },
     {
      "label": "l84.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -483623,7 +483627,7 @@
     },
     {
      "label": "l84.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -484520,7 +484524,7 @@
     },
     {
      "label": "l85.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -484604,7 +484608,7 @@
     },
     {
      "label": "l85.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -485501,7 +485505,7 @@
     },
     {
      "label": "l86.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -485585,7 +485589,7 @@
     },
     {
      "label": "l86.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -486447,7 +486451,7 @@
     },
     {
      "label": "l87.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -486531,7 +486535,7 @@
     },
     {
      "label": "l87.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -487428,7 +487432,7 @@
     },
     {
      "label": "l88.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -487512,7 +487516,7 @@
     },
     {
      "label": "l88.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -488409,7 +488413,7 @@
     },
     {
      "label": "l89.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -488493,7 +488497,7 @@
     },
     {
      "label": "l89.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -489390,7 +489394,7 @@
     },
     {
      "label": "l90.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -489474,7 +489478,7 @@
     },
     {
      "label": "l90.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -490336,7 +490340,7 @@
     },
     {
      "label": "l91.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -490420,7 +490424,7 @@
     },
     {
      "label": "l91.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
@@ -491282,7 +491286,7 @@
     },
     {
      "label": "l92.lat_up",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "routed_latent_norm"
@@ -491366,7 +491370,7 @@
     },
     {
      "label": "l92.sh_down",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "shared_act"
