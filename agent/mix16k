@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+"""mix16k REPORT.json [REPORT2.json]: where a bench16k report's time goes, and the difference of two.
+
+Graph p50 of the slowest rank, then the instrumented per-call time summed over the four
+ranks (so a per-rank figure is a quarter) by op and by label. With two reports the same
+tables carry the difference, second minus first.
+"""
+import json
+import sys
+from collections import defaultdict
+
+
+def load(path):
+    r = json.load(open(path))
+    ranks = [s["graph"]["stats"]["p50"] / 1000 for s in r["scenarios"]]
+    by_op, by_label = defaultdict(float), defaultdict(float)
+    for s in r["scenarios"]:
+        for c in s["calls"]:
+            t = c["in_program"]["stats"]["p50"] / 1000
+            by_op[c["op"]] += t
+            by_label[(c["op"], c["label"].split(".", 1)[-1])] += t
+    return ranks, by_op, by_label
+
+
+def table(title, rows, total, limit):
+    print(f"\n{title}")
+    for key, t in sorted(rows.items(), key=lambda kv: -abs(kv[1]))[:limit]:
+        name = key if isinstance(key, str) else f"{key[0]:28s} {key[1]}"
+        share = f"{100 * t / total:5.1f}%" if total else ""
+        print(f"  {t:9.2f} ms  {share:>6}  {name}")
+
+
+def main(paths):
+    loaded = [load(p) for p in paths]
+    for p, (ranks, by_op, _) in zip(paths, loaded):
+        print(f"{p}: graph p50 slowest rank {max(ranks):.3f} ms  ranks {[f'{x:.1f}' for x in ranks]}  instrumented 4-rank sum {sum(by_op.values()):.1f} ms")
+    ranks, by_op, by_label = loaded[0]
+    total = sum(by_op.values())
+    if len(loaded) == 1:
+        table("by op (4-rank sums)", by_op, total, 20)
+        table("by label (4-rank sums, layer-summed)", by_label, total, 30)
+        return
+    _, op2, label2 = loaded[1]
+    d_op = {k: op2.get(k, 0) - by_op.get(k, 0) for k in set(by_op) | set(op2)}
+    d_label = {k: label2.get(k, 0) - by_label.get(k, 0) for k in set(by_label) | set(label2)}
+    print(f"\ngraph p50 slowest rank: {max(loaded[1][0]) - max(ranks):+.3f} ms (second minus first)")
+    table("by op, difference (4-rank sums)", {k: v for k, v in d_op.items() if abs(v) > 0.05}, 0, 20)
+    table("by label, difference (4-rank sums)", {k: v for k, v in d_label.items() if abs(v) > 0.05}, 0, 30)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) not in (2, 3):
+        sys.exit(__doc__)
+    main(sys.argv[1:])

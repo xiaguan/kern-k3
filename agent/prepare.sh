@@ -20,7 +20,7 @@ cp "$KERN_BINARY" "$context/kern"
 cp -a "$NCCL_LIB_DIR"/libnccl.so* "$context/nccl/"
 cp "$repo/manifests/k3-tp4-prefill-16k.json" "$context/reference.json"
 cp "$repo/reference/k3-pruned.parquet" "$context/reference.parquet"
-cp "$repo/agent/"{Dockerfile,workload.toml,bench16k,test16k,judge16k} "$context/"
+cp "$repo/agent/"{Dockerfile,workload.toml,bench16k,test16k,judge16k,withgpu,mix16k} "$context/"
 docker build --build-arg "BASE_IMAGE=$BASE_IMAGE" -t "$image" "$context"
 docker run -d --name "$container" --gpus all --ipc=host --ulimit memlock=-1:-1 \
   --user "$(id -u):$(id -g)" --env HOME=/home/worker \
