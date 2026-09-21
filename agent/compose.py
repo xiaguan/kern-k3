@@ -26,6 +26,7 @@ ROOT = Path.cwd()
 DEFAULT = Path("manifests/k3-tp4-prefill-16k.json")
 BEFORE = Path("build-before")
 NOTES = None
+PAIRS, GAIN = 2, 1.0
 
 
 def sh(*args, check=True, capture=True):
@@ -111,7 +112,7 @@ def replay(commit, out_dir):
     if r.returncode:
         return revert(commit, subject, f"scripts/check.py build failed:\n{r.stdout}{r.stderr}"[-2000:])
     base, cand = [], []
-    for i in (1, 2):
+    for i in range(1, PAIRS + 1):
         Path("build").rename("build-candidate")
         BEFORE.rename("build")
         try:
@@ -128,7 +129,7 @@ def replay(commit, out_dir):
     passed = judge.returncode == 0
     verdict = [l for l in judge.stdout.splitlines() if l.startswith(("PASS", "FAIL", "INCONCLUSIVE"))]
     numbers = f"default {' / '.join(f'{x:.3f}' for x in base)} ms, candidate {' / '.join(f'{x:.3f}' for x in cand)} ms, {gain:+.3f} ms; judge16k {' '.join(verdict)[:160]}"
-    if not passed or gain < 1.0:
+    if not passed or gain < GAIN:
         return revert(commit, subject, f"not adopted: {numbers}")
     body = sh("git", "log", "-1", "--format=%b", commit).split("\nSigned-off-by:")[0].rstrip()
     note = Path(NOTES, f"{commit[:7]}.md") if NOTES else None
@@ -150,10 +151,12 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("commits", nargs="+")
     ap.add_argument("--out", default="compose")
+    ap.add_argument("--pairs", type=int, default=2, help="interleaved default/candidate bench pairs")
+    ap.add_argument("--gain", type=float, default=1.0, help="ms of mean gain below which a PASS is not adopted")
     ap.add_argument("--notes", help="directory of <sha7>.md files appended to the adopted commit's message: what was tried on the way")
     args = ap.parse_args()
-    global NOTES
-    NOTES = args.notes
+    global NOTES, PAIRS, GAIN
+    NOTES, PAIRS, GAIN = args.notes, args.pairs, args.gain
     if sh("git", "status", "--porcelain"):
         sys.exit("the tree is not clean")
     if sh("git", "rev-parse", "--abbrev-ref", "HEAD") != "main":
