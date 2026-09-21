@@ -178,12 +178,11 @@ __global__ void __launch_bounds__(NumThreads, 2) _flash_kda_fwd_recurrence(
     int N,
     SeqlenT const* cu_seqlens,
     int total_tiles,
-    cutlass::bfloat16_t const* ws_kd,
-    cutlass::bfloat16_t const* ws_qd,
-    cutlass::bfloat16_t const* ws_kr,
-    float const* ws_gt,
-    cutlass::bfloat16_t const* ws_inv,
-    cutlass::bfloat16_t const* ws_mqk
+    // K1 writes the six chunk-intermediates as one block (K3_WS_BLOCK bytes,
+    // k_decayed | q_decayed | k_restored | g_total | INV | Mqk) laid out
+    // exactly like this stage from `k_decayed` on, so a single bulk copy
+    // restores all six.
+    cutlass::bfloat16_t const* ws
 ) {
     using BF16 = cutlass::bfloat16_t;
     using StateT = std::conditional_t<StateFP32, float, BF16>;
@@ -218,9 +217,7 @@ __global__ void __launch_bounds__(NumThreads, 2) _flash_kda_fwd_recurrence(
     constexpr uint32_t kTmaTransactionBytes =
         uint32_t(cute::cosize_v<VOLayout>) * uint32_t(sizeof(BF16)) +
         uint32_t(32) * uint32_t(sizeof(BF16)) +  // beta (bf16, sigmoid fused)
-        uint32_t(cute::cosize_v<MMALayout>) * uint32_t(sizeof(BF16)) * 3 +
-        uint32_t(cute::cosize_v<GTotalLayout>) * uint32_t(sizeof(float)) +
-        uint32_t(cute::cosize_v<LMLayout>) * uint32_t(sizeof(BF16)) * 2;
+        uint32_t(K3_WS_BLOCK);  // the six K1 outputs arrive as one block
 
     // --- warp specialization
     int warp_id = cutlass::canonical_warp_idx_sync();
@@ -400,36 +397,10 @@ __global__ void __launch_bounds__(NumThreads, 2) _flash_kda_fwd_recurrence(
             // K2 uses the same layouts, so raw bulk copies restore them
             // directly without tensor-map coordinate work or repacking.
             cute::SM90_BULK_COPY_G2S::copy(
-                ws_kd + int64_t(ws_idx) * (CHUNK * D),
+                reinterpret_cast<char const*>(ws) + int64_t(ws_idx) * K3_WS_BLOCK,
                 reinterpret_cast<uint64_t*>(tma_barrier),
                 shared_storage.input[stage].k_decayed.begin(),
-                int32_t(CHUNK * D * sizeof(BF16)));
-            cute::SM90_BULK_COPY_G2S::copy(
-                ws_qd + int64_t(ws_idx) * (CHUNK * D),
-                reinterpret_cast<uint64_t*>(tma_barrier),
-                shared_storage.input[stage].q_decayed.begin(),
-                int32_t(CHUNK * D * sizeof(BF16)));
-            cute::SM90_BULK_COPY_G2S::copy(
-                ws_kr + int64_t(ws_idx) * (CHUNK * D),
-                reinterpret_cast<uint64_t*>(tma_barrier),
-                shared_storage.input[stage].k_restored.begin(),
-                int32_t(CHUNK * D * sizeof(BF16)));
-            cute::SM90_BULK_COPY_G2S::copy(
-                ws_gt + int64_t(ws_idx) * D,
-                reinterpret_cast<uint64_t*>(tma_barrier),
-                shared_storage.input[stage].g_total.begin(),
-                int32_t(D * sizeof(float)));
-            cute::SM90_BULK_COPY_G2S::copy(
-                ws_inv + int64_t(ws_idx) * (CHUNK * CHUNK),
-                reinterpret_cast<uint64_t*>(tma_barrier),
-                shared_storage.input[stage].INV.begin(),
-                int32_t(CHUNK * CHUNK * sizeof(BF16)));
-            cute::SM90_BULK_COPY_G2S::copy(
-                ws_mqk + int64_t(ws_idx) * (CHUNK * CHUNK),
-                reinterpret_cast<uint64_t*>(tma_barrier),
-                shared_storage.input[stage].Mqk.begin(),
-                int32_t(CHUNK * CHUNK * sizeof(BF16)));
-
+                int32_t(K3_WS_BLOCK));
             ++load_write;
         }
         load_pipeline.producer_tail(load_write);

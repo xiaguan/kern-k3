@@ -187,3 +187,11 @@ upstream = "https://github.com/vllm-project/FlashKDA/tree/b59532f1f464fbd5362727
 [kernels.k3_rs_arrive1]
 sha256 = "2336ac91759b3377a9147c1675786faeb1691eb9c1d99043fc8b686f0eff2b81"
 source = "source/k3_rs_arrive1.cu"
+
+[kernels."flash_kda_vllm_d128_ws1"]
+sha256 = "ca2851ce708b475b3e9b458ff812ce75389bb2debd367506f6e479d654c16d20"
+source = "source/flash-kda-vllm/kern_flash_kda.cu"
+build = "source/flash-kda-vllm/build.sh"
+defines = { K3_V_SW128 = 1 }
+prebuilt = "prebuilt/flash_kda_vllm_d128_ws1.cubin"
+upstream = "https://github.com/vllm-project/FlashKDA/tree/b59532f1f464fbd536272780e30df5bf6a2ccc02"

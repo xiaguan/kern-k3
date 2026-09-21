@@ -430,59 +430,6 @@
    ],
    "kind": "workspace"
   },
-  "span_ws_kd": {
-   "dtype": "bf16",
-   "shape": [
-    24576,
-    16,
-    128
-   ],
-   "kind": "workspace"
-  },
-  "span_ws_qd": {
-   "dtype": "bf16",
-   "shape": [
-    24576,
-    16,
-    128
-   ],
-   "kind": "workspace"
-  },
-  "span_ws_kr": {
-   "dtype": "bf16",
-   "shape": [
-    24576,
-    16,
-    128
-   ],
-   "kind": "workspace"
-  },
-  "span_ws_gt": {
-   "dtype": "f32",
-   "shape": [
-    24576,
-    128
-   ],
-   "kind": "workspace"
-  },
-  "span_ws_inv": {
-   "dtype": "bf16",
-   "shape": [
-    24576,
-    16,
-    16
-   ],
-   "kind": "workspace"
-  },
-  "span_ws_mqk": {
-   "dtype": "bf16",
-   "shape": [
-    24576,
-    16,
-    16
-   ],
-   "kind": "workspace"
-  },
   "mla_fused_partial": {
    "dtype": "f32",
    "shape": [
@@ -398127,6 +398074,13 @@
    "kind": "peer",
    "of": "moe_partial",
    "group": "tp"
+  },
+  "span_ws": {
+   "dtype": "bf16",
+   "shape": [
+    169869312
+   ],
+   "kind": "workspace"
   }
  },
  "modules": {
@@ -398226,13 +398180,13 @@
    "source": "k3_reducescatter_pull_nr4.cubin",
    "sha256": "1084e9cd81b267f7c9bf45e7afd509bab6294b1f9f1f63ffbe7d8a8bb2759d34"
   },
-  "flash_kda_vllm_d128_sw128": {
-   "source": "flash_kda_vllm_d128_sw128.cubin",
-   "sha256": "3e4387a63b702105faace3f784895dc2b5c65cfa0b8e1acbbb9595ffcc266912"
-  },
   "k3_rs_arrive1": {
    "source": "k3_rs_arrive1.cubin",
    "sha256": "2336ac91759b3377a9147c1675786faeb1691eb9c1d99043fc8b686f0eff2b81"
+  },
+  "flash_kda_vllm_d128_ws1": {
+   "source": "flash_kda_vllm_d128_ws1.cubin",
+   "sha256": "ca2851ce708b475b3e9b458ff812ce75389bb2debd367506f6e479d654c16d20"
   }
  },
  "ops": {
@@ -398448,18 +398402,13 @@
     "out buffer<f32>",
     "out buffer<bf16>",
     "out buffer<bf16>",
-    "out buffer<bf16>",
-    "out buffer<bf16>",
-    "out buffer<f32>",
-    "out buffer<bf16>",
-    "out buffer<bf16>",
     "i32"
    ],
    "impl": {
     "launches": [
      {
-      "module": "flash_kda_vllm_d128_sw128",
-      "entry": "_Z22_flash_kda_fwd_prepareIN4cute9TiledCopyINS0_9Copy_AtomIJNS0_11Copy_TraitsINS0_13SM90_TMA_LOADEJNS0_1CILi32768EEENS0_12AuxTmaParamsINS0_5tupleIJNS0_11ScaledBasisINS5_ILi1EEEJLi2EEEENS9_ISA_JLi1EEEENS9_IiJLi0EEEEEEERKNS0_6LayoutINS8_IJNS5_ILi128EEENS5_ILi16EEESA_EEENS8_IJSB_SC_NS9_ISA_JLi0EEEEEEEEERKNS0_7SwizzleILi0ELi4ELi3EEEEEEEEN7cutlass10bfloat16_tEEEENSF_INS8_IJSA_NS8_IJNS8_IJNS8_IJSG_SH_EEESA_EEEEEEEEENS8_IJNS5_ILi0EEENS8_IJNS8_IJNS8_IJSH_SA_EEES11_EEEEEEEEEEENS8_IJSA_SH_SG_EEEEES18_NS1_INS2_IJNS3_IS4_JNS5_ILi512EEENS7_INS8_IJSJ_EEERKNSF_INS8_IJNS5_ILi32EEEEEES1A_EESR_EEEEESV_EEENSF_INS8_IJSA_NS8_IJNS8_IJS1B_SA_EEEEEEEEENS8_IJS11_NS8_IJNS8_IJSA_S11_EEEEEEEEEEES1C_EES18_NS1_INS2_IJNS3_IS4_JNS5_ILi4096EEENS7_INS8_IJSC_SJ_EEERKNSF_INS8_IJSG_SA_EEES1S_EESR_EEEEEfEEENSF_INS8_IJSA_NS8_IJS1T_EEEEEES1O_EENS8_IJSA_SG_EEEEELi16ELi128ELi128ELb0ElEvT_T0_T1_T2_T3_fiiiPKT8_iPKffPSV_S2F_S2F_PfS2F_S2F_",
+      "module": "flash_kda_vllm_d128_ws1",
+      "entry": "_Z22_flash_kda_fwd_prepareIN4cute9TiledCopyINS0_9Copy_AtomIJNS0_11Copy_TraitsINS0_13SM90_TMA_LOADEJNS0_1CILi32768EEENS0_12AuxTmaParamsINS0_5tupleIJNS0_11ScaledBasisINS5_ILi1EEEJLi2EEEENS9_ISA_JLi1EEEENS9_IiJLi0EEEEEEERKNS0_6LayoutINS8_IJNS5_ILi128EEENS5_ILi16EEESA_EEENS8_IJSB_SC_NS9_ISA_JLi0EEEEEEEEERKNS0_7SwizzleILi0ELi4ELi3EEEEEEEEN7cutlass10bfloat16_tEEEENSF_INS8_IJSA_NS8_IJNS8_IJNS8_IJSG_SH_EEESA_EEEEEEEEENS8_IJNS5_ILi0EEENS8_IJNS8_IJNS8_IJSH_SA_EEES11_EEEEEEEEEEENS8_IJSA_SH_SG_EEEEES18_NS1_INS2_IJNS3_IS4_JNS5_ILi512EEENS7_INS8_IJSJ_EEERKNSF_INS8_IJNS5_ILi32EEEEEES1A_EESR_EEEEESV_EEENSF_INS8_IJSA_NS8_IJNS8_IJS1B_SA_EEEEEEEEENS8_IJS11_NS8_IJNS8_IJSA_S11_EEEEEEEEEEES1C_EES18_NS1_INS2_IJNS3_IS4_JNS5_ILi4096EEENS7_INS8_IJSC_SJ_EEERKNSF_INS8_IJSG_SA_EEES1S_EESR_EEEEEfEEENSF_INS8_IJSA_NS8_IJS1T_EEEEEES1O_EENS8_IJSA_SG_EEEEELi16ELi128ELi128ELb0ElEvT_T0_T1_T2_T3_fiiiPKT8_iPKffPSV_",
       "params": [
        "bytes<256>",
        "bytes<256>",
@@ -398474,11 +398423,6 @@
        "bytes<4>",
        "in buffer<f32>",
        "f32",
-       "out buffer<bf16>",
-       "out buffer<bf16>",
-       "out buffer<bf16>",
-       "out buffer<f32>",
-       "out buffer<bf16>",
        "out buffer<bf16>"
       ],
       "block": [
@@ -398654,7 +398598,7 @@
         "f32": 0.08838834764831845
        },
        {
-        "param": 16
+        "param": 11
        },
        {
         "i32": 24
@@ -398689,27 +398633,12 @@
        },
        {
         "param": 10
-       },
-       {
-        "param": 11
-       },
-       {
-        "param": 12
-       },
-       {
-        "param": 13
-       },
-       {
-        "param": 14
-       },
-       {
-        "param": 15
        }
       ]
      },
      {
-      "module": "flash_kda_vllm_d128_sw128",
-      "entry": "_Z25_flash_kda_fwd_recurrenceIN4cute9TiledCopyINS0_9Copy_AtomIJNS0_11Copy_TraitsINS0_13SM90_TMA_LOADEJNS0_1CILi16384EEENS0_12AuxTmaParamsINS0_5tupleIJNS0_11ScaledBasisINS5_ILi1EEEJLi2EEEENS9_ISA_JLi1EEEENS9_IiJLi0EEEEEEERKNS0_6LayoutINS8_IJNS5_ILi64EEENS5_ILi16EEESA_EEENS8_IJSB_SC_NS9_ISA_JLi0EEEEEEEEERKNS0_7SwizzleILi3ELi4ELi3EEEEEEEEN7cutlass10bfloat16_tEEEENSF_INS8_IJSA_NS8_IJNS8_IJNS8_IJSG_SH_EEESA_EEEEEEEEENS8_IJNS5_ILi0EEENS8_IJNS8_IJNS8_IJSH_SA_EEES11_EEEEEEEEEEENS8_IJSA_SH_SG_EEEEENS1_INS2_IJNS3_IS4_JNS5_ILi512EEENS7_INS8_IJSJ_EEERKNSF_INS8_IJNS5_ILi32EEEEEES1A_EERKNSO_ILi0ELi4ELi3EEEEEEEESV_EEENSF_INS8_IJSA_NS8_IJNS8_IJS1B_SA_EEEEEEEEENS8_IJS11_NS8_IJNS8_IJSA_S11_EEEEEEEEEEES1C_EENS1_INS2_IJNS3_IS4_JS6_NS7_ISK_RKNSF_INS8_IJNS5_ILi8EEESG_SA_EEESK_EERKNSO_ILi1ELi4ELi3EEEEEEEEfEEENSF_INS8_IJSA_NS8_IJNS8_IJNS8_IJS1U_SG_EEESH_EEEEEEEEENS8_IJS11_NS8_IJNS8_IJNS8_IJSG_SA_EEES19_EEEEEEEEEEENS8_IJSA_SG_NS5_ILi128EEEEEEEENS1_INS2_IJNS3_INS0_14SM90_TMA_STOREEJS6_S22_EEEfEEES2D_S2F_EENS1_INS2_IJNS3_IS2H_JS6_SS_EEESV_EEES16_S17_EELi16ELi128ELi3ELi2ELi192ELb1ELb1ELb1ELb0ELb0ElLi64EEvT_T0_T1_T2_T3_PSV_PvPKT14_iiiS2X_iPKSV_S2Z_S2Z_PKfS2Z_S2Z_",
+      "module": "flash_kda_vllm_d128_ws1",
+      "entry": "_Z25_flash_kda_fwd_recurrenceIN4cute9TiledCopyINS0_9Copy_AtomIJNS0_11Copy_TraitsINS0_13SM90_TMA_LOADEJNS0_1CILi16384EEENS0_12AuxTmaParamsINS0_5tupleIJNS0_11ScaledBasisINS5_ILi1EEEJLi2EEEENS9_ISA_JLi1EEEENS9_IiJLi0EEEEEEERKNS0_6LayoutINS8_IJNS5_ILi64EEENS5_ILi16EEESA_EEENS8_IJSB_SC_NS9_ISA_JLi0EEEEEEEEERKNS0_7SwizzleILi3ELi4ELi3EEEEEEEEN7cutlass10bfloat16_tEEEENSF_INS8_IJSA_NS8_IJNS8_IJNS8_IJSG_SH_EEESA_EEEEEEEEENS8_IJNS5_ILi0EEENS8_IJNS8_IJNS8_IJSH_SA_EEES11_EEEEEEEEEEENS8_IJSA_SH_SG_EEEEENS1_INS2_IJNS3_IS4_JNS5_ILi512EEENS7_INS8_IJSJ_EEERKNSF_INS8_IJNS5_ILi32EEEEEES1A_EERKNSO_ILi0ELi4ELi3EEEEEEEESV_EEENSF_INS8_IJSA_NS8_IJNS8_IJS1B_SA_EEEEEEEEENS8_IJS11_NS8_IJNS8_IJSA_S11_EEEEEEEEEEES1C_EENS1_INS2_IJNS3_IS4_JS6_NS7_ISK_RKNSF_INS8_IJNS5_ILi8EEESG_SA_EEESK_EERKNSO_ILi1ELi4ELi3EEEEEEEEfEEENSF_INS8_IJSA_NS8_IJNS8_IJNS8_IJS1U_SG_EEESH_EEEEEEEEENS8_IJS11_NS8_IJNS8_IJNS8_IJSG_SA_EEES19_EEEEEEEEEEENS8_IJSA_SG_NS5_ILi128EEEEEEEENS1_INS2_IJNS3_INS0_14SM90_TMA_STOREEJS6_S22_EEEfEEES2D_S2F_EENS1_INS2_IJNS3_IS2H_JS6_SS_EEESV_EEES16_S17_EELi16ELi128ELi3ELi2ELi192ELb1ELb1ELb1ELb0ELb0ElLi64EEvT_T0_T1_T2_T3_PSV_PvPKT14_iiiS2X_iPKSV_",
       "params": [
        "bytes<256>",
        "bytes<256>",
@@ -398724,11 +398653,6 @@
        "i32",
        "i64",
        "bytes<4>",
-       "in buffer<bf16>",
-       "in buffer<bf16>",
-       "in buffer<bf16>",
-       "in buffer<f32>",
-       "in buffer<bf16>",
        "in buffer<bf16>"
       ],
       "block": [
@@ -398904,7 +398828,7 @@
         "i64": 0
        },
        {
-        "param": 16
+        "param": 11
        },
        {
         "i32": 24
@@ -398933,21 +398857,6 @@
        },
        {
         "param": 10
-       },
-       {
-        "param": 11
-       },
-       {
-        "param": 12
-       },
-       {
-        "param": 13
-       },
-       {
-        "param": 14
-       },
-       {
-        "param": 15
        }
       ]
      }
@@ -402215,22 +402124,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -402776,22 +402670,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -403840,22 +403719,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -405933,22 +405797,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -406997,22 +406846,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -408061,22 +407895,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -410154,22 +409973,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -411218,22 +411022,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -412282,22 +412071,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -414375,22 +414149,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -415439,22 +415198,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -416503,22 +416247,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -418596,22 +418325,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -419660,22 +419374,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -420724,22 +420423,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -422817,22 +422501,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -423881,22 +423550,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -424945,22 +424599,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -427038,22 +426677,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -428102,22 +427726,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -429166,22 +428775,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -431259,22 +430853,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -432323,22 +431902,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -433387,22 +432951,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -435480,22 +435029,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -436544,22 +436078,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -437608,22 +437127,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -439701,22 +439205,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -440765,22 +440254,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -441829,22 +441303,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -443922,22 +443381,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -444986,22 +444430,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -446050,22 +445479,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -448143,22 +447557,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -449207,22 +448606,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -450271,22 +449655,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -452364,22 +451733,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -453428,22 +452782,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -454492,22 +453831,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -456585,22 +455909,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -457649,22 +456958,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -458713,22 +458007,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -460806,22 +460085,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -461870,22 +461134,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -462934,22 +462183,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -465027,22 +464261,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -466091,22 +465310,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -467155,22 +466359,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -469248,22 +468437,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -470312,22 +469486,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -471376,22 +470535,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -473469,22 +472613,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -474533,22 +473662,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -475597,22 +474711,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -477690,22 +476789,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -478754,22 +477838,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -479818,22 +478887,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -481911,22 +480965,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -482975,22 +482014,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -484039,22 +483063,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -486132,22 +485141,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -487196,22 +486190,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -488260,22 +487239,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -490353,22 +489317,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -491417,22 +490366,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -492481,22 +491415,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -494574,22 +493493,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -495638,22 +494542,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"
@@ -496702,22 +495591,7 @@
        "buf": "span_out"
       },
       {
-       "buf": "span_ws_kd"
-      },
-      {
-       "buf": "span_ws_qd"
-      },
-      {
-       "buf": "span_ws_kr"
-      },
-      {
-       "buf": "span_ws_gt"
-      },
-      {
-       "buf": "span_ws_inv"
-      },
-      {
-       "buf": "span_ws_mqk"
+       "buf": "span_ws"
       },
       {
        "var": "tokens"

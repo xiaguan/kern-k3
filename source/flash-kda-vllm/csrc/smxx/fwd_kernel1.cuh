@@ -2,6 +2,13 @@
 
 #include "utils.cuh"
 
+// The six K1 outputs of one chunk, concatenated: 3 * CHUNK*D*2 bytes of bf16
+// (k_decayed, q_decayed, k_restored), D*4 bytes of f32 (g_total), then two
+// CHUNK*CHUNK*2-byte bf16 tiles (INV, Mqk).  K2's shared-memory stage holds
+// exactly this layout from `k_decayed` to the end of `Mqk`, so one bulk copy
+// moves all six.
+#define K3_WS_BLOCK (3 * CHUNK * D * 2 + D * 4 + 2 * CHUNK * CHUNK * 2)
+
 template <int D, int CHUNK = 16>
 struct K1Layouts {
     using QKLayout = decltype(make_layout(make_shape(Int<CHUNK>{}, Int<D>{}), LayoutRight{}));
@@ -104,12 +111,10 @@ __global__ void __launch_bounds__(NumThreads, 8) _flash_kda_fwd_prepare(
     int total_tiles,
     float const* A_log_ptr,
     float gate_scale,
-    cutlass::bfloat16_t* ws_kd,
-    cutlass::bfloat16_t* ws_qd,
-    cutlass::bfloat16_t* ws_kr,
-    float* ws_gt,
-    cutlass::bfloat16_t* ws_inv,
-    cutlass::bfloat16_t* ws_mqk
+    // One per-chunk block holding k_decayed | q_decayed | k_restored | g_total
+    // | INV | Mqk at the byte offsets K2's shared-memory stage uses, so K2
+    // restores the whole stage with a single bulk copy (see K3_WS_BLOCK).
+    cutlass::bfloat16_t* ws
 ) {
     // --- constants
     using BF16 = cutlass::bfloat16_t;
@@ -504,32 +509,33 @@ __global__ void __launch_bounds__(NumThreads, 8) _flash_kda_fwd_prepare(
 
         // Private K1→K2 ABI: preserve each swizzled shared-memory byte image
         // so K2 can restore it directly without TensorMap segmentation.
-        BF16* k_decayed_dst = ws_kd + int64_t(ws_idx) * (CHUNK * D);
+        char* ws_base = reinterpret_cast<char*>(ws) + int64_t(ws_idx) * K3_WS_BLOCK;
+        BF16* k_decayed_dst = reinterpret_cast<BF16*>(ws_base + 0);
         cute::SM90_BULK_COPY_S2G::copy(
             shared_storage.k_decayed.begin(), k_decayed_dst, int32_t(CHUNK * D * sizeof(BF16)));
         tma_store_arrive();
 
-        BF16* q_decayed_dst = ws_qd + int64_t(ws_idx) * (CHUNK * D);
+        BF16* q_decayed_dst = reinterpret_cast<BF16*>(ws_base + CHUNK * D * 2);
         cute::SM90_BULK_COPY_S2G::copy(
             shared_storage.q_decayed.begin(), q_decayed_dst, int32_t(CHUNK * D * sizeof(BF16)));
         tma_store_arrive();
 
-        BF16* k_restored_dst = ws_kr + int64_t(ws_idx) * (CHUNK * D);
+        BF16* k_restored_dst = reinterpret_cast<BF16*>(ws_base + 2 * CHUNK * D * 2);
         cute::SM90_BULK_COPY_S2G::copy(
             shared_storage.k_restored.begin(), k_restored_dst, int32_t(CHUNK * D * sizeof(BF16)));
         tma_store_arrive();
 
-        float* g_total_dst = ws_gt + int64_t(ws_idx) * D;
+        float* g_total_dst = reinterpret_cast<float*>(ws_base + 3 * CHUNK * D * 2);
         cute::SM90_BULK_COPY_S2G::copy(
             shared_storage.g_total.begin(), g_total_dst, int32_t(D * sizeof(float)));
         tma_store_arrive();
 
-        BF16* inv_dst = ws_inv + int64_t(ws_idx) * (CHUNK * CHUNK);
+        BF16* inv_dst = reinterpret_cast<BF16*>(ws_base + 3 * CHUNK * D * 2 + D * 4);
         cute::SM90_BULK_COPY_S2G::copy(
             shared_storage.INV.begin(), inv_dst, int32_t(CHUNK * CHUNK * sizeof(BF16)));
         tma_store_arrive();
 
-        BF16* mqk_dst = ws_mqk + int64_t(ws_idx) * (CHUNK * CHUNK);
+        BF16* mqk_dst = reinterpret_cast<BF16*>(ws_base + 3 * CHUNK * D * 2 + D * 4 + CHUNK * CHUNK * 2);
         cute::SM90_BULK_COPY_S2G::copy(
             shared_storage.Mqk.begin(), mqk_dst, int32_t(CHUNK * CHUNK * sizeof(BF16)));
         tma_store_arrive();

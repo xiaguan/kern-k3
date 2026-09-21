@@ -85,15 +85,11 @@ void launch_fwd(
     Tensor m_out = make_tensor(make_gmem_ptr(out_ptr), gmem_layout);
     Tensor m_beta = make_tensor(make_gmem_ptr<BF16>(beta_ptr), beta_gmem_layout);
 
-    // --- Workspace gmem layouts (separated arrays)
+    // --- Workspace gmem layout: one block per (head, chunk) holding
+    // k_decayed | q_decayed | k_restored | g_total | INV | Mqk in the byte
+    // order K2's stage uses, so K2 restores the six with a single bulk copy.
     int64_t n_ht = int64_t(H) * total_tiles;
     char* ws = reinterpret_cast<char*>(workspace_ptr);
-    BF16*  ws_kd  = reinterpret_cast<BF16*>(ws);
-    BF16*  ws_qd  = reinterpret_cast<BF16*>(ws + n_ht * WS::kKDecayed);
-    BF16*  ws_kr  = reinterpret_cast<BF16*>(ws + n_ht * (WS::kKDecayed + WS::kQDecayed));
-    float* ws_gt  = reinterpret_cast<float*>(ws + n_ht * (WS::kKDecayed + WS::kQDecayed + WS::kKRestored));
-    BF16*  ws_inv = reinterpret_cast<BF16*>(ws + n_ht * (WS::kKDecayed + WS::kQDecayed + WS::kKRestored + WS::kGTotal));
-    BF16*  ws_mqk = reinterpret_cast<BF16*>(ws + n_ht * (WS::kKDecayed + WS::kQDecayed + WS::kKRestored + WS::kGTotal + WS::kINV));
 
     // --- TMA descriptors for Kernel 1 inputs
     auto tma_load_q    = make_tma_copy(SM90_TMA_LOAD{}, m_q, TMAQKLayout{});
@@ -170,7 +166,7 @@ void launch_fwd(
             tma_load_g, tma_load_dt_bias,
             scale, T_total, H, N, cu_seqlens_ptr, total_tiles,
             A_log_ptr, gate_scale,
-            ws_kd, ws_qd, ws_kr, ws_gt, ws_inv, ws_mqk
+            reinterpret_cast<cutlass::bfloat16_t*>(ws)
         );
     }
 #endif
@@ -219,7 +215,7 @@ void launch_fwd(
                 tma_store_out_vsplit,
                 out_ptr, checkpoint_state_ptr, checkpoint_offsets_ptr,
                 T_total, H, N, cu_seqlens_ptr, total_tiles,
-                ws_kd, ws_qd, ws_kr, ws_gt, ws_inv, ws_mqk);
+                reinterpret_cast<cutlass::bfloat16_t*>(ws));
             return;
         }
 
@@ -249,7 +245,7 @@ void launch_fwd(
             tma_store_out,
             out_ptr, checkpoint_state_ptr, checkpoint_offsets_ptr,
             T_total, H, N, cu_seqlens_ptr, total_tiles,
-            ws_kd, ws_qd, ws_kr, ws_gt, ws_inv, ws_mqk
+            reinterpret_cast<cutlass::bfloat16_t*>(ws)
         );
     }
 #endif
