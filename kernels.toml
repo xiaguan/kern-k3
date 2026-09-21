@@ -162,3 +162,7 @@ defines = { EP_RANKS = 4, EP_STRIDED = 1 }
 [kernels.k3_land_fused]
 sha256 = "6807c5e0e677372fe49cc808c35f15718f5bcabe61189e56c7fda0b72dfe1c4e"
 source = "source/k3_land_fused.cu"
+
+[kernels.k3_reducescatter_pull]
+sha256 = "6b077862ca912d4da77e7d092fc535f33328a832683d2ca753ce9c275b174297"
+source = "source/k3_reducescatter_pull.cu"

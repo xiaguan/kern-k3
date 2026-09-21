@@ -289,7 +289,8 @@
     16384,
     7168
    ],
-   "kind": "workspace"
+   "kind": "workspace",
+   "export": true
   },
   "ids_own": {
    "dtype": "i64",
@@ -650,7 +651,8 @@
     16384,
     3584
    ],
-   "kind": "workspace"
+   "kind": "workspace",
+   "export": true
   },
   "routed_latent_norm": {
    "dtype": "bf16",
@@ -398072,24 +398074,6 @@
    "of": "normed_all",
    "group": "tp"
   },
-  "rs_stage": {
-   "dtype": "bf16",
-   "shape": [
-    16384,
-    7168
-   ],
-   "kind": "workspace",
-   "export": true
-  },
-  "rs_stage_peer": {
-   "dtype": "u64",
-   "shape": [
-    4
-   ],
-   "kind": "peer",
-   "of": "rs_stage",
-   "group": "tp"
-  },
   "latent_q_all_peer": {
    "dtype": "u64",
    "shape": [
@@ -398124,6 +398108,24 @@
    ],
    "kind": "peer",
    "of": "topk_weight_all",
+   "group": "tp"
+  },
+  "attn_part_peer": {
+   "dtype": "u64",
+   "shape": [
+    4
+   ],
+   "kind": "peer",
+   "of": "attn_part",
+   "group": "tp"
+  },
+  "moe_partial_peer": {
+   "dtype": "u64",
+   "shape": [
+    4
+   ],
+   "kind": "peer",
+   "of": "moe_partial",
    "group": "tp"
   }
  },
@@ -398223,6 +398225,10 @@
   "k3_land_fused": {
    "source": "k3_land_fused.cubin",
    "sha256": "6807c5e0e677372fe49cc808c35f15718f5bcabe61189e56c7fda0b72dfe1c4e"
+  },
+  "k3_reducescatter_pull": {
+   "source": "k3_reducescatter_pull.cubin",
+   "sha256": "6b077862ca912d4da77e7d092fc535f33328a832683d2ca753ce9c275b174297"
   }
  },
  "ops": {
@@ -401422,7 +401428,6 @@
    "params": [
     "in buffer<bf16>",
     "out buffer<bf16>",
-    "out buffer<bf16>",
     "in buffer<u64>",
     "out buffer<u64>",
     "in buffer<u64>",
@@ -401433,8 +401438,8 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_collectives",
-      "entry": "kern_k3_rs_push",
+      "module": "k3_reducescatter_pull",
+      "entry": "kern_k3_rs_arrive",
       "params": [
        "in buffer<bf16>",
        "out buffer<bf16>",
@@ -401444,11 +401449,15 @@
        "i64",
        "i32",
        "i32",
+       "i32",
        "i32"
       ],
       "args": [
        {
         "param": 0
+       },
+       {
+        "param": 1
        },
        {
         "param": 2
@@ -401502,13 +401511,16 @@
       ]
      },
      {
-      "module": "k3_collectives",
-      "entry": "kern_k3_rs_sum",
+      "module": "k3_reducescatter_pull",
+      "entry": "kern_k3_rs_pull",
       "params": [
        "in buffer<bf16>",
        "out buffer<bf16>",
-       "in buffer<bf16>",
+       "in buffer<u64>",
+       "out buffer<u64>",
+       "in buffer<u64>",
        "i64",
+       "i32",
        "i32",
        "i32",
        "i32"
@@ -401524,16 +401536,25 @@
         "param": 2
        },
        {
+        "param": 3
+       },
+       {
+        "param": 4
+       },
+       {
+        "param": 5
+       },
+       {
         "param": 6
+       },
+       {
+        "param": 7
        },
        {
         "rank": "tp"
        },
        {
         "i32": 4
-       },
-       {
-        "param": 8
        }
       ],
       "block": [
@@ -402239,10 +402260,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -402778,10 +402796,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -403257,10 +403272,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -403804,10 +403816,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -404283,10 +404292,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -404795,10 +404801,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -405274,10 +405277,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -405821,10 +405821,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -406300,10 +406297,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -406847,10 +406841,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -407326,10 +407317,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -407873,10 +407861,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -408352,10 +408337,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -408864,10 +408846,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -409343,10 +409322,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -409890,10 +409866,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -410369,10 +410342,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -410916,10 +410886,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -411395,10 +411362,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -411942,10 +411906,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -412421,10 +412382,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -412933,10 +412891,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -413412,10 +413367,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -413959,10 +413911,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -414438,10 +414387,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -414985,10 +414931,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -415464,10 +415407,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -416011,10 +415951,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -416490,10 +416427,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -417002,10 +416936,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -417481,10 +417412,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -418028,10 +417956,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -418507,10 +418432,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -419054,10 +418976,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -419533,10 +419452,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -420080,10 +419996,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -420559,10 +420472,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -421071,10 +420981,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -421550,10 +421457,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -422097,10 +422001,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -422576,10 +422477,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -423123,10 +423021,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -423602,10 +423497,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -424149,10 +424041,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -424628,10 +424517,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -425140,10 +425026,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -425619,10 +425502,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -426166,10 +426046,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -426645,10 +426522,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -427192,10 +427066,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -427671,10 +427542,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -428218,10 +428086,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -428697,10 +428562,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -429209,10 +429071,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -429688,10 +429547,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -430235,10 +430091,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -430714,10 +430567,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -431261,10 +431111,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -431740,10 +431587,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -432287,10 +432131,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -432766,10 +432607,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -433278,10 +433116,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -433757,10 +433592,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -434304,10 +434136,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -434783,10 +434612,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -435330,10 +435156,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -435809,10 +435632,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -436356,10 +436176,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -436835,10 +436652,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -437347,10 +437161,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -437826,10 +437637,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -438373,10 +438181,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -438852,10 +438657,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -439399,10 +439201,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -439878,10 +439677,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -440425,10 +440221,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -440904,10 +440697,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -441416,10 +441206,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -441895,10 +441682,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -442442,10 +442226,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -442921,10 +442702,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -443468,10 +443246,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -443947,10 +443722,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -444494,10 +444266,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -444973,10 +444742,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -445485,10 +445251,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -445964,10 +445727,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -446511,10 +446271,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -446990,10 +446747,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -447537,10 +447291,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -448016,10 +447767,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -448563,10 +448311,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -449042,10 +448787,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -449554,10 +449296,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -450033,10 +449772,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -450580,10 +450316,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -451059,10 +450792,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -451606,10 +451336,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -452085,10 +451812,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -452632,10 +452356,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -453111,10 +452832,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -453623,10 +453341,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -454102,10 +453817,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -454649,10 +454361,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -455128,10 +454837,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -455675,10 +455381,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -456154,10 +455857,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -456701,10 +456401,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -457180,10 +456877,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -457692,10 +457386,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -458171,10 +457862,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -458718,10 +458406,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -459197,10 +458882,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -459744,10 +459426,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -460223,10 +459902,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -460770,10 +460446,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -461249,10 +460922,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -461761,10 +461431,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -462240,10 +461907,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -462787,10 +462451,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -463266,10 +462927,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -463813,10 +463471,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -464292,10 +463947,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -464839,10 +464491,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -465318,10 +464967,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -465830,10 +465476,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -466309,10 +465952,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -466856,10 +466496,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -467335,10 +466972,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -467882,10 +467516,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -468361,10 +467992,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -468908,10 +468536,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -469387,10 +469012,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -469899,10 +469521,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -470378,10 +469997,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -470925,10 +470541,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -471404,10 +471017,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -471951,10 +471561,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -472430,10 +472037,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -472977,10 +472581,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -473456,10 +473057,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -473968,10 +473566,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -474447,10 +474042,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -474994,10 +474586,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -475473,10 +475062,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -476020,10 +475606,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -476499,10 +476082,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -477046,10 +476626,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -477525,10 +477102,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -478037,10 +477611,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -478516,10 +478087,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -479063,10 +478631,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -479542,10 +479107,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -480089,10 +479651,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -480568,10 +480127,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -481115,10 +480671,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -481594,10 +481147,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -482106,10 +481656,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -482585,10 +482132,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -483132,10 +482676,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -483611,10 +483152,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -484158,10 +483696,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -484637,10 +484172,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -485184,10 +484716,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -485663,10 +485192,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -486175,10 +485701,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -486654,10 +486177,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -487201,10 +486721,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -487680,10 +487197,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -488227,10 +487741,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -488706,10 +488217,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -489253,10 +488761,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -489732,10 +489237,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -490244,10 +489746,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -490723,10 +490222,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -491270,10 +490766,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -491749,10 +491242,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -492296,10 +491786,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -492775,10 +492262,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -493322,10 +492806,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -493801,10 +493282,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -494313,10 +493791,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -494792,10 +494267,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
@@ -495304,10 +494776,7 @@
        "buf": "attn_own"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "attn_part_peer"
       },
       {
        "buf": "coll_flags"
@@ -495783,10 +495252,7 @@
        "buf": "routed_latent"
       },
       {
-       "buf": "rs_stage"
-      },
-      {
-       "buf": "rs_stage_peer"
+       "buf": "moe_partial_peer"
       },
       {
        "buf": "coll_flags"
