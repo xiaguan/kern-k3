@@ -74,6 +74,12 @@ FlashKDA（source/flash-kda-vllm，CUTLASS 在 /opt/cutlass）：
 编码。判断一个核是被哪条流水线、哪段依赖链卡住，或者核对编译器生成的指令是不是预期的时候用它；
 文件 38 MB，用 python 按 base_op 查，别整个读进上下文。
 长命令用 bash 工具的后台 job 跑，同时看别的。
+FlashInfer 源码在 /opt/flashinfer（6870e3ff，2026-09-21，只读；镜像里没有 torch，它的 python 跑不了，
+只读源码）。它在很多算子上有比我们多得多的变体和调度表，先看它怎么做再动手：对着我们的核拆 SASS、抄结构
+和协议，不抄 shape。各分区该看的入口写在"你的分区"里。已经核过对不上的两处：csrc/cake_all_gather_matmul
+把 K=8192、N=2048 烧死在生成代码里，且它的重叠靠另一条 stream 上的 copy，我们的 graph 单 stream，整核搬过
+来零收益；csrc/cake_moe_finalize_allreduce_fusion 是 hidden=7168 的 allreduce + 残差 + norm，我们的 finalize
+出的是 [tokens, 3584] 的 latent 再 reduce-scatter，宽度、归约方式、norm 位置都不同。机制可以抄，核不能换。
 
 参考：/opt/kern-eval/reference.json（初始 manifest）和 /opt/kern-eval/reference.parquet
 （默认 manifest 在语料上的分布，在本镜像内录制）。
