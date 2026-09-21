@@ -38,18 +38,28 @@ def p50(report):
     return max(s["graph"]["stats"]["p50"] for s in json.load(open(report))["scenarios"]) / 1000
 
 
+def blocks(text):
+    """kernels.toml as {name: block text}, in file order."""
+    out = {}
+    for b in re.split(r"(?m)^(?=\[kernels\.)", text):
+        m = re.match(r'\[kernels\.(?:"([^"]+)"|([^\]]+))\]', b)
+        if m:
+            out[m.group(1) or m.group(2)] = b.rstrip("\n") + "\n"
+    return out
+
+
 def union_kernels(commit):
-    main = tomllib.loads(Path("kernels.toml").read_text())["kernels"]
-    theirs_text = sh("git", "show", f"{commit}:kernels.toml")
-    theirs = tomllib.loads(theirs_text)["kernels"]
-    new = [k for k in theirs if k not in main]
-    if not new:
+    """Main's entries, with the commit's version of every entry the commit has (a rebuilt module keeps its name and changes its sha); the changed names are returned."""
+    mine_text = Path("kernels.toml").read_text()
+    mine, theirs = blocks(mine_text), blocks(sh("git", "show", f"{commit}:kernels.toml"))
+    base = blocks(sh("git", "show", f"{commit}^:kernels.toml"))
+    changed = [k for k, b in theirs.items() if base.get(k) != b]
+    if not changed:
         return []
-    blocks = re.split(r"(?m)^(?=\[kernels\.)", theirs_text)
-    keep = [b for b in blocks if any(b.startswith(f'[kernels."{k}"]') or b.startswith(f"[kernels.{k}]") for k in new)]
-    text = Path("kernels.toml").read_text().rstrip("\n") + "\n\n" + "\n".join(b.rstrip("\n") + "\n" for b in keep)
-    Path("kernels.toml").write_text(text)
-    return new
+    head = re.split(r"(?m)^(?=\[kernels\.)", mine_text)[0]
+    merged = {**mine, **{k: theirs[k] for k in changed}}
+    Path("kernels.toml").write_text(head + "\n".join(merged.values()))
+    return changed
 
 
 def evaluate(tool, manifest, out):
