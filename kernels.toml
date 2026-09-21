@@ -142,7 +142,7 @@ sha256 = "dc3cc8805dbbb0c198d9d06001923f542cd9058875ca745e8a767541985e4531"
 source = "source/k3_moe_prefill_v2.cu"
 
 [kernels.k3_collectives]
-sha256 = "262ced6f18c91edba87b0ad026ad1474d24c746b14f72e8d9688cdf08f9c8a54"
+sha256 = "36db46baac84af1d068205afd72e3689f57886c81b3f80c7ade7d2de929d740f"
 source = "source/k3_collectives.cu"
 
 [kernels."k3_mla_prep_v2+INNER=3072+MLA_FUSED=5184"]

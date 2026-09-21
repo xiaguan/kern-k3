@@ -398045,7 +398045,7 @@
   "coll_flags": {
    "dtype": "u64",
    "shape": [
-    95
+    280
    ],
    "kind": "workspace",
    "export": true
@@ -398066,6 +398066,24 @@
    ],
    "kind": "peer",
    "of": "normed_all",
+   "group": "tp"
+  },
+  "rs_stage": {
+   "dtype": "bf16",
+   "shape": [
+    16384,
+    7168
+   ],
+   "kind": "workspace",
+   "export": true
+  },
+  "rs_stage_peer": {
+   "dtype": "u64",
+   "shape": [
+    4
+   ],
+   "kind": "peer",
+   "of": "rs_stage",
    "group": "tp"
   }
  },
@@ -398152,7 +398170,7 @@
   },
   "k3_collectives": {
    "source": "k3_collectives.cubin",
-   "sha256": "262ced6f18c91edba87b0ad026ad1474d24c746b14f72e8d9688cdf08f9c8a54"
+   "sha256": "36db46baac84af1d068205afd72e3689f57886c81b3f80c7ade7d2de929d740f"
   },
   "k3_mla_prep_v2+INNER=3072+MLA_FUSED=5184": {
    "source": "k3_mla_prep_v2+INNER=3072+MLA_FUSED=5184.cubin",
@@ -399822,40 +399840,6 @@
       "params": [
        "in buffer<f32>",
        "out buffer<f32>",
-       "i64",
-       "i32"
-      ],
-      "args": [
-       {
-        "param": 0
-       },
-       {
-        "param": 1
-       },
-       {
-        "param": 2
-       },
-       {
-        "rank": "tp"
-       }
-      ]
-     }
-    ]
-   }
-  },
-  "nccl_reducescatter_bf16": {
-   "params": [
-    "in buffer<bf16>",
-    "out buffer<bf16>",
-    "i64"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "entry": "extern:nccl_reducescatter_bf16",
-      "params": [
-       "in buffer<bf16>",
-       "out buffer<bf16>",
        "i64",
        "i32"
       ],
@@ -401592,6 +401576,153 @@
      }
     ]
    }
+  },
+  "k3_reducescatter_bf16": {
+   "params": [
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "in buffer<u64>",
+    "out buffer<u64>",
+    "in buffer<u64>",
+    "i64",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_collectives",
+      "entry": "kern_k3_rs_push",
+      "params": [
+       "in buffer<bf16>",
+       "out buffer<bf16>",
+       "in buffer<u64>",
+       "out buffer<u64>",
+       "in buffer<u64>",
+       "i64",
+       "i32",
+       "i32",
+       "i32"
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
+        "param": 2
+       },
+       {
+        "param": 3
+       },
+       {
+        "param": 4
+       },
+       {
+        "param": 5
+       },
+       {
+        "param": 6
+       },
+       {
+        "param": 7
+       },
+       {
+        "rank": "tp"
+       },
+       {
+        "i32": 4
+       }
+      ],
+      "block": [
+       1024,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         {
+          "mul": [
+           {
+            "ceil_div": [
+             "tokens",
+             4
+            ]
+           },
+           7168
+          ]
+         },
+         32768
+        ]
+       },
+       1,
+       1
+      ]
+     },
+     {
+      "module": "k3_collectives",
+      "entry": "kern_k3_rs_sum",
+      "params": [
+       "in buffer<bf16>",
+       "out buffer<bf16>",
+       "in buffer<bf16>",
+       "i64",
+       "i32",
+       "i32",
+       "i32"
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
+        "param": 1
+       },
+       {
+        "param": 2
+       },
+       {
+        "param": 6
+       },
+       {
+        "rank": "tp"
+       },
+       {
+        "i32": 4
+       },
+       {
+        "param": 8
+       }
+      ],
+      "block": [
+       1024,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         {
+          "mul": [
+           {
+            "ceil_div": [
+             "tokens",
+             4
+            ]
+           },
+           7168
+          ]
+         },
+         32768
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
   }
  },
  "programs": {
@@ -402035,13 +402166,25 @@
     },
     {
      "label": "l0.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -402055,6 +402198,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 95
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -402556,13 +402705,25 @@
     },
     {
      "label": "l1.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -402576,6 +402737,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 96
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -403014,13 +403181,25 @@
     },
     {
      "label": "l1.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -403034,6 +403213,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 97
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -403549,13 +403734,25 @@
     },
     {
      "label": "l2.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -403569,6 +403766,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 98
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -404007,13 +404210,25 @@
     },
     {
      "label": "l2.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -404027,6 +404242,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 99
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -404507,13 +404728,25 @@
     },
     {
      "label": "l3.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -404527,6 +404760,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 100
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -404965,13 +405204,25 @@
     },
     {
      "label": "l3.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -404985,6 +405236,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 101
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -405500,13 +405757,25 @@
     },
     {
      "label": "l4.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -405520,6 +405789,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 102
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -405958,13 +406233,25 @@
     },
     {
      "label": "l4.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -405978,6 +406265,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 103
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -406493,13 +406786,25 @@
     },
     {
      "label": "l5.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -406513,6 +406818,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 104
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -406951,13 +407262,25 @@
     },
     {
      "label": "l5.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -406971,6 +407294,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 105
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -407486,13 +407815,25 @@
     },
     {
      "label": "l6.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -407506,6 +407847,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 106
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -407944,13 +408291,25 @@
     },
     {
      "label": "l6.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -407964,6 +408323,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 107
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -408444,13 +408809,25 @@
     },
     {
      "label": "l7.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -408464,6 +408841,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 108
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -408902,13 +409285,25 @@
     },
     {
      "label": "l7.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -408922,6 +409317,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 109
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -409437,13 +409838,25 @@
     },
     {
      "label": "l8.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -409457,6 +409870,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 110
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -409895,13 +410314,25 @@
     },
     {
      "label": "l8.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -409915,6 +410346,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 111
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -410430,13 +410867,25 @@
     },
     {
      "label": "l9.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -410450,6 +410899,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 112
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -410888,13 +411343,25 @@
     },
     {
      "label": "l9.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -410908,6 +411375,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 113
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -411423,13 +411896,25 @@
     },
     {
      "label": "l10.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -411443,6 +411928,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 114
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -411881,13 +412372,25 @@
     },
     {
      "label": "l10.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -411901,6 +412404,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 115
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -412381,13 +412890,25 @@
     },
     {
      "label": "l11.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -412401,6 +412922,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 116
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -412839,13 +413366,25 @@
     },
     {
      "label": "l11.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -412859,6 +413398,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 117
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -413374,13 +413919,25 @@
     },
     {
      "label": "l12.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -413394,6 +413951,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 118
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -413832,13 +414395,25 @@
     },
     {
      "label": "l12.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -413852,6 +414427,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 119
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -414367,13 +414948,25 @@
     },
     {
      "label": "l13.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -414387,6 +414980,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 120
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -414825,13 +415424,25 @@
     },
     {
      "label": "l13.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -414845,6 +415456,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 121
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -415360,13 +415977,25 @@
     },
     {
      "label": "l14.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -415380,6 +416009,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 122
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -415818,13 +416453,25 @@
     },
     {
      "label": "l14.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -415838,6 +416485,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 123
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -416318,13 +416971,25 @@
     },
     {
      "label": "l15.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -416338,6 +417003,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 124
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -416776,13 +417447,25 @@
     },
     {
      "label": "l15.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -416796,6 +417479,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 125
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -417311,13 +418000,25 @@
     },
     {
      "label": "l16.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -417331,6 +418032,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 126
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -417769,13 +418476,25 @@
     },
     {
      "label": "l16.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -417789,6 +418508,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 127
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -418304,13 +419029,25 @@
     },
     {
      "label": "l17.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -418324,6 +419061,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 128
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -418762,13 +419505,25 @@
     },
     {
      "label": "l17.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -418782,6 +419537,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 129
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -419297,13 +420058,25 @@
     },
     {
      "label": "l18.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -419317,6 +420090,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 130
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -419755,13 +420534,25 @@
     },
     {
      "label": "l18.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -419775,6 +420566,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 131
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -420255,13 +421052,25 @@
     },
     {
      "label": "l19.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -420275,6 +421084,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 132
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -420713,13 +421528,25 @@
     },
     {
      "label": "l19.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -420733,6 +421560,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 133
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -421248,13 +422081,25 @@
     },
     {
      "label": "l20.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -421268,6 +422113,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 134
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -421706,13 +422557,25 @@
     },
     {
      "label": "l20.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -421726,6 +422589,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 135
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -422241,13 +423110,25 @@
     },
     {
      "label": "l21.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -422261,6 +423142,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 136
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -422699,13 +423586,25 @@
     },
     {
      "label": "l21.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -422719,6 +423618,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 137
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -423234,13 +424139,25 @@
     },
     {
      "label": "l22.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -423254,6 +424171,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 138
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -423692,13 +424615,25 @@
     },
     {
      "label": "l22.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -423712,6 +424647,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 139
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -424192,13 +425133,25 @@
     },
     {
      "label": "l23.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -424212,6 +425165,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 140
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -424650,13 +425609,25 @@
     },
     {
      "label": "l23.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -424670,6 +425641,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 141
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -425185,13 +426162,25 @@
     },
     {
      "label": "l24.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -425205,6 +426194,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 142
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -425643,13 +426638,25 @@
     },
     {
      "label": "l24.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -425663,6 +426670,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 143
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -426178,13 +427191,25 @@
     },
     {
      "label": "l25.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -426198,6 +427223,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 144
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -426636,13 +427667,25 @@
     },
     {
      "label": "l25.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -426656,6 +427699,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 145
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -427171,13 +428220,25 @@
     },
     {
      "label": "l26.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -427191,6 +428252,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 146
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -427629,13 +428696,25 @@
     },
     {
      "label": "l26.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -427649,6 +428728,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 147
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -428129,13 +429214,25 @@
     },
     {
      "label": "l27.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -428149,6 +429246,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 148
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -428587,13 +429690,25 @@
     },
     {
      "label": "l27.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -428607,6 +429722,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 149
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -429122,13 +430243,25 @@
     },
     {
      "label": "l28.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -429142,6 +430275,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 150
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -429580,13 +430719,25 @@
     },
     {
      "label": "l28.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -429600,6 +430751,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 151
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -430115,13 +431272,25 @@
     },
     {
      "label": "l29.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -430135,6 +431304,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 152
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -430573,13 +431748,25 @@
     },
     {
      "label": "l29.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -430593,6 +431780,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 153
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -431108,13 +432301,25 @@
     },
     {
      "label": "l30.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -431128,6 +432333,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 154
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -431566,13 +432777,25 @@
     },
     {
      "label": "l30.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -431586,6 +432809,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 155
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -432066,13 +433295,25 @@
     },
     {
      "label": "l31.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -432086,6 +433327,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 156
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -432524,13 +433771,25 @@
     },
     {
      "label": "l31.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -432544,6 +433803,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 157
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -433059,13 +434324,25 @@
     },
     {
      "label": "l32.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -433079,6 +434356,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 158
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -433517,13 +434800,25 @@
     },
     {
      "label": "l32.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -433537,6 +434832,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 159
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -434052,13 +435353,25 @@
     },
     {
      "label": "l33.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -434072,6 +435385,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 160
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -434510,13 +435829,25 @@
     },
     {
      "label": "l33.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -434530,6 +435861,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 161
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -435045,13 +436382,25 @@
     },
     {
      "label": "l34.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -435065,6 +436414,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 162
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -435503,13 +436858,25 @@
     },
     {
      "label": "l34.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -435523,6 +436890,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 163
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -436003,13 +437376,25 @@
     },
     {
      "label": "l35.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -436023,6 +437408,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 164
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -436461,13 +437852,25 @@
     },
     {
      "label": "l35.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -436481,6 +437884,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 165
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -436996,13 +438405,25 @@
     },
     {
      "label": "l36.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -437016,6 +438437,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 166
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -437454,13 +438881,25 @@
     },
     {
      "label": "l36.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -437474,6 +438913,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 167
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -437989,13 +439434,25 @@
     },
     {
      "label": "l37.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -438009,6 +439466,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 168
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -438447,13 +439910,25 @@
     },
     {
      "label": "l37.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -438467,6 +439942,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 169
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -438982,13 +440463,25 @@
     },
     {
      "label": "l38.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -439002,6 +440495,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 170
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -439440,13 +440939,25 @@
     },
     {
      "label": "l38.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -439460,6 +440971,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 171
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -439940,13 +441457,25 @@
     },
     {
      "label": "l39.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -439960,6 +441489,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 172
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -440398,13 +441933,25 @@
     },
     {
      "label": "l39.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -440418,6 +441965,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 173
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -440933,13 +442486,25 @@
     },
     {
      "label": "l40.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -440953,6 +442518,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 174
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -441391,13 +442962,25 @@
     },
     {
      "label": "l40.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -441411,6 +442994,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 175
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -441926,13 +443515,25 @@
     },
     {
      "label": "l41.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -441946,6 +443547,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 176
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -442384,13 +443991,25 @@
     },
     {
      "label": "l41.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -442404,6 +444023,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 177
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -442919,13 +444544,25 @@
     },
     {
      "label": "l42.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -442939,6 +444576,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 178
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -443377,13 +445020,25 @@
     },
     {
      "label": "l42.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -443397,6 +445052,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 179
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -443877,13 +445538,25 @@
     },
     {
      "label": "l43.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -443897,6 +445570,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 180
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -444335,13 +446014,25 @@
     },
     {
      "label": "l43.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -444355,6 +446046,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 181
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -444870,13 +446567,25 @@
     },
     {
      "label": "l44.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -444890,6 +446599,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 182
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -445328,13 +447043,25 @@
     },
     {
      "label": "l44.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -445348,6 +447075,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 183
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -445863,13 +447596,25 @@
     },
     {
      "label": "l45.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -445883,6 +447628,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 184
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -446321,13 +448072,25 @@
     },
     {
      "label": "l45.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -446341,6 +448104,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 185
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -446856,13 +448625,25 @@
     },
     {
      "label": "l46.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -446876,6 +448657,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 186
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -447314,13 +449101,25 @@
     },
     {
      "label": "l46.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -447334,6 +449133,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 187
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -447814,13 +449619,25 @@
     },
     {
      "label": "l47.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -447834,6 +449651,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 188
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -448272,13 +450095,25 @@
     },
     {
      "label": "l47.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -448292,6 +450127,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 189
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -448807,13 +450648,25 @@
     },
     {
      "label": "l48.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -448827,6 +450680,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 190
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -449265,13 +451124,25 @@
     },
     {
      "label": "l48.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -449285,6 +451156,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 191
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -449800,13 +451677,25 @@
     },
     {
      "label": "l49.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -449820,6 +451709,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 192
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -450258,13 +452153,25 @@
     },
     {
      "label": "l49.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -450278,6 +452185,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 193
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -450793,13 +452706,25 @@
     },
     {
      "label": "l50.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -450813,6 +452738,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 194
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -451251,13 +453182,25 @@
     },
     {
      "label": "l50.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -451271,6 +453214,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 195
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -451751,13 +453700,25 @@
     },
     {
      "label": "l51.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -451771,6 +453732,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 196
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -452209,13 +454176,25 @@
     },
     {
      "label": "l51.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -452229,6 +454208,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 197
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -452744,13 +454729,25 @@
     },
     {
      "label": "l52.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -452764,6 +454761,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 198
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -453202,13 +455205,25 @@
     },
     {
      "label": "l52.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -453222,6 +455237,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 199
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -453737,13 +455758,25 @@
     },
     {
      "label": "l53.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -453757,6 +455790,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 200
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -454195,13 +456234,25 @@
     },
     {
      "label": "l53.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -454215,6 +456266,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 201
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -454730,13 +456787,25 @@
     },
     {
      "label": "l54.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -454750,6 +456819,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 202
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -455188,13 +457263,25 @@
     },
     {
      "label": "l54.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -455208,6 +457295,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 203
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -455688,13 +457781,25 @@
     },
     {
      "label": "l55.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -455708,6 +457813,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 204
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -456146,13 +458257,25 @@
     },
     {
      "label": "l55.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -456166,6 +458289,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 205
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -456681,13 +458810,25 @@
     },
     {
      "label": "l56.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -456701,6 +458842,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 206
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -457139,13 +459286,25 @@
     },
     {
      "label": "l56.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -457159,6 +459318,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 207
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -457674,13 +459839,25 @@
     },
     {
      "label": "l57.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -457694,6 +459871,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 208
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -458132,13 +460315,25 @@
     },
     {
      "label": "l57.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -458152,6 +460347,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 209
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -458667,13 +460868,25 @@
     },
     {
      "label": "l58.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -458687,6 +460900,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 210
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -459125,13 +461344,25 @@
     },
     {
      "label": "l58.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -459145,6 +461376,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 211
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -459625,13 +461862,25 @@
     },
     {
      "label": "l59.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -459645,6 +461894,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 212
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -460083,13 +462338,25 @@
     },
     {
      "label": "l59.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -460103,6 +462370,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 213
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -460618,13 +462891,25 @@
     },
     {
      "label": "l60.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -460638,6 +462923,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 214
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -461076,13 +463367,25 @@
     },
     {
      "label": "l60.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -461096,6 +463399,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 215
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -461611,13 +463920,25 @@
     },
     {
      "label": "l61.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -461631,6 +463952,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 216
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -462069,13 +464396,25 @@
     },
     {
      "label": "l61.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -462089,6 +464428,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 217
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -462604,13 +464949,25 @@
     },
     {
      "label": "l62.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -462624,6 +464981,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 218
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -463062,13 +465425,25 @@
     },
     {
      "label": "l62.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -463082,6 +465457,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 219
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -463562,13 +465943,25 @@
     },
     {
      "label": "l63.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -463582,6 +465975,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 220
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -464020,13 +466419,25 @@
     },
     {
      "label": "l63.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -464040,6 +466451,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 221
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -464555,13 +466972,25 @@
     },
     {
      "label": "l64.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -464575,6 +467004,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 222
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -465013,13 +467448,25 @@
     },
     {
      "label": "l64.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -465033,6 +467480,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 223
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -465548,13 +468001,25 @@
     },
     {
      "label": "l65.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -465568,6 +468033,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 224
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -466006,13 +468477,25 @@
     },
     {
      "label": "l65.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -466026,6 +468509,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 225
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -466541,13 +469030,25 @@
     },
     {
      "label": "l66.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -466561,6 +469062,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 226
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -466999,13 +469506,25 @@
     },
     {
      "label": "l66.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -467019,6 +469538,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 227
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -467499,13 +470024,25 @@
     },
     {
      "label": "l67.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -467519,6 +470056,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 228
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -467957,13 +470500,25 @@
     },
     {
      "label": "l67.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -467977,6 +470532,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 229
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -468492,13 +471053,25 @@
     },
     {
      "label": "l68.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -468512,6 +471085,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 230
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -468950,13 +471529,25 @@
     },
     {
      "label": "l68.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -468970,6 +471561,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 231
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -469485,13 +472082,25 @@
     },
     {
      "label": "l69.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -469505,6 +472114,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 232
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -469943,13 +472558,25 @@
     },
     {
      "label": "l69.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -469963,6 +472590,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 233
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -470478,13 +473111,25 @@
     },
     {
      "label": "l70.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -470498,6 +473143,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 234
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -470936,13 +473587,25 @@
     },
     {
      "label": "l70.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -470956,6 +473619,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 235
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -471436,13 +474105,25 @@
     },
     {
      "label": "l71.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -471456,6 +474137,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 236
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -471894,13 +474581,25 @@
     },
     {
      "label": "l71.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -471914,6 +474613,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 237
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -472429,13 +475134,25 @@
     },
     {
      "label": "l72.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -472449,6 +475166,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 238
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -472887,13 +475610,25 @@
     },
     {
      "label": "l72.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -472907,6 +475642,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 239
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -473422,13 +476163,25 @@
     },
     {
      "label": "l73.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -473442,6 +476195,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 240
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -473880,13 +476639,25 @@
     },
     {
      "label": "l73.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -473900,6 +476671,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 241
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -474415,13 +477192,25 @@
     },
     {
      "label": "l74.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -474435,6 +477224,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 242
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -474873,13 +477668,25 @@
     },
     {
      "label": "l74.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -474893,6 +477700,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 243
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -475373,13 +478186,25 @@
     },
     {
      "label": "l75.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -475393,6 +478218,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 244
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -475831,13 +478662,25 @@
     },
     {
      "label": "l75.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -475851,6 +478694,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 245
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -476366,13 +479215,25 @@
     },
     {
      "label": "l76.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -476386,6 +479247,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 246
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -476824,13 +479691,25 @@
     },
     {
      "label": "l76.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -476844,6 +479723,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 247
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -477359,13 +480244,25 @@
     },
     {
      "label": "l77.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -477379,6 +480276,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 248
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -477817,13 +480720,25 @@
     },
     {
      "label": "l77.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -477837,6 +480752,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 249
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -478352,13 +481273,25 @@
     },
     {
      "label": "l78.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -478372,6 +481305,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 250
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -478810,13 +481749,25 @@
     },
     {
      "label": "l78.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -478830,6 +481781,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 251
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -479310,13 +482267,25 @@
     },
     {
      "label": "l79.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -479330,6 +482299,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 252
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -479768,13 +482743,25 @@
     },
     {
      "label": "l79.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -479788,6 +482775,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 253
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -480303,13 +483296,25 @@
     },
     {
      "label": "l80.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -480323,6 +483328,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 254
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -480761,13 +483772,25 @@
     },
     {
      "label": "l80.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -480781,6 +483804,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 255
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -481296,13 +484325,25 @@
     },
     {
      "label": "l81.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -481316,6 +484357,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 256
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -481754,13 +484801,25 @@
     },
     {
      "label": "l81.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -481774,6 +484833,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 257
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -482289,13 +485354,25 @@
     },
     {
      "label": "l82.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -482309,6 +485386,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 258
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -482747,13 +485830,25 @@
     },
     {
      "label": "l82.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -482767,6 +485862,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 259
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -483247,13 +486348,25 @@
     },
     {
      "label": "l83.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -483267,6 +486380,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 260
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -483705,13 +486824,25 @@
     },
     {
      "label": "l83.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -483725,6 +486856,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 261
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -484240,13 +487377,25 @@
     },
     {
      "label": "l84.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -484260,6 +487409,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 262
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -484698,13 +487853,25 @@
     },
     {
      "label": "l84.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -484718,6 +487885,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 263
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -485233,13 +488406,25 @@
     },
     {
      "label": "l85.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -485253,6 +488438,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 264
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -485691,13 +488882,25 @@
     },
     {
      "label": "l85.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -485711,6 +488914,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 265
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -486226,13 +489435,25 @@
     },
     {
      "label": "l86.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -486246,6 +489467,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 266
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -486684,13 +489911,25 @@
     },
     {
      "label": "l86.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -486704,6 +489943,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 267
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -487184,13 +490429,25 @@
     },
     {
      "label": "l87.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -487204,6 +490461,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 268
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -487642,13 +490905,25 @@
     },
     {
      "label": "l87.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -487662,6 +490937,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 269
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -488177,13 +491458,25 @@
     },
     {
      "label": "l88.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -488197,6 +491490,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 270
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -488635,13 +491934,25 @@
     },
     {
      "label": "l88.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -488655,6 +491966,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 271
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -489170,13 +492487,25 @@
     },
     {
      "label": "l89.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -489190,6 +492519,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 272
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -489628,13 +492963,25 @@
     },
     {
      "label": "l89.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -489648,6 +492995,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 273
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -490163,13 +493516,25 @@
     },
     {
      "label": "l90.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -490183,6 +493548,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 274
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -490621,13 +493992,25 @@
     },
     {
      "label": "l90.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -490641,6 +494024,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 275
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -491121,13 +494510,25 @@
     },
     {
      "label": "l91.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -491141,6 +494542,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 276
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -491579,13 +494986,25 @@
     },
     {
      "label": "l91.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -491599,6 +495018,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 277
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -492079,13 +495504,25 @@
     },
     {
      "label": "l92.reduce_attn",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "attn_part"
       },
       {
        "buf": "attn_own"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -492099,6 +495536,12 @@
          7168
         ]
        }
+      },
+      {
+       "i32": 278
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -492537,13 +495980,25 @@
     },
     {
      "label": "l92.scatter_moe",
-     "op": "nccl_reducescatter_bf16",
+     "op": "k3_reducescatter_bf16",
      "args": [
       {
        "buf": "moe_partial"
       },
       {
        "buf": "routed_latent"
+      },
+      {
+       "buf": "rs_stage"
+      },
+      {
+       "buf": "rs_stage_peer"
+      },
+      {
+       "buf": "coll_flags"
+      },
+      {
+       "buf": "coll_flags_peer"
       },
       {
        "expr": {
@@ -492557,6 +496012,12 @@
          3584
         ]
        }
+      },
+      {
+       "i32": 279
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -492867,7 +496328,7 @@
        "buf": "coll_flags"
       },
       {
-       "i32": 95
+       "i32": 280
       }
      ]
     },

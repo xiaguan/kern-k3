@@ -75,7 +75,11 @@ def main():
         }]},
     }
     m["buffers"][DST]["export"] = True
-    m["buffers"]["coll_flags"] = {"dtype": "u64", "shape": [n + 1], "kind": "workspace", "export": True}
+    # grow only: scripts/gen_collectives_rs.py adds slots to the same table, and
+    # either script may be replayed on a manifest the other has already touched
+    nflag = max(m["buffers"].get("coll_flags", {}).get("shape", [0])[0], n + 1)
+    m["buffers"]["coll_flags"] = {"dtype": "u64", "shape": [nflag], "kind": "workspace",
+                                  "export": True}
     m["buffers"]["coll_flags_peer"] = {"dtype": "u64", "shape": [tp], "kind": "peer",
                                        "of": "coll_flags", "group": "tp"}
     m["buffers"][DST + "_peer"] = {"dtype": "u64", "shape": [tp], "kind": "peer",
@@ -95,7 +99,7 @@ def main():
             c["args"][6] = {"i32": slot}
 
     init = {"label": "coll_init", "op": "k3_flags_init",
-            "args": [{"buf": "coll_flags"}, {"i32": n + 1}]}
+            "args": [{"buf": "coll_flags"}, {"i32": nflag}]}
     load_calls = m["programs"]["load"]["calls"]        # in place, so re-running is a no-op
     load_calls[:] = [c for c in load_calls if c["op"] != "k3_flags_init"]
     load_calls.insert(0, init)
