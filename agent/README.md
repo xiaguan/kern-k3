@@ -1,6 +1,6 @@
 # Humanize optimization
 
-Humanize drives DeepSeek Harness through the SDK it ships with (the runtime is bundled in the image; no `dsh` CLI needed). The only login is a DeepSeek API key, passed as `DEEPSEEK_API_KEY` (and optionally `DEEPSEEK_BASE_URL`) from an env file the container reads at creation. Model: `deepseek-v4-pro`, effort: `max`.
+Humanize drives DeepSeek Harness through the SDK it ships with (the runtime is bundled in the image; no `dsh` CLI needed). The only login is a DeepSeek API key, passed as `DEEPSEEK_API_KEY` (and optionally `DEEPSEEK_BASE_URL`) from an env file the container reads at creation. Model: `deepseek-v4-flash`, effort: `max`.
 
 Read [TASK.md](TASK.md) before launching. Each round makes one optimization attempt. No automatic push. Prepared with Humanize revision `413d02e44d0cc0514b9f5bd3fcefea156b047a49` (`hmz 0.1.0`) and Claude Code `2.1.276`.
 

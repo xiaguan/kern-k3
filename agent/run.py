@@ -13,10 +13,10 @@ def main():
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     os.chdir(root)
-    agent = DshAgent(DshAgentConfig(model="deepseek-v4-pro", effort="max", goals=False))
+    agent = DshAgent(DshAgentConfig(model="deepseek-v4-flash", effort="max", goals=False))
     runner = Runner(root / "agent/flow.py", [agent], {"rounds": args.rounds})
     if args.check:
-        print("Valid: DeepSeek Harness, deepseek-v4-pro, max; no model request sent")
+        print("Valid: DeepSeek Harness, deepseek-v4-flash, max; no model request sent")
         return
     runner.run((root / "agent/TASK.md").read_text())
 
