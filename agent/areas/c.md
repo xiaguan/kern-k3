@@ -11,3 +11,9 @@ add + rms + fp8/nvfp4 输出做在一个核里；按 (C, tokens) 选几何的框
 normed（peer 地址，TMA 走 NVLink；d 的 *_peer buffer / coll_flags 机制，source/k3_collectives.cu），前面一个小核
 等对方的 ready flag，gather_normed 这个 call 就没了。GEMM 消耗 A 只有 170 GB/s，链路藏得住；先实测 cuBLASLt 读
 peer 内存的速率。
+
+**TensorRT-LLM 里正对着你这段的核**（记录目录/deps/tensorrt-llm/cpp/tensorrt_llm/kernels）：
+* `fusedGatedRMSNormQuant/`（SiLU 门 + group RMSNorm + 量化一核，Nemotron-H 的 NVFP4 路径）、`groupRmsNormKernels/`、
+  `rmsnormKernels.cu`、`fusedLayernormKernels/`：门控 + norm + 落地的融合结构，对着我们 land_situ_rms / lat_norm /
+  land_add2 看它怎么排一行的两遍。量化那半是 b 的，结构可以借。
+* `dsv3MinLatencyKernels/dsv3FusedAGemm.cu`：小 N GEMM 融合的写法。

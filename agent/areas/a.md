@@ -28,3 +28,10 @@ K2 的大半（52 ms/rank 里估计 −25 到 −35），比继续调 vLLM 那�
 形状准备的。(3) 它们的 initial/final state 是 bf16，我们的 span_state 是 f32：只影响 decode 接续那一处，由
 judge 的 decode 位置判。K2 的瓶颈是 mma.sync 的发射，不是 workspace 字节（去掉全部 K1 workspace 拷贝只值
 3.3 ms），收益来自 tcgen05 和 chunk 16→32 把串行深度减半。
+
+**TensorRT-LLM 里正对着你这段的核**（记录目录/deps/tensorrt-llm/cpp/tensorrt_llm/kernels）：
+* `kdaDecode/kdaDecode.cu`：K3 KDA 的 decode 步，门、beta、状态更新的约定可以拿来核对 FlashInfer 版本；只是 decode。
+* `flashMLA/`（sm90 FlashMLA 源码，wgmma 不是 tcgen05）、`mlaChunkedPrefill.cu`、`mlaKernels.cu`：MLA prefill 的
+  结构；我们的 mla_fmha 是 trtllm-gen 的 fmha cubin，`contextFusedMultiHeadAttention/` 是它的 dispatcher，
+  `trtllmGenKernels/fmha/KernelRunner.h` 能看到有哪些 fmha 变体（cubin 不在树里）。
+* `deepseekV4QNormKernel.cu`：q norm 融合。

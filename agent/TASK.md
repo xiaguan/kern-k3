@@ -92,6 +92,10 @@ FlashInfer 源码在 /opt/flashinfer（6870e3ff，2026-09-21，只读；镜像�
 来零收益；csrc/cake_moe_finalize_allreduce_fusion 是 hidden=7168 的 allreduce + 残差 + norm，我们的 finalize
 出的是 [tokens, 3584] 的 latent 再 reduce-scatter，宽度、归约方式、norm 位置都不同。机制可以抄，核不能换。
 
+TensorRT-LLM 的 kernel 源码在 记录目录/deps/tensorrt-llm/cpp/tensorrt_llm/kernels（5b07ab8b，2026-09-21，只读，
+只有源码不能编整库）。它有专门为 K3 写的核，命名就带 kimiK3 / kda / deepseek，各分区该看的入口在"你的分区"里。
+trtllmGenKernels/{batchedGemm,fmha,gemm} 只有 runner 头文件，核本身是不开源的 cubin，我们的 moe_fc1/fc2 和
+mla_fmha 就是它们的产物，那里没有可抄的东西。
 参考：/opt/kern-eval/reference.json（初始 manifest）和 /opt/kern-eval/reference.parquet
 （默认 manifest 在语料上的分布，在本镜像内录制）。
 

@@ -34,3 +34,14 @@ csrc/cake_moe_finalize_allreduce_fusion/（lamport 缓冲和 cluster DSMEM 的�
 count、每线程向量数、slot 偏移这些同样是固定形状，能一起变常量的就一起变（`static_assert` 卡住不匹配的形状），
 kernel 里 `if (nranks != NR) return;` 保底。目标是 rs_pull 主循环里没有一条 MUFU / I2F / F2I，四个 peer 的
 LD.E.128 背靠背发射。
+
+**TensorRT-LLM 里正对着你这段的核**（记录目录/deps/tensorrt-llm/cpp/tensorrt_llm/kernels）：
+* `kimiK3AttnRes/attnResFwdPersistentFused.cu`（契约在 attnResFwd.h）：K3 的 attention-residual 前向，就是我们的
+  `kern_k3_attnres_rms`（res_in / res_mlp）。持久网格一 SM 一 CTA 循环 token、warp 特化、cp.async.bulk + mbarrier
+  流水、score projection 走 tcgen05、尾部 RMSNorm 和残差加都折进去；H=7168、N∈[2,9]，B=1 T≤16384 正好是我们的形状。
+  我们 res_in 融合前的算术部分 97 us/call、res_mlp 128 us/call；push 部分是链路地板，算术部分能压多少就是收益上限，
+  先量 res_mlp（没有 push 的那个）。
+* `communicationKernels/allReduceFusionKernels.cu`、`userbuffers/userbuffers.cu`、`ll128Proto.cuh`：NVLink push
+  协议、flag 和 LL128 的写法，和 FlashInfer cake 的 barrier 对照着看。
+* `cutlass_kernels/allreduce_gemm/kernel/sm100_gemm_allreduce_tma_warpspecialized.hpp`：通信写在 GEMM epilogue 里
+  的 CUTLASS 版本；我们 dense GEMM 走 cuBLASLt 不能改 epilogue，只看它怎么排 rank 间的写。
