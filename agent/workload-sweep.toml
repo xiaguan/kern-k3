@@ -1,0 +1,6 @@
+samples = 6
+seed = 24301
+
+[[sweep]]
+rows = [4096, 8192, 16384]
+context = [0]

@@ -26,6 +26,8 @@ manifest 上再跑一遍不出错、不再改），需要的 cubin 已经在 bui
    没有 STATE.md 就 bench16k 默认 manifest 建一个。
 2. 写下假设，生成独立的候选 JSON 和 cubin。
 3. bench16k 候选。收益接近噪声（约 1 ms）就交替复测 baseline 和候选；没有收益则放弃。
+   探针也算候选：任何要拿数字做决定的探针 manifest，先 test16k 和默认比一遍再看时间——
+   算错、漏算的核一定更快，没有比特对照的探针数字不作数。
 4. judge16k CANDIDATE.json REPORT.json：探索期加 --prompts 8，提交前跑全部 48 段。
    只有 PASS 算通过；INCONCLUSIVE 不算；FAIL 记录下来，不改参考、不改规则。
    参考里有两个 producer：默认 manifest，和只把 reduce-scatter 的 bf16 求和顺序换掉的同一个模型。
@@ -74,8 +76,10 @@ FlashKDA（source/flash-kda-vllm，CUTLASS 在 /opt/cutlass）：
 prebuilt/<模块名>.cubin 并用 prebuilt = 指向它（compose 收 source/、prebuilt/、generator、kernels.toml、manifest）。
 没有源码的模块：moe_fc1 / moe_fc2（trtllm-gen 的 batched GEMM cubin）和 mla_fmha（TRT-LLM fmha cubin），
 它们只能整体替换（换成别的 cubin 或自己写的核），改不了内部。dense GEMM 走 cuBLASLt，同理。
-形状全是固定的（16384 tokens、4 rank、每 rank 的 head 数和宽度），把它们作为 constexpr / 模板参数交给编译器，
-而不是从 op params 里在运行时读：运行时的 nranks / count / stride 会变成软件除法、边界分支和无法展开的循环，
+模型和部署的常量（4 rank、每 rank 的 head 数、宽度、专家数）是固定的，把它们作为 constexpr / 模板参数交给编译器，
+而不是从 op params 里在运行时读；**token 数不是常量**：评测只跑 16384，但 judge 的语料是各种长度的 prompt，
+之后还要在 4k / 8k 上跑，grid 必须仍是 tokens 的函数，核不许假设 rows = 16384 或 4096。
+运行时的 nranks / count / stride 会变成软件除法、边界分支和无法展开的循环，
 常量则让编译器把 hop 展开成直线、地址算成立即数、循环完全展开。一个 source 可以编出多个模块：kernels.toml
 每个条目自己的 defines（如 `defines = { HEADS = 24 }`、`{ EP_RANKS = 4, EP_STRIDED = 1 }`）经 build.py 变成
 -D，不同形状各编一份 cubin、各起一个模块名，op 按形状选模块。签名里的运行时参数可以保留但不再参与地址
