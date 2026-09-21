@@ -12,7 +12,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--out", default=pathlib.Path(__file__).with_name("corpus.json"))
 ap.add_argument("--chars", type=int, default=6000, help="characters per prompt")
 ap.add_argument("--prompts", type=int, default=48)
-ap.add_argument("--decode", type=int, default=16, help="positions fed one at a time at each prompt's tail")
+ap.add_argument("--tail", type=int, default=16, help="positions per prompt fed one token at a time")
 ap.add_argument("--seed", type=int, default=7)
 ap.add_argument("--exclude", nargs="*", default=["tray0", "tray1", "pod4", "/mnt/", "/home/"], help="drop a piece containing any of these")
 ap.add_argument("sources", nargs="+", help="files or directories (*.md, *.rs, *.py, *.txt, license texts)")
@@ -48,5 +48,5 @@ for src, text in pieces:
     last = src
     if len(chosen) == a.prompts:
         break
-json.dump({"decode": a.decode, "prompts": chosen}, open(a.out, "w"), ensure_ascii=False, indent=0)
-print(f"{len(chosen)} prompts of {a.chars} chars, decode {a.decode} -> {a.out}")
+json.dump({"tail": a.tail, "prompts": chosen}, open(a.out, "w"), ensure_ascii=False, indent=0)
+print(f"{len(chosen)} prompts of {a.chars} chars, tail {a.tail} -> {a.out}")
