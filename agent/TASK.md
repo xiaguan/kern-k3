@@ -69,6 +69,10 @@ FlashKDA（source/flash-kda-vllm，CUTLASS 在 /opt/cutlass）：
 所以先用 test16k 证明重编版比特相同，再改算法；kernels.toml 里用 build = 记这个脚本。
 没有源码的模块：moe_fc1 / moe_fc2（trtllm-gen 的 batched GEMM cubin）和 mla_fmha（TRT-LLM fmha cubin），
 它们只能整体替换（换成别的 cubin 或自己写的核），改不了内部。dense GEMM 走 cuBLASLt，同理。
+看 SASS：cuobjdump -sass build/<模块>.cubin（或 nvdisasm）。sm_103a 的指令表在 isa/sm103a.json
+（社区逆向的 Blackwell ISA 库，见 isa/README.md）：每条指令形式的流水线、延迟、吞吐、stall 规则和
+编码。判断一个核是被哪条流水线、哪段依赖链卡住，或者核对编译器生成的指令是不是预期的时候用它；
+文件 38 MB，用 python 按 base_op 查，别整个读进上下文。
 长命令用 bash 工具的后台 job 跑，同时看别的。
 
 参考：/opt/kern-eval/reference.json（初始 manifest）和 /opt/kern-eval/reference.parquet
