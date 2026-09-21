@@ -175,3 +175,11 @@ source = "source/k3_residual_push.cu"
 sha256 = "1084e9cd81b267f7c9bf45e7afd509bab6294b1f9f1f63ffbe7d8a8bb2759d34"
 source = "source/k3_reducescatter_pull_nr4.cu"
 defines = { NR = 4, ORDER = 6 }
+
+[kernels."flash_kda_vllm_d128_sw128"]
+sha256 = "3e4387a63b702105faace3f784895dc2b5c65cfa0b8e1acbbb9595ffcc266912"
+source = "source/flash-kda-vllm/kern_flash_kda.cu"
+build = "source/flash-kda-vllm/build.sh"
+defines = { K3_V_SW128 = 1 }
+prebuilt = "prebuilt/flash_kda_vllm_d128_sw128.cubin"
+upstream = "https://github.com/vllm-project/FlashKDA/tree/b59532f1f464fbd536272780e30df5bf6a2ccc02"

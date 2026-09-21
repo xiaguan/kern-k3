@@ -4,6 +4,19 @@
 
 #include "utils.cuh"
 
+// K3_V_SW128: use the 128-byte-swizzled K-major atom for the value tile and
+// the output tile that shares its layout, instead of the interleaved atom.
+// The interleaved atom's inner run is 128 bits, so the tensor-map box for a
+// 16x64 bf16 tile is 8 elements wide in D and the tile costs eight 256-byte
+// TMA operations in each direction; with the swizzled atom the inner run is
+// 128 bytes, the box is the whole 64-column tile, and each direction is one
+// 2 KB operation.  The elements, the MMA reads and the rounding are unchanged.
+// The box width and swizzle mode are part of the tensor map, so they have to
+// follow this layout (see scripts/gen_flash_kda_sw128_layout.py).
+#ifndef K3_V_SW128
+#define K3_V_SW128 0
+#endif
+
 template <int D, int CHUNK = 16, int VD = D>
 struct K2Layouts {
     using MMALayout = decltype(tile_to_shape(
@@ -16,11 +29,19 @@ struct K2Layouts {
         make_shape(Int<D>{}, Int<CHUNK>{}),
         LayoutRight{}
     ));
+#if K3_V_SW128
+    using VOLayout = decltype(tile_to_shape(
+        GMMA::Layout_K_SW128_Atom<cute::bfloat16_t>{},
+        make_shape(Int<CHUNK>{}, Int<VD>{}),
+        LayoutLeft{}
+    ));
+#else
     using VOLayout = decltype(tile_to_shape(
         GMMA::Layout_K_INTER_Atom<cute::bfloat16_t>{},
         make_shape(Int<CHUNK>{}, Int<VD>{}),
         LayoutLeft{}
     ));
+#endif
     using BetaSmemLayout = Layout<Shape<Int<32>>, Stride<Int<1>>>;
     using StateSmemLayout = decltype(tile_to_shape(
         GMMA::Layout_K_INTER_Atom<cute::bfloat16_t>{},
@@ -77,7 +98,8 @@ struct SharedStorageK2 {
     alignas(128) cute::ArrayEngine<BF16, cute::cosize_v<StateSmemLayout>> state_acc;
 
     struct InputStorage {
-        alignas(128) cute::ArrayEngine<BF16, cute::cosize_v<VOLayout>> v;
+        // the swizzled value layout is addressed by the TMA in 1 KB units
+        alignas(K3_V_SW128 ? 1024 : 128) cute::ArrayEngine<BF16, cute::cosize_v<VOLayout>> v;
         alignas(128) cute::ArrayEngine<BF16, cute::cosize_v<BetaSmemLayout>> beta;
         alignas(128) cute::ArrayEngine<BF16, cute::cosize_v<MMALayout>> k_decayed;
         alignas(128) cute::ArrayEngine<BF16, cute::cosize_v<MMALayout>> q_decayed;
@@ -88,7 +110,7 @@ struct SharedStorageK2 {
     };
 
     struct OutputStorage {
-        alignas(128) cute::ArrayEngine<BF16, cute::cosize_v<VOLayout>> out;
+        alignas(K3_V_SW128 ? 1024 : 128) cute::ArrayEngine<BF16, cute::cosize_v<VOLayout>> out;
     };
 
     // Anonymous union: pipeline buffers share space with fp32 state conversion buffer.
