@@ -28,3 +28,9 @@ csrc/cake_moe_finalize_allreduce_fusion/（lamport 缓冲和 cluster DSMEM 的�
 链路上限按 900 GB/s 单向算（你自己测的远端 store 上限 ~625），不是 1.8 TB/s：reduce_attn 176 MB 的地板是
 ~200 µs，现在 340，所以第 1 条的上限约 −8 ms/rank，四条合计 −10 到 −15。每改一条：cuobjdump 数指令
 （LDL/STL 必须为 0）、`test16k` 比特相同、再 bench。先做第 1 条。
+
+第 1 条的具体做法：不要在源码里写死 4，而是 `template <int NR>` 或 `#ifndef NR` 的 constexpr，kernels.toml 里
+`defines = { NR = 4 }` 编成新模块（如 `k3_reducescatter_pull_nr4`），rs_pull / rs_arrive / allgather4_push 一起改：
+count、每线程向量数、slot 偏移这些同样是固定形状，能一起变常量的就一起变（`static_assert` 卡住不匹配的形状），
+kernel 里 `if (nranks != NR) return;` 保底。目标是 rs_pull 主循环里没有一条 MUFU / I2F / F2I，四个 peer 的
+LD.E.128 背靠背发射。

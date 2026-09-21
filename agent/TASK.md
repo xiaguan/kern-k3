@@ -69,6 +69,12 @@ FlashKDA（source/flash-kda-vllm，CUTLASS 在 /opt/cutlass）：
 所以先用 test16k 证明重编版比特相同，再改算法；kernels.toml 里用 build = 记这个脚本。
 没有源码的模块：moe_fc1 / moe_fc2（trtllm-gen 的 batched GEMM cubin）和 mla_fmha（TRT-LLM fmha cubin），
 它们只能整体替换（换成别的 cubin 或自己写的核），改不了内部。dense GEMM 走 cuBLASLt，同理。
+形状全是固定的（16384 tokens、4 rank、每 rank 的 head 数和宽度），把它们作为 constexpr / 模板参数交给编译器，
+而不是从 op params 里在运行时读：运行时的 nranks / count / stride 会变成软件除法、边界分支和无法展开的循环，
+常量则让编译器把 hop 展开成直线、地址算成立即数、循环完全展开。一个 source 可以编出多个模块：kernels.toml
+每个条目自己的 defines（如 `defines = { HEADS = 24 }`、`{ EP_RANKS = 4, EP_STRIDED = 1 }`）经 build.py 变成
+-D，不同形状各编一份 cubin、各起一个模块名，op 按形状选模块。签名里的运行时参数可以保留但不再参与地址
+计算。改完用 cuobjdump 确认软件除法（MUFU.RCP / I2F / F2I 组合）和 LDL/STL 消失。
 看 SASS：cuobjdump -sass build/<模块>.cubin（或 nvdisasm）。sm_103a 的指令表在 isa/sm103a.json
 （社区逆向的 Blackwell ISA 库，见 isa/README.md）：每条指令形式的流水线、延迟、吞吐、stall 规则和
 编码。判断一个核是被哪条流水线、哪段依赖链卡住，或者核对编译器生成的指令是不是预期的时候用它；
