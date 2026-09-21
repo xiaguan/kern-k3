@@ -81,7 +81,7 @@ def replay(commit, out_dir):
         return {"commit": commit, "subject": subject, "status": "skipped", "why": f"{len(gens)} generator scripts touched, {len([g for g in gens if g in added])} added"}
     # only what the manifest needs to be reproduced: kernel sources, the generators, the kernel entries;
     # a branch's README, check harnesses and probes stay in its own record
-    taken = [f for f in files if f.startswith("source/")] + gens
+    taken = [f for f in files if f.startswith(("source/", "prebuilt/"))] + gens
     dropped = [f for f in files if f not in taken and not f.startswith("manifests/") and f != "kernels.toml"]
     sh("git", "checkout", commit, "--", *taken)
     new_kernels = union_kernels(commit) if "kernels.toml" in files else []
@@ -134,7 +134,7 @@ def replay(commit, out_dir):
     note = Path(NOTES, f"{commit[:7]}.md") if NOTES else None
     trail = f"\n\n{note.read_text().strip()}" if note and note.exists() else ""
     message = f"{subject}\n\n{body}{trail}\n\nComposed onto main from {commit[:7]}: {numbers}"
-    sh("git", "add", "-A", "--", "source", "scripts", "kernels.toml", "manifests")
+    sh("git", "add", "-A", "--", "source", "prebuilt", "scripts", "kernels.toml", "manifests")
     sh("git", "commit", "-q", "-s", "-m", message)
     return {"commit": commit, "subject": subject, "status": "adopted", "numbers": numbers, "new_kernels": new_kernels, "dropped": dropped, "main": sh("git", "rev-parse", "--short", "HEAD")}
 

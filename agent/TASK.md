@@ -42,6 +42,10 @@ manifest 上再跑一遍不出错、不再改），需要的 cubin 已经在 bui
    顶掉。未采纳的候选不进仓库，只留在记录目录，工作树回到干净状态；回滚只撤自己的改动。
 6. 更新 STATE.md。
 
+`coll_flags` 的槽位是四个分区共用的一张表，没有中央登记：新集合通信要用的槽一律从**当前**默认 manifest 的
+`coll_flags` shape 末尾取（generator 读 shape N，用 N..N+k-1，shape 改成 N+8 对齐），槽号作为 i32 launch
+参数传进内核，不 #define 在源码里、不在 generator 里断言具体数字——别人的改动先进 main 时你的槽就不再是那个数。
+
 没有人在线回答问题。拿不准的按上面的规则自己定；评测入口本身像坏了就记录下来换个靶，别修它。
 
 GPU 是四个 agent 共用的一套。**任何用 GPU 的命令都必须经过 withgpu**：bench16k / judge16k / test16k
@@ -66,7 +70,8 @@ kernels.toml 记每个模块的 sha256 / source / defines；python3 scripts/chec
 FlashKDA（source/flash-kda-vllm，CUTLASS 在 /opt/cutlass）：
   CUTLASS_INCLUDE=/opt/cutlass/include bash source/flash-kda-vllm/build.sh build/<新模块名>.cubin
 不改源码重编出来的 SASS 和钉住的 cubin 完全一致，但 sha 不同（nvcc 给匿名命名空间加了进程号），
-所以先用 test16k 证明重编版比特相同，再改算法；kernels.toml 里用 build = 记这个脚本。
+所以先用 test16k 证明重编版比特相同，再改算法；kernels.toml 里用 build = 记这个脚本，cubin 提交到
+prebuilt/<模块名>.cubin 并用 prebuilt = 指向它（compose 收 source/、prebuilt/、generator、kernels.toml、manifest）。
 没有源码的模块：moe_fc1 / moe_fc2（trtllm-gen 的 batched GEMM cubin）和 mla_fmha（TRT-LLM fmha cubin），
 它们只能整体替换（换成别的 cubin 或自己写的核），改不了内部。dense GEMM 走 cuBLASLt，同理。
 形状全是固定的（16384 tokens、4 rank、每 rank 的 head 数和宽度），把它们作为 constexpr / 模板参数交给编译器，
