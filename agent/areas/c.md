@@ -18,26 +18,24 @@ peer 内存的速率。
   land_add2 看它怎么排一行的两遍。量化那半是 b 的，结构可以借。
 * `dsv3MinLatencyKernels/dsv3FusedAGemm.cu`：小 N GEMM 融合的写法。
 
-**分区调整（2026-09-21）：fc1 / fc2 的 GEMM 核从 b 划给你。** 你自己的判断是 dense 段已经榨干（cuBLASLt 的墙、
-落地核都在噪声带内），而图里最大的一块可动项在 MoE 的两个 batched GEMM：`moe_fc1` / `moe_fc2` 合计约 1476 us/层/rank，
-占图 21%，b 量到它们跑在 3.0–3.3 PF，对 fp8 上限 4.48 PF 还差 25–30%，其中 dynamic-batch 的 padding 就值 13.7 ms。
-b 继续管 router / 路由表 / moe_quant / finalize / land，只把这两个 op 的 GEMM 本体交给你；moe_quant 出的激活格式和
-权重格式都不许动（权重是 checkpoint 的一部分）。
-
+**分区调整（2026-09-21）：`moe_fc2` 的 GEMM 核划给你**（fc1 归 b，两人并行）。你的 dense 段按你自己的结论已到墙，
+而 MoE 的两个 batched GEMM 是图里最大的可动项（合计 1476 us/层/rank，21%）。fc2 更简单（无 gate 融合、bf16 输出），
+CUTLASS 探针由你先写，b 复用。
 事实（从默认 manifest 的 ops.moe_fc1 / moe_fc2 和 kernels.toml 读）：两个核都是 trtllm-gen 的 cubin
 （`bmm_MxE4m3_MxE2m1MxE4m3_…siTuGlu…` 和 `bmm_Bfloat16_MxE2m1MxE4m3_…`），激活 MxE4m3（fp8，32 元素一个 E8M0 scale），
 **权重 MxE2m1（NVFP4，u4 tensormap，每 rank 56 个专家）**，tile 128x128x256、cluster 2x1x1、384 线程、smem 215–228 KB，
-fc1 融了 siTuGlu 与 fCp，fc2 出 bf16；网格按 `ceil(tokens*16/128)+56` 的 dynamic batch 展开，参数是一个 17472 字节的
-pack（tensormap + 路由表指针）。ABI 全在 manifest 里，用 python 把 pack 的 fields 打出来读。
+fc1 融了 siTuGlu 与输出的 fp8 量化（fCp），fc2 出 bf16；网格按 `ceil(tokens*16/128)+56` 的 dynamic batch 展开，参数是
+一个 17472 字节的 pack（tensormap + 路由表指针），用 python 把 pack 的 fields 打出来读。b 量到的：3.0–3.3 PF 对
+fp8 上限 4.48 PF，dynamic-batch 的 padding 值 13.7 ms，pdl 不可用。激活格式（moe_quant 的输出）和权重格式（checkpoint）
+都不许动。
 
-做法（先量后写，不许先整合）：
-1. 探针：用 CUTLASS（/opt/cutlass，examples/92_blackwell_moe_gemm、75_blackwell_grouped_gemm 的 block-scaled 变体、
-   89_sm103_fp4_ultra_gemm）写一个独立的 grouped GEMM 探针，A = MxE4m3、B = MxE2m1、block-32 scale，
-   tcgen05 `kind::mxf8f6f4`，按我们真实的 per-expert 行数分布（从 moe.blockcount / route_map 读一次真实路由）
-   跑 fc2 的形状，报 TF；对照 trtllm-gen 的 3.0–3.3 PF。达不到 3.5 PF 以上就写下结论停手。
-2. 达到了，再对 ABI：接同一份 route_map / cta_batch / total_padded，输出布局比特相同或 test16k 可解释，
-   fc2 先于 fc1（fc1 还要融 siTuGlu 和 fp8 输出量化）。
-3. padding 那 13.7 ms：持久核按 work item 循环（TensorRT-LLM `cuda_graph_grouped_gemm.cu`，problem size
-   从 device 读），或者 tile 沿 M 变小；`moe.cta_batch` / `moe.cta_limit` 的含义看 b 的 route_tables 核。
-TensorRT-LLM 的 `moe/cutlass/`（sm100 TMA warp-specialized，`moe_gemm_template_dispatch_tma_ws.h`）是现成的参考
-结构，但它的 fp8 路径是 per-expert scale，不是 MX，scale 处理要看 CUTLASS 的 block-scaled builder。
+源码都给了：CUTLASS /opt/cutlass 的 examples/92_blackwell_moe_gemm（`_blockscaled_rcgrouped.cu`、`_fp4_grouped.cu`）、
+75_blackwell_grouped_gemm_block_scaled.cu、89_sm103_fp4_ultra_gemm.cu（tcgen05 `kind::mxf8f6f4` 的 block-scaled
+builder 就在这些例子里）；TensorRT-LLM 的 `moe/cutlass/`（sm100 TMA warp-specialized grouped GEMM 的整套 dispatch，
+但它的 fp8 路径是 per-expert scale 不是 MX）和 `cuda_graph_grouped_gemm.cu`（problem size 从 device 读、按 work item
+循环，是吃掉 padding 的那种结构）。
+
+做法（先量后写）：先用 CUTLASS 写独立的 block-scaled grouped GEMM 探针，A = MxE4m3、B = MxE2m1、block-32 scale，
+按真实的 per-expert 行数分布（从 moe.blockcount / route_map 读一次真实路由）跑自己那个 op 的形状，报 TF 对照 3.0–3.3 PF；
+达不到 3.5 PF 就写下结论停手。达到了再对 ABI：接同一份 route_map / cta_batch / total_padded，输出比特相同或
+test16k 可解释。探针是两人共用的，先写出来的放自己的记录目录，另一个人直接读结果不重做。
