@@ -199,3 +199,8 @@ upstream = "https://github.com/vllm-project/FlashKDA/tree/b59532f1f464fbd5362727
 [kernels.k3_residual_push_v3]
 sha256 = "399d1d982e3011ca8aa05c115394ad68d432fa18b5dd12db94ac22baaf577535"
 source = "source/k3_residual_push_v3.cu"
+
+[kernels."k3_mla_prep_bf16+INNER=3072+MLA_FUSED=5184"]
+sha256 = "1b65a4461f703410e8147898762109cff446ac2e286141c4ae5d0ebcc76d4d75"
+source = "source/k3_mla_prep_bf16.cu"
+defines = { INNER = 3072, MLA_FUSED = 5184 }
