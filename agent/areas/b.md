@@ -22,3 +22,8 @@ source/k3_collectives.cu），后面的 landing 按固定顺序加四个 slot，
   `dsv3MinLatencyKernels/dsv3RouterGemm.cu`：N=256 的 router GEMM 当带宽核写（kNumTokens 模板），是 decode 形状，
   prefill 下只参考它的归约布局。
 * `moe/communication/moeAllReduceFusionKernels.cu`：finalize + 归约融合的另一种结构。
+
+**分区调整（2026-09-21）：`moe_fc1` / `moe_fc2` 的 GEMM 本体划给 c**（c 的 dense 段已到墙，你这边 finalize / land /
+路由还在出活）。你继续管 router、路由表、moe_quant、finalize、land 和它们之间的 buffer；fc1 / fc2 的 cubin 替换、
+tile / grid 由 c 做。你已量到的事实（3.0–3.3 PF 对 4.48、padding 13.7 ms、pdl 不可用）写在你的 STATE 里，c 会读。
+两边接口不变：moe_quant 的输出格式和 route_tables 的表是契约。
