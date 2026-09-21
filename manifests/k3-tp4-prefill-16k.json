@@ -315,7 +315,7 @@
    "kind": "workspace"
   },
   "kda_partial": {
-   "dtype": "f32",
+   "dtype": "bf16",
    "shape": [
     "tokens",
     12288
@@ -398111,17 +398111,17 @@
    "source": "k3_residual_v2+LAND_BF16=1.cubin",
    "sha256": "828465bbc084becdb8a73f5223a68a264c52dfe9858820bc0adcafbf7168809f"
   },
-  "k3_kda_out_gate_v2+HEADS=24": {
-   "source": "k3_kda_out_gate_v2+HEADS=24.cubin",
-   "sha256": "f4363edfc6d1eb44d9326610ea800ecfc9a3b6f360db97871e639cdf45b592d6"
-  },
-  "k3_span_gather_v2+HEADS=24": {
-   "source": "k3_span_gather_v2+HEADS=24.cubin",
-   "sha256": "8a20953c81db7bfd8ab5dc5c6eb36e899fb2441a02041b5c5590896d018a2292"
-  },
   "flash_kda_vllm_d128": {
    "source": "flash_kda_vllm_d128.cubin",
    "sha256": "3c295e1019958dc606d21852c26b8f1c57ac1267b94b146b29dd18f7857f7018"
+  },
+  "k3_span_gather_v3+HEADS=24": {
+   "source": "k3_span_gather_v3+HEADS=24.cubin",
+   "sha256": "d5e4aa72745cd207eec897a783ae3affc25e0334372caf443b6e01f9fe41102f"
+  },
+  "k3_kda_out_gate_v3+HEADS=24": {
+   "source": "k3_kda_out_gate_v3+HEADS=24.cubin",
+   "sha256": "9e1de0c40f58bd748e604efcabee8d8c535b9a60a0e28adb2ce942dcacdbf069"
   }
  },
  "ops": {
@@ -401295,7 +401295,7 @@
   "kda_out_gate_v2": {
    "params": [
     "in buffer<bf16>",
-    "in buffer<f32>",
+    "in buffer<bf16>",
     "in buffer<f32>",
     "out buffer<bf16>",
     "in buffer<i32>",
@@ -401304,7 +401304,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_kda_out_gate_v2+HEADS=24",
+      "module": "k3_kda_out_gate_v3+HEADS=24",
       "entry": "kern_k3_kda_out_gate",
       "block": [
        128,
@@ -401322,7 +401322,7 @@
   },
   "span_gather_v2": {
    "params": [
-    "in buffer<f32>",
+    "in buffer<bf16>",
     "in buffer<f32>",
     "inout state",
     "in buffer<i32>",
@@ -401338,10 +401338,10 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_span_gather_v2+HEADS=24",
+      "module": "k3_span_gather_v3+HEADS=24",
       "entry": "kern_k3_span_gather",
       "params": [
-       "in buffer<f32>",
+       "in buffer<bf16>",
        "in buffer<f32>",
        "inout state",
        "in buffer<i32>",
@@ -401569,7 +401569,7 @@
     },
     {
      "label": "l0.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -402075,7 +402075,7 @@
     },
     {
      "label": "l1.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -403056,7 +403056,7 @@
     },
     {
      "label": "l2.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -404983,7 +404983,7 @@
     },
     {
      "label": "l4.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -405964,7 +405964,7 @@
     },
     {
      "label": "l5.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -406945,7 +406945,7 @@
     },
     {
      "label": "l6.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -408872,7 +408872,7 @@
     },
     {
      "label": "l8.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -409853,7 +409853,7 @@
     },
     {
      "label": "l9.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -410834,7 +410834,7 @@
     },
     {
      "label": "l10.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -412761,7 +412761,7 @@
     },
     {
      "label": "l12.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -413742,7 +413742,7 @@
     },
     {
      "label": "l13.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -414723,7 +414723,7 @@
     },
     {
      "label": "l14.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -416650,7 +416650,7 @@
     },
     {
      "label": "l16.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -417631,7 +417631,7 @@
     },
     {
      "label": "l17.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -418612,7 +418612,7 @@
     },
     {
      "label": "l18.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -420539,7 +420539,7 @@
     },
     {
      "label": "l20.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -421520,7 +421520,7 @@
     },
     {
      "label": "l21.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -422501,7 +422501,7 @@
     },
     {
      "label": "l22.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -424428,7 +424428,7 @@
     },
     {
      "label": "l24.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -425409,7 +425409,7 @@
     },
     {
      "label": "l25.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -426390,7 +426390,7 @@
     },
     {
      "label": "l26.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -428317,7 +428317,7 @@
     },
     {
      "label": "l28.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -429298,7 +429298,7 @@
     },
     {
      "label": "l29.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -430279,7 +430279,7 @@
     },
     {
      "label": "l30.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -432206,7 +432206,7 @@
     },
     {
      "label": "l32.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -433187,7 +433187,7 @@
     },
     {
      "label": "l33.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -434168,7 +434168,7 @@
     },
     {
      "label": "l34.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -436095,7 +436095,7 @@
     },
     {
      "label": "l36.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -437076,7 +437076,7 @@
     },
     {
      "label": "l37.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -438057,7 +438057,7 @@
     },
     {
      "label": "l38.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -439984,7 +439984,7 @@
     },
     {
      "label": "l40.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -440965,7 +440965,7 @@
     },
     {
      "label": "l41.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -441946,7 +441946,7 @@
     },
     {
      "label": "l42.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -443873,7 +443873,7 @@
     },
     {
      "label": "l44.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -444854,7 +444854,7 @@
     },
     {
      "label": "l45.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -445835,7 +445835,7 @@
     },
     {
      "label": "l46.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -447762,7 +447762,7 @@
     },
     {
      "label": "l48.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -448743,7 +448743,7 @@
     },
     {
      "label": "l49.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -449724,7 +449724,7 @@
     },
     {
      "label": "l50.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -451651,7 +451651,7 @@
     },
     {
      "label": "l52.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -452632,7 +452632,7 @@
     },
     {
      "label": "l53.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -453613,7 +453613,7 @@
     },
     {
      "label": "l54.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -455540,7 +455540,7 @@
     },
     {
      "label": "l56.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -456521,7 +456521,7 @@
     },
     {
      "label": "l57.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -457502,7 +457502,7 @@
     },
     {
      "label": "l58.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -459429,7 +459429,7 @@
     },
     {
      "label": "l60.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -460410,7 +460410,7 @@
     },
     {
      "label": "l61.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -461391,7 +461391,7 @@
     },
     {
      "label": "l62.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -463318,7 +463318,7 @@
     },
     {
      "label": "l64.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -464299,7 +464299,7 @@
     },
     {
      "label": "l65.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -465280,7 +465280,7 @@
     },
     {
      "label": "l66.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -467207,7 +467207,7 @@
     },
     {
      "label": "l68.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -468188,7 +468188,7 @@
     },
     {
      "label": "l69.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -469169,7 +469169,7 @@
     },
     {
      "label": "l70.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -471096,7 +471096,7 @@
     },
     {
      "label": "l72.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -472077,7 +472077,7 @@
     },
     {
      "label": "l73.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -473058,7 +473058,7 @@
     },
     {
      "label": "l74.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -474985,7 +474985,7 @@
     },
     {
      "label": "l76.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -475966,7 +475966,7 @@
     },
     {
      "label": "l77.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -476947,7 +476947,7 @@
     },
     {
      "label": "l78.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -478874,7 +478874,7 @@
     },
     {
      "label": "l80.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -479855,7 +479855,7 @@
     },
     {
      "label": "l81.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -480836,7 +480836,7 @@
     },
     {
      "label": "l82.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -482763,7 +482763,7 @@
     },
     {
      "label": "l84.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -483744,7 +483744,7 @@
     },
     {
      "label": "l85.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -484725,7 +484725,7 @@
     },
     {
      "label": "l86.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -486652,7 +486652,7 @@
     },
     {
      "label": "l88.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -487633,7 +487633,7 @@
     },
     {
      "label": "l89.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"
@@ -488614,7 +488614,7 @@
     },
     {
      "label": "l90.qkvg",
-     "op": "gemm_f32",
+     "op": "gemm_bf16",
      "args": [
       {
        "buf": "normed_all"

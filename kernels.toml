@@ -122,3 +122,13 @@ source = "source/flash-kda-vllm/kern_flash_kda.cu"
 build = "source/flash-kda-vllm/build.sh"
 prebuilt = "prebuilt/flash_kda_vllm_d128.cubin"
 upstream = "https://github.com/vllm-project/FlashKDA/tree/b59532f1f464fbd536272780e30df5bf6a2ccc02"
+
+[kernels."k3_span_gather_v3+HEADS=24"]
+sha256 = "d5e4aa72745cd207eec897a783ae3affc25e0334372caf443b6e01f9fe41102f"
+source = "source/k3_span_gather_v3.cu"
+defines = { HEADS = 24 }
+
+[kernels."k3_kda_out_gate_v3+HEADS=24"]
+sha256 = "9e1de0c40f58bd748e604efcabee8d8c535b9a60a0e28adb2ce942dcacdbf069"
+source = "source/k3_kda_out_gate_v3.cu"
+defines = { HEADS = 24 }

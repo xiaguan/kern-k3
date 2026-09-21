@@ -11,7 +11,10 @@ K3 manifests and kernel sources/build instructions, used with the
   the KDA output gate on `k3_kda_out_gate_v2` (see
   [KDA output gate v2](#kda-output-gate-v2-adopted-2026-09-19)) and the KDA
   span conv + SiLU on `k3_span_gather_v2` (see
-  [Span gather v2](#span-gather-v2-adopted-2026-09-19)). FlashKDA uses the
+  [Span gather v2](#span-gather-v2-adopted-2026-09-19)). Since 2026-09-21 the
+  KDA q/k/v/gate projection lands bf16 directly, so the span conv and the
+  output gate read it through `k3_span_gather_v3` / `k3_kda_out_gate_v3` (see
+  [KDA partial lands bf16](#kda-partial-lands-bf16-adopted-2026-09-21)). FlashKDA uses the
   vLLM fork with V-split (see [FlashKDA upgrade](#flashkda-upgrade));
   the originally supplied manifest is the initial reference of the optimization
   runs and is reproducible from it with the v1 residual, output-gate and
@@ -303,6 +306,47 @@ next_token / KDA / KV states bit-identical on all ranks. The chain from the
 initial reference (residual v2 on layers 0-46 → round-1 default → output gate
 v2 on layers 0-30 → 0-61 → previous default) was rerun in the same session
 and passes as before (KL ≤ 1.39e-3, 1.61e-3, 2.38e-3, 1.35e-3, 6.47e-4).
+
+## KDA partial lands bf16 (adopted 2026-09-21)
+
+`l*.qkvg` (69 calls, the KDA q/k/v/gate projection) ran `gemm_f32`, cuBLAS
+`cublas_bf16_tn_f32` writing the f32 `kda_partial` [tokens, 12288] - 805 MB per
+call. Both of its readers rounded every element through bf16 first anyway: the
+span conv through `k9_land4` (`x_i = f32(bf16(partial[i, c]))` in
+`source/k3_span_gather_v2.cu`) and the output gate through
+`gg = f32(bf16(gate_partial[...]))` before the sigmoid. The GEMM epilogue now
+lands bf16 into the same buffer, which removes half of that buffer's write and
+of both reads with the same rounding, and the call sites keep their arguments:
+
+- `buffers.kda_partial.dtype`: f32 -> bf16;
+- the 69 `l*.qkvg` calls: `gemm_f32` -> `gemm_bf16` (same output buffer);
+- `span_gather_v2` reads `buffer<bf16>` and runs
+  [`source/k3_span_gather_v3.cu`](source/k3_span_gather_v3.cu), module
+  `k3_span_gather_v3+HEADS=24` - v2 with the `float4` partial load replaced by a
+  bf16 unpack (`k9_unpack4`), same entry, geometry, args, math and landing
+  points;
+- `kda_out_gate_v2` reads `buffer<bf16>` and runs
+  [`source/k3_kda_out_gate_v3.cu`](source/k3_kda_out_gate_v3.cu), module
+  `k3_kda_out_gate_v3+HEADS=24` - v2 with the f32 gate band load replaced by the
+  bf16 vector it produced.
+
+Measured on the TP4 16k prefill graph (slowest rank, 12 samples, seed 24301),
+alternating with the previous default: 679.865 / 679.745 / 679.849 ms (mean
+679.820) to 675.387 / 675.631 / 675.622 ms (mean 675.547), i.e. **-4.27 ms
+(-0.63%)**, consistent in all three pairs. Instrumented per-label sums over the
+four ranks: `span_gather` 44.13 -> 34.50 ms, `qkvg` 402.54 -> 397.41 ms,
+`span_out_gate` 20.37 -> 19.44 ms; every other op is unchanged within its
+run-to-run spread. The judge over the recorded reference passes on all 816
+positions with the reference's own float precision (prefill KL p50 1.2e-15, max
+4.2e-14; decode p50 2.0e-15, max 2.5e-12; 48/48 and 768/768 argmax agree) and
+the same per-position detail as the previous default, because the change only
+moves an existing bf16 round-to-nearest from the readers into the GEMM epilogue.
+`python3 scripts/gen_kda_partial_bf16.py` derives the change from the previous
+default; the v2 modules remain in `kernels.toml` and `build/` for that
+reference. A span-by-span A/B (`kern test` against the initial reference, the
+v2 route) cannot complete for this change: saving the 805 MB input of the
+changed spans runs the device out of memory, as it did for the v2 span gather,
+so the evidence is the op attribution plus the judge.
 
 ## SITU launch geometry (adopted 2026-09-21)
 
