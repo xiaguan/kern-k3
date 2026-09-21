@@ -28,6 +28,9 @@ manifest 上再跑一遍不出错、不再改），需要的 cubin 已经在 bui
 3. bench16k 候选。收益接近噪声（约 1 ms）就交替复测 baseline 和候选；没有收益则放弃。
    探针也算候选：任何要拿数字做决定的探针 manifest，先 test16k 和默认比一遍再看时间——
    算错、漏算的核一定更快，没有比特对照的探针数字不作数。
+   judge 的语料 prompt 最长约 3k token，而打分 workload 是 16384 token：凡是和 tokens 相关的改动（grid、
+   work item 数、动态 batch 的上限、按行分块）judge 不是判据，必须 `test16k --prefill 16384` 逐 span 比特对照；
+   一个在 3k 上正确、在 16k 上丢工作的 grid 会拿到 judge PASS 和一个漂亮的假收益（fc2 grid 384 踩过）。
 4. judge16k CANDIDATE.json REPORT.json：探索期加 --prompts 8，提交前跑全部 48 段。
    只有 PASS 算通过；INCONCLUSIVE 不算；FAIL 记录下来，不改参考、不改规则。
    参考里有两个 producer：默认 manifest，和只把 reduce-scatter 的 bf16 求和顺序换掉的同一个模型。
