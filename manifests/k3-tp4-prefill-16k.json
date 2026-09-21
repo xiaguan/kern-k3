@@ -398136,10 +398136,6 @@
    "source": "hf:Pegainfer/kern-kernels/blobs/040f51b01c421b9c69a2090034ff1bc4741e40c02f5ea52bd04a3e62e5c1af4d",
    "sha256": "040f51b01c421b9c69a2090034ff1bc4741e40c02f5ea52bd04a3e62e5c1af4d"
   },
-  "k3_residual_v2+LAND_BF16=1": {
-   "source": "k3_residual_v2+LAND_BF16=1.cubin",
-   "sha256": "828465bbc084becdb8a73f5223a68a264c52dfe9858820bc0adcafbf7168809f"
-  },
   "k3_span_gather_v3+HEADS=24": {
    "source": "k3_span_gather_v3+HEADS=24.cubin",
    "sha256": "d5e4aa72745cd207eec897a783ae3affc25e0334372caf443b6e01f9fe41102f"
@@ -398187,6 +398183,10 @@
   "k3_rs_arrive_v2": {
    "source": "k3_rs_arrive_v2.cubin",
    "sha256": "ed28795f20199a6440e6dbca2dff53d4d6ad70504f7588dff77c792caf0929a3"
+  },
+  "k3_residual_nb+LAND_BF16=1": {
+   "source": "k3_residual_nb+LAND_BF16=1.cubin",
+   "sha256": "3b40357e170d58bc65d4d28a8a616480132b2da4ea3fa30072956c16d33e3c87"
   }
  },
  "ops": {
@@ -400937,43 +400937,6 @@
     ]
    }
   },
-  "land_add_attnres_rms_bf16_v2": {
-   "params": [
-    "in buffer<bf16>",
-    "in buffer<bf16>",
-    "in buffer<bf16>",
-    "in buffer<f32>",
-    "in buffer<bf16>",
-    "out buffer<bf16>",
-    "out buffer<bf16>",
-    "i32",
-    "i32",
-    "i32"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "module": "k3_residual_v2+LAND_BF16=1",
-      "entry": "kern_k3_land_add_attnres_rms",
-      "block": [
-       128,
-       1,
-       1
-      ],
-      "grid": [
-       {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       },
-       1,
-       1
-      ]
-     }
-    ]
-   }
-  },
   "kda_out_gate_v2": {
    "params": [
     "in buffer<bf16>",
@@ -401776,6 +401739,302 @@
      }
     ]
    }
+  },
+  "land_add_attnres_rms_bf16_v2_nb1": {
+   "params": [
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "i32",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_residual_nb+LAND_BF16=1",
+      "entry": "kern_k3_land_add_attnres_rms_nb1",
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  "land_add_attnres_rms_bf16_v2_nb2": {
+   "params": [
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "i32",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_residual_nb+LAND_BF16=1",
+      "entry": "kern_k3_land_add_attnres_rms_nb2",
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  "land_add_attnres_rms_bf16_v2_nb3": {
+   "params": [
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "i32",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_residual_nb+LAND_BF16=1",
+      "entry": "kern_k3_land_add_attnres_rms_nb3",
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  "land_add_attnres_rms_bf16_v2_nb4": {
+   "params": [
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "i32",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_residual_nb+LAND_BF16=1",
+      "entry": "kern_k3_land_add_attnres_rms_nb4",
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  "land_add_attnres_rms_bf16_v2_nb5": {
+   "params": [
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "i32",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_residual_nb+LAND_BF16=1",
+      "entry": "kern_k3_land_add_attnres_rms_nb5",
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  "land_add_attnres_rms_bf16_v2_nb6": {
+   "params": [
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "i32",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_residual_nb+LAND_BF16=1",
+      "entry": "kern_k3_land_add_attnres_rms_nb6",
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  "land_add_attnres_rms_bf16_v2_nb7": {
+   "params": [
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "i32",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_residual_nb+LAND_BF16=1",
+      "entry": "kern_k3_land_add_attnres_rms_nb7",
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  "land_add_attnres_rms_bf16_v2_nb8": {
+   "params": [
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "out buffer<bf16>",
+    "i32",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_residual_nb+LAND_BF16=1",
+      "entry": "kern_k3_land_add_attnres_rms_nb8",
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
   }
  },
  "programs": {
@@ -402270,7 +402529,7 @@
     },
     {
      "label": "l0.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -402817,7 +403076,7 @@
     },
     {
      "label": "l1.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -403866,7 +404125,7 @@
     },
     {
      "label": "l2.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -404895,7 +405154,7 @@
     },
     {
      "label": "l3.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -405944,7 +406203,7 @@
     },
     {
      "label": "l4.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -406993,7 +407252,7 @@
     },
     {
      "label": "l5.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -408042,7 +408301,7 @@
     },
     {
      "label": "l6.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -409071,7 +409330,7 @@
     },
     {
      "label": "l7.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -410120,7 +410379,7 @@
     },
     {
      "label": "l8.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -411169,7 +411428,7 @@
     },
     {
      "label": "l9.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -412218,7 +412477,7 @@
     },
     {
      "label": "l10.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -413247,7 +413506,7 @@
     },
     {
      "label": "l11.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb1",
      "args": [
       {
        "buf": "attn_own"
@@ -414296,7 +414555,7 @@
     },
     {
      "label": "l12.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -415345,7 +415604,7 @@
     },
     {
      "label": "l13.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -416394,7 +416653,7 @@
     },
     {
      "label": "l14.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -417423,7 +417682,7 @@
     },
     {
      "label": "l15.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -418472,7 +418731,7 @@
     },
     {
      "label": "l16.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -419521,7 +419780,7 @@
     },
     {
      "label": "l17.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -420570,7 +420829,7 @@
     },
     {
      "label": "l18.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -421599,7 +421858,7 @@
     },
     {
      "label": "l19.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -422648,7 +422907,7 @@
     },
     {
      "label": "l20.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -423697,7 +423956,7 @@
     },
     {
      "label": "l21.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -424746,7 +425005,7 @@
     },
     {
      "label": "l22.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -425775,7 +426034,7 @@
     },
     {
      "label": "l23.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb2",
      "args": [
       {
        "buf": "attn_own"
@@ -426824,7 +427083,7 @@
     },
     {
      "label": "l24.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -427873,7 +428132,7 @@
     },
     {
      "label": "l25.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -428922,7 +429181,7 @@
     },
     {
      "label": "l26.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -429951,7 +430210,7 @@
     },
     {
      "label": "l27.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -431000,7 +431259,7 @@
     },
     {
      "label": "l28.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -432049,7 +432308,7 @@
     },
     {
      "label": "l29.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -433098,7 +433357,7 @@
     },
     {
      "label": "l30.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -434127,7 +434386,7 @@
     },
     {
      "label": "l31.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -435176,7 +435435,7 @@
     },
     {
      "label": "l32.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -436225,7 +436484,7 @@
     },
     {
      "label": "l33.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -437274,7 +437533,7 @@
     },
     {
      "label": "l34.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -438303,7 +438562,7 @@
     },
     {
      "label": "l35.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb3",
      "args": [
       {
        "buf": "attn_own"
@@ -439352,7 +439611,7 @@
     },
     {
      "label": "l36.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -440401,7 +440660,7 @@
     },
     {
      "label": "l37.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -441450,7 +441709,7 @@
     },
     {
      "label": "l38.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -442479,7 +442738,7 @@
     },
     {
      "label": "l39.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -443528,7 +443787,7 @@
     },
     {
      "label": "l40.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -444577,7 +444836,7 @@
     },
     {
      "label": "l41.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -445626,7 +445885,7 @@
     },
     {
      "label": "l42.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -446655,7 +446914,7 @@
     },
     {
      "label": "l43.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -447704,7 +447963,7 @@
     },
     {
      "label": "l44.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -448753,7 +449012,7 @@
     },
     {
      "label": "l45.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -449802,7 +450061,7 @@
     },
     {
      "label": "l46.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -450831,7 +451090,7 @@
     },
     {
      "label": "l47.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb4",
      "args": [
       {
        "buf": "attn_own"
@@ -451880,7 +452139,7 @@
     },
     {
      "label": "l48.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -452929,7 +453188,7 @@
     },
     {
      "label": "l49.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -453978,7 +454237,7 @@
     },
     {
      "label": "l50.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -455007,7 +455266,7 @@
     },
     {
      "label": "l51.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -456056,7 +456315,7 @@
     },
     {
      "label": "l52.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -457105,7 +457364,7 @@
     },
     {
      "label": "l53.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -458154,7 +458413,7 @@
     },
     {
      "label": "l54.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -459183,7 +459442,7 @@
     },
     {
      "label": "l55.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -460232,7 +460491,7 @@
     },
     {
      "label": "l56.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -461281,7 +461540,7 @@
     },
     {
      "label": "l57.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -462330,7 +462589,7 @@
     },
     {
      "label": "l58.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -463359,7 +463618,7 @@
     },
     {
      "label": "l59.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb5",
      "args": [
       {
        "buf": "attn_own"
@@ -464408,7 +464667,7 @@
     },
     {
      "label": "l60.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -465457,7 +465716,7 @@
     },
     {
      "label": "l61.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -466506,7 +466765,7 @@
     },
     {
      "label": "l62.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -467535,7 +467794,7 @@
     },
     {
      "label": "l63.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -468584,7 +468843,7 @@
     },
     {
      "label": "l64.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -469633,7 +469892,7 @@
     },
     {
      "label": "l65.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -470682,7 +470941,7 @@
     },
     {
      "label": "l66.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -471711,7 +471970,7 @@
     },
     {
      "label": "l67.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -472760,7 +473019,7 @@
     },
     {
      "label": "l68.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -473809,7 +474068,7 @@
     },
     {
      "label": "l69.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -474858,7 +475117,7 @@
     },
     {
      "label": "l70.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -475887,7 +476146,7 @@
     },
     {
      "label": "l71.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb6",
      "args": [
       {
        "buf": "attn_own"
@@ -476936,7 +477195,7 @@
     },
     {
      "label": "l72.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -477985,7 +478244,7 @@
     },
     {
      "label": "l73.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -479034,7 +479293,7 @@
     },
     {
      "label": "l74.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -480063,7 +480322,7 @@
     },
     {
      "label": "l75.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -481112,7 +481371,7 @@
     },
     {
      "label": "l76.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -482161,7 +482420,7 @@
     },
     {
      "label": "l77.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -483210,7 +483469,7 @@
     },
     {
      "label": "l78.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -484239,7 +484498,7 @@
     },
     {
      "label": "l79.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -485288,7 +485547,7 @@
     },
     {
      "label": "l80.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -486337,7 +486596,7 @@
     },
     {
      "label": "l81.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -487386,7 +487645,7 @@
     },
     {
      "label": "l82.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -488415,7 +488674,7 @@
     },
     {
      "label": "l83.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb7",
      "args": [
       {
        "buf": "attn_own"
@@ -489464,7 +489723,7 @@
     },
     {
      "label": "l84.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb8",
      "args": [
       {
        "buf": "attn_own"
@@ -490513,7 +490772,7 @@
     },
     {
      "label": "l85.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb8",
      "args": [
       {
        "buf": "attn_own"
@@ -491562,7 +491821,7 @@
     },
     {
      "label": "l86.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb8",
      "args": [
       {
        "buf": "attn_own"
@@ -492591,7 +492850,7 @@
     },
     {
      "label": "l87.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb8",
      "args": [
       {
        "buf": "attn_own"
@@ -493640,7 +493899,7 @@
     },
     {
      "label": "l88.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb8",
      "args": [
       {
        "buf": "attn_own"
@@ -494689,7 +494948,7 @@
     },
     {
      "label": "l89.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb8",
      "args": [
       {
        "buf": "attn_own"
@@ -495738,7 +495997,7 @@
     },
     {
      "label": "l90.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb8",
      "args": [
       {
        "buf": "attn_own"
@@ -496767,7 +497026,7 @@
     },
     {
      "label": "l91.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb8",
      "args": [
       {
        "buf": "attn_own"
@@ -497796,7 +498055,7 @@
     },
     {
      "label": "l92.res_mlp",
-     "op": "land_add_attnres_rms_bf16_v2",
+     "op": "land_add_attnres_rms_bf16_v2_nb8",
      "args": [
       {
        "buf": "attn_own"

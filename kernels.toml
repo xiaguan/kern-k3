@@ -208,3 +208,8 @@ defines = { INNER = 3072, MLA_FUSED = 5184 }
 [kernels.k3_rs_arrive_v2]
 sha256 = "ed28795f20199a6440e6dbca2dff53d4d6ad70504f7588dff77c792caf0929a3"
 source = "source/k3_rs_arrive_v2.cu"
+
+[kernels."k3_residual_nb+LAND_BF16=1"]
+sha256 = "3b40357e170d58bc65d4d28a8a616480132b2da4ea3fa30072956c16d33e3c87"
+source = "source/k3_residual_nb.cu"
+defines = { LAND_BF16 = 1, CH = 2 }
