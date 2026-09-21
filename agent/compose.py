@@ -156,6 +156,7 @@ def main():
         sys.exit("the tree is not clean")
     if sh("git", "rev-parse", "--abbrev-ref", "HEAD") != "main":
         sys.exit("compose on main")
+    sh("python3", "scripts/build.py")  # build/ is untracked: bring it back to main's kernels
     results = []
     for commit in args.commits:
         out_dir = Path(args.out) / commit[:7]
