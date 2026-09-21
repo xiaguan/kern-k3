@@ -204,3 +204,7 @@ source = "source/k3_residual_push_v3.cu"
 sha256 = "1b65a4461f703410e8147898762109cff446ac2e286141c4ae5d0ebcc76d4d75"
 source = "source/k3_mla_prep_bf16.cu"
 defines = { INNER = 3072, MLA_FUSED = 5184 }
+
+[kernels.k3_rs_arrive_v2]
+sha256 = "ed28795f20199a6440e6dbca2dff53d4d6ad70504f7588dff77c792caf0929a3"
+source = "source/k3_rs_arrive_v2.cu"
