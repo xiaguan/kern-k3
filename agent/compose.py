@@ -87,8 +87,9 @@ def replay(commit, out_dir):
         produced = sh("git", "ls-files", "--others", "--exclude-standard", "manifests").split()
         if len(produced) == 1:
             shutil.move(produced[0], DEFAULT)
-        # a generator may also rewrite the default in place; either way it must have changed it
-        if r.returncode or len(produced) > 1 or DEFAULT.read_bytes() == before:
+        # a generator may also rewrite the default in place; the added one must have changed it,
+        # an earlier step replayed on a default that already has its change may be a no-op
+        if r.returncode or len(produced) > 1 or (gen in added and DEFAULT.read_bytes() == before):
             return revert(commit, subject, f"{gen}: exit {r.returncode}, produced {produced}\n{r.stdout}{r.stderr}"[-2000:])
     r = subprocess.run(["python3", "scripts/check.py", "build"], text=True, capture_output=True)
     if r.returncode:
