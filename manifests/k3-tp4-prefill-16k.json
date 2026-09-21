@@ -398172,10 +398172,6 @@
    "source": "k3_land_fused.cubin",
    "sha256": "6807c5e0e677372fe49cc808c35f15718f5bcabe61189e56c7fda0b72dfe1c4e"
   },
-  "k3_residual_push": {
-   "source": "k3_residual_push.cubin",
-   "sha256": "66541aaa85ca198168bcb05c3db10a2a25615ca123281cb846f22f03ac268b4b"
-  },
   "k3_reducescatter_pull_nr4": {
    "source": "k3_reducescatter_pull_nr4.cubin",
    "sha256": "1084e9cd81b267f7c9bf45e7afd509bab6294b1f9f1f63ffbe7d8a8bb2759d34"
@@ -398187,6 +398183,10 @@
   "flash_kda_vllm_d128_ws1": {
    "source": "flash_kda_vllm_d128_ws1.cubin",
    "sha256": "ca2851ce708b475b3e9b458ff812ce75389bb2debd367506f6e479d654c16d20"
+  },
+  "k3_residual_push_v3": {
+   "source": "k3_residual_push_v3.cubin",
+   "sha256": "399d1d982e3011ca8aa05c115394ad68d432fa18b5dd12db94ac22baaf577535"
   }
  },
  "ops": {
@@ -401616,7 +401616,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_residual_push",
+      "module": "k3_residual_push_v3",
       "entry": "kern_k3_attnres_rms_push",
       "params": [
        "in buffer<bf16>",
@@ -401698,7 +401698,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_residual_push",
+      "module": "k3_residual_push_v3",
       "entry": "kern_k3_attnres_rms_push",
       "params": [
        "in buffer<bf16>",

@@ -195,3 +195,7 @@ build = "source/flash-kda-vllm/build.sh"
 defines = { K3_V_SW128 = 1 }
 prebuilt = "prebuilt/flash_kda_vllm_d128_ws1.cubin"
 upstream = "https://github.com/vllm-project/FlashKDA/tree/b59532f1f464fbd536272780e30df5bf6a2ccc02"
+
+[kernels.k3_residual_push_v3]
+sha256 = "399d1d982e3011ca8aa05c115394ad68d432fa18b5dd12db94ac22baaf577535"
+source = "source/k3_residual_push_v3.cu"
