@@ -10,3 +10,14 @@ csrc/cake_fmha/ 是有源码的 FMHA，可以对 schedule。
 原文：o_proj 直写 owner。reduce_attn 归约的是 o_proj 的输出，把 o_proj 拆成四次 M=4096 的
 cuBLASLt 调用，第 r 次的 D 指向 rank r 的 rs slot（peer 地址），后面 landing 固定顺序加四个 slot，reduce_attn
 的 push 就没了。
+
+**K2 用的是 Ampere 的 `mma.sync` m16n8k16（`MMA_Atom<SM80_16x8x16_F32BF16BF16F32_TN>`，寄存器累加），整个
+source/flash-kda-vllm 没有一处 tcgen05。** 这就是 436 条指令的循环体、IPC 0.34、去掉全部 MMA 还剩 34 ms 地板的根源。
+FlashInfer 有 tcgen05 版本的 KDA prefill：/opt/flashinfer/csrc/kda/ 里 `cake_flashkda_bf16_persistent_m128.cu`、
+`cake_flashkda_bf16_fused_m128_*.cu`、`cake_flashkda_bf16_bt16_prepare*.cu` + `cake_flashkda_bf16_bt16_chain_m64*.cu`
+（prepare/chain 正对我们的 K1/K2），以及一批 `cake_flashkda_blackwell_evolution_*_h96_*.cu`（h96 = 96 头，我们 TP4
+每 rank 24 头 × d128，正是这个族）。它们都是自包含的生成文件（只 include cuda_bf16.h），状态常驻 TMEM
+（`TMEM_TMEM_STATE_OFFSET`），UMMA 单线程异步发射。先读 `flashinfer/kda_prefill.py` 的 `_select_flash_kda_prefill_variant`
+搞清每个变体的契约（q/k/v/g/beta 布局、chunk、state 布局、输出），对上我们 span_* buffer 的布局后，用 nvcc 编成
+cubin，manifest 里换掉 flash_kda 那个 op（op 序列可以改，K1/K2 可以拆成多个 op）。judge 决定数值。这一刀值
+K2 的大半（52 ms/rank 里估计 −25 到 −35），比继续调 vLLM 那份核的 TMA 次数值钱得多。
