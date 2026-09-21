@@ -128,6 +128,16 @@ struct SharedStorageK2 {
     alignas(16) cutlass::arch::ClusterTransactionBarrier state_acc_tma_barrier;
 };
 
+// a * b + c on bf16 with a single rounding, i.e. one HFMA2 per element
+// instead of cvt-to-f32 / FFMA / cvt-to-bf16.
+CUTLASS_DEVICE cutlass::bfloat16_t hfma_bf16(
+    cutlass::bfloat16_t a, cutlass::bfloat16_t b, cutlass::bfloat16_t c) {
+    __nv_bfloat16 const r = __hfma(__ushort_as_bfloat16(a.storage),
+                                   __ushort_as_bfloat16(b.storage),
+                                   __ushort_as_bfloat16(c.storage));
+    return cutlass::bfloat16_t::bitcast(__bfloat16_as_ushort(r));
+}
+
 template <class CFragment, class BFragment>
 CUTLASS_DEVICE void movm_transpose_c_to_b_16x16(
     CFragment const& source,
@@ -728,14 +738,26 @@ __global__ void __launch_bounds__(NumThreads, 2) _flash_kda_fwd_recurrence(
                 #pragma unroll
                 for (int bi = 0; bi < kValueBlocksPerWarp; ++bi) {
                     auto& state_fragment = resident_state[bi][m];
+                    // s = s * g + u in bf16 arithmetic: one fused multiply-add
+                    // per state element instead of cvt-to-f32 / FFMA /
+                    // cvt-to-bf16, i.e. half of this loop's instructions.  The
+                    // product and the add are still evaluated in full
+                    // precision and rounded once, exactly as the FFMA was; the
+                    // only value that changes is `g`, which is now the bf16
+                    // rounding of the f32 decay the workspace carries.  u is
+                    // rounded to bf16 before the add instead of after, one ulp.
+                    SFragT u_bf16_frag;
+                    cute::transform(u_acc[bi], u_bf16_frag,
+                        [] __device__ (float x) { return BF16(x); });
+                    BF16 const g0_b = BF16(g0), g1_b = BF16(g1);
                     #pragma unroll
                     for (int a = 0; a < 2; ++a) {
                         #pragma unroll
                         for (int d = 0; d < 2; ++d) {
                             auto c0 = make_coord(make_coord(a, 0), 0, d);
                             auto c1 = make_coord(make_coord(a, 1), 0, d);
-                            state_fragment(c0) = BF16(bf16_to_f32(state_fragment(c0)) * g0 + u_acc[bi](c0));
-                            state_fragment(c1) = BF16(bf16_to_f32(state_fragment(c1)) * g1 + u_acc[bi](c1));
+                            state_fragment(c0) = hfma_bf16(state_fragment(c0), g0_b, u_bf16_frag(c0));
+                            state_fragment(c1) = hfma_bf16(state_fragment(c1), g1_b, u_bf16_frag(c1));
                         }
                     }
 

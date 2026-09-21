@@ -213,3 +213,11 @@ source = "source/k3_rs_arrive_v2.cu"
 sha256 = "3b40357e170d58bc65d4d28a8a616480132b2da4ea3fa30072956c16d33e3c87"
 source = "source/k3_residual_nb.cu"
 defines = { LAND_BF16 = 1, CH = 2 }
+
+[kernels."flash_kda_vllm_d128_hfma1"]
+sha256 = "08cabb5a3a966a5e4fd5ec1893b71a11bb26c5118e63b4e06ef2f3e9d800defd"
+source = "source/flash-kda-vllm/kern_flash_kda.cu"
+build = "source/flash-kda-vllm/build.sh"
+defines = { K3_V_SW128 = 1 }
+prebuilt = "prebuilt/flash_kda_vllm_d128_hfma1.cubin"
+upstream = "https://github.com/vllm-project/FlashKDA/tree/b59532f1f464fbd536272780e30df5bf6a2ccc02"
