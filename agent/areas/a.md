@@ -6,3 +6,6 @@ FlashInfer 里对你有用的：flashinfer/kda_prefill.py（_select_flash_kda_pr
 jit/cake_flash_kda_packed_t1.py。我们 flash_kda 的 K2 递归 742 us/层，串行链理论只要几十 us，先对它们的 chunk /
 persistent 调度看差在哪。mla_fmha 是 flashinfer-cubin 0.6.18 的 trtllm-gen cubin（kernels.toml upstream），
 csrc/cake_fmha/ 是有源码的 FMHA，可以对 schedule。
+备选融合（K2 之后再看）：o_proj 直写 owner。reduce_attn 归约的是 o_proj 的输出，把 o_proj 拆成四次 M=4096 的
+cuBLASLt 调用，第 r 次的 D 指向 rank r 的 rs slot（peer 地址），后面 landing 固定顺序加四个 slot，reduce_attn
+的 push 就没了。
