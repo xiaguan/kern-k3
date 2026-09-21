@@ -40,4 +40,5 @@ withgpu CMD...
 Bench uses 12 samples, seed 24301, 16384 tokens, empty KV cache; compare graph p50 on the
 slowest rank. Judge reads the candidate's distributions over `reference/corpus.json` against the
 recorded reference at 816 positions (41 s; `--prompts 8` for 136 in 3 s), the gate a candidate
-must PASS. Test is the A/B span replay against a reference manifest, for attribution.
+must PASS. The reference carries two producers, the default and its reduce-scatter in the other
+summation order; a candidate passes within twice their mutual disagreement (`reference/README.md`). Test is the A/B span replay against a reference manifest, for attribution.
