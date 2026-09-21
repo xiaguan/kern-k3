@@ -153,3 +153,8 @@ defines = { INNER = 3072, MLA_FUSED = 5184 }
 [kernels."k3_allgather4"]
 sha256 = "922033b1f92178e770779a07a6b75a3b3b75d0047431f9d590e7c39c7650a88f"
 source = "source/k3_allgather4.cu"
+
+[kernels."k3_moe_prefill_v3+EP_STRIDED=1"]
+sha256 = "b4f8c82206ee1436a3e06c1dd58082aac2983686601fea741512f56a3d0a7a80"
+source = "source/k3_moe_prefill_v3.cu"
+defines = { EP_RANKS = 4, EP_STRIDED = 1 }
