@@ -65,21 +65,24 @@ def replay(commit, out_dir):
     subject = sh("git", "log", "-1", "--format=%s", commit)
     files = sh("git", "diff-tree", "--no-commit-id", "--name-only", "-r", commit).split()
     added = sh("git", "diff-tree", "--no-commit-id", "--name-only", "-r", "--diff-filter=A", commit).split()
-    gens = [f for f in (added or files) if re.fullmatch(r"scripts/gen_.*\.py", f)]
-    if len(gens) != 1:
-        return {"commit": commit, "subject": subject, "status": "skipped", "why": f"{len(gens)} generator scripts to run in the commit"}
-    # only what the manifest needs to be reproduced: kernel sources, the generator, the kernel entries;
+    gens = [f for f in files if re.fullmatch(r"scripts/gen_.*\.py", f)]
+    if len([g for g in gens if g in added]) != 1:
+        return {"commit": commit, "subject": subject, "status": "skipped", "why": f"{len(gens)} generator scripts added by the commit"}
+    # only what the manifest needs to be reproduced: kernel sources, the generators, the kernel entries;
     # a branch's README, check harnesses and probes stay in its own record
     taken = [f for f in files if f.startswith("source/")] + gens
     dropped = [f for f in files if f not in taken and not f.startswith("manifests/") and f != "kernels.toml"]
     sh("git", "checkout", commit, "--", *taken)
     new_kernels = union_kernels(commit) if "kernels.toml" in files else []
     shutil.copy(DEFAULT, out_dir / "default-before.json")
-    candidate = sh("python3", gens[0]).splitlines()[-1]
-    cand_path = Path("manifests") / candidate
-    if not cand_path.exists():
-        return revert(commit, subject, f"{gens[0]} did not produce manifests/{candidate}")
-    shutil.move(cand_path, DEFAULT)
+    # a generator the commit modified is an earlier step it builds on (idempotent by contract):
+    # replay those first, then the one it added, each on what the previous one produced
+    for gen in sorted(gens, key=lambda g: g in added):
+        r = subprocess.run(["python3", gen], text=True, capture_output=True)
+        produced = sh("git", "ls-files", "--others", "--exclude-standard", "manifests").split()
+        if r.returncode or len(produced) != 1:
+            return revert(commit, subject, f"{gen}: exit {r.returncode}, produced {produced}\n{r.stdout}{r.stderr}"[-2000:])
+        shutil.move(produced[0], DEFAULT)
     for step in (["python3", "scripts/build.py"], ["python3", "scripts/check.py", "build"]):
         r = subprocess.run(step, text=True, capture_output=True)
         if r.returncode:
@@ -101,13 +104,13 @@ def replay(commit, out_dir):
     note = Path(NOTES, f"{commit[:7]}.md") if NOTES else None
     trail = f"\n\n{note.read_text().strip()}" if note and note.exists() else ""
     message = f"{subject}\n\n{body}{trail}\n\nComposed onto main from {commit[:7]}: {numbers}"
-    sh("git", "add", "-A")
+    sh("git", "add", "-A", "--", "source", "scripts", "kernels.toml", "manifests")
     sh("git", "commit", "-q", "-s", "-m", message)
     return {"commit": commit, "subject": subject, "status": "adopted", "numbers": numbers, "new_kernels": new_kernels, "dropped": dropped, "main": sh("git", "rev-parse", "--short", "HEAD")}
 
 
 def revert(commit, subject, why):
-    sh("git", "checkout", "--", ".")
+    sh("git", "reset", "-q", "--hard", "HEAD")
     sh("git", "clean", "-fdq", "--", "manifests", "source", "prebuilt", "scripts", "results")
     return {"commit": commit, "subject": subject, "status": "rejected", "why": why}
 
