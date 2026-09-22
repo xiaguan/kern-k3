@@ -398153,10 +398153,6 @@
    "source": "k3_kda_out_gate_v3+HEADS=24.cubin",
    "sha256": "9e1de0c40f58bd748e604efcabee8d8c535b9a60a0e28adb2ce942dcacdbf069"
   },
-  "k3_land_bf16": {
-   "source": "k3_land_bf16.cubin",
-   "sha256": "cd51a952d7a7b160d6660bab53e0b1f6ff09f8168a230b964719772546fc1e62"
-  },
   "k3_collectives": {
    "source": "k3_collectives.cubin",
    "sha256": "36db46baac84af1d068205afd72e3689f57886c81b3f80c7ade7d2de929d740f"
@@ -398205,13 +398201,13 @@
    "source": "k3_allgather4_v3.cubin",
    "sha256": "a45eb82ec975a12d2f8cd64a63b45181dd7699c88aa575819661ab7ba3e78d07"
   },
-  "k3_residual_push_stats": {
-   "source": "k3_residual_push_stats.cubin",
-   "sha256": "5fefe40813a9e320aefa6bbc2aa05639d2bc6afc07661caa1a2c1bf512d78a01"
-  },
   "k3_residual_nb_stats": {
    "source": "k3_residual_nb_stats.cubin",
    "sha256": "1b4f188800c70d8c4c30a8adb3badb6cf8d1e07610dee77b7028de0080e45fe1"
+  },
+  "k3_residual_push_add2": {
+   "source": "k3_residual_push_add2.cubin",
+   "sha256": "5ce33ae9f3e3655363bf15f426c91f9237f7e976c7ff831fd340044629cd3f17"
   }
  },
  "ops": {
@@ -400939,39 +400935,6 @@
     ]
    }
   },
-  "land_add2_v2": {
-   "params": [
-    "in buffer<bf16>",
-    "in buffer<bf16>",
-    "in buffer<bf16>",
-    "out buffer<bf16>",
-    "i32",
-    "i32"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "module": "k3_land_bf16",
-      "entry": "kern_k3_land_add2_bf16",
-      "block": [
-       448,
-       1,
-       1
-      ],
-      "grid": [
-       {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       },
-       1,
-       1
-      ]
-     }
-    ]
-   }
-  },
   "kda_out_gate_v2": {
    "params": [
     "in buffer<bf16>",
@@ -401609,90 +401572,6 @@
     ]
    }
   },
-  "attnres_rms_push_v3": {
-   "params": [
-    "in buffer<bf16>",
-    "inout buffer<bf16>",
-    "in buffer<f32>",
-    "in buffer<bf16>",
-    "out buffer<bf16>",
-    "in buffer<u64>",
-    "i32",
-    "i32",
-    "i32"
-   ],
-   "impl": {
-    "launches": [
-     {
-      "module": "k3_residual_push_v3",
-      "entry": "kern_k3_attnres_rms_push",
-      "params": [
-       "in buffer<bf16>",
-       "inout buffer<bf16>",
-       "in buffer<f32>",
-       "in buffer<bf16>",
-       "out buffer<bf16>",
-       "in buffer<u64>",
-       "i32",
-       "i32",
-       "i32",
-       "i32",
-       "i32"
-      ],
-      "args": [
-       {
-        "param": 0
-       },
-       {
-        "param": 1
-       },
-       {
-        "param": 2
-       },
-       {
-        "param": 3
-       },
-       {
-        "param": 4
-       },
-       {
-        "param": 5
-       },
-       {
-        "param": 6
-       },
-       {
-        "param": 7
-       },
-       {
-        "param": 8
-       },
-       {
-        "rank": "tp"
-       },
-       {
-        "i32": 4
-       }
-      ],
-      "block": [
-       128,
-       1,
-       1
-      ],
-      "grid": [
-       {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       },
-       1,
-       1
-      ]
-     }
-    ]
-   }
-  },
   "attnres_rms_push_first_v3": {
    "params": [
     "in buffer<bf16>",
@@ -402081,9 +401960,8 @@
     ]
    }
   },
-  "attnres_rms_push_stats": {
+  "attnres_rms_push_add2": {
    "params": [
-    "in buffer<bf16>",
     "inout buffer<bf16>",
     "in buffer<f32>",
     "in buffer<bf16>",
@@ -402093,15 +401971,19 @@
     "i32",
     "i32",
     "in buffer<f32>",
-    "out buffer<f32>"
+    "out buffer<f32>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "i32"
    ],
    "impl": {
     "launches": [
      {
-      "module": "k3_residual_push_stats",
+      "module": "k3_residual_push_add2",
       "entry": "kern_k3_attnres_rms_push",
       "params": [
-       "in buffer<bf16>",
        "inout buffer<bf16>",
        "in buffer<f32>",
        "in buffer<bf16>",
@@ -402113,7 +401995,12 @@
        "i32",
        "i32",
        "in buffer<f32>",
-       "out buffer<f32>"
+       "out buffer<f32>",
+       "in buffer<bf16>",
+       "in buffer<bf16>",
+       "in buffer<bf16>",
+       "out buffer<bf16>",
+       "i32"
       ],
       "args": [
        {
@@ -402141,19 +402028,31 @@
         "param": 7
        },
        {
-        "param": 8
-       },
-       {
         "rank": "tp"
        },
        {
         "i32": 4
        },
        {
+        "param": 8
+       },
+       {
         "param": 9
        },
        {
         "param": 10
+       },
+       {
+        "param": 11
+       },
+       {
+        "param": 12
+       },
+       {
+        "param": 13
+       },
+       {
+        "param": 14
        }
       ],
       "block": [
@@ -402792,41 +402691,9 @@
      ]
     },
     {
-     "label": "l0.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 0
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l1.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -402855,6 +402722,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.0.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 0
       }
      ]
     },
@@ -403841,41 +403729,9 @@
      ]
     },
     {
-     "label": "l1.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l2.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -403904,6 +403760,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.1.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -404890,41 +404767,9 @@
      ]
     },
     {
-     "label": "l2.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l3.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -404953,6 +404798,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.2.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -405919,41 +405785,9 @@
      ]
     },
     {
-     "label": "l3.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l4.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -405982,6 +405816,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.3.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -406968,41 +406823,9 @@
      ]
     },
     {
-     "label": "l4.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l5.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -407031,6 +406854,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.4.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -408017,41 +407861,9 @@
      ]
     },
     {
-     "label": "l5.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l6.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -408080,6 +407892,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.5.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -409066,41 +408899,9 @@
      ]
     },
     {
-     "label": "l6.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l7.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -409129,6 +408930,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.6.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -410095,41 +409917,9 @@
      ]
     },
     {
-     "label": "l7.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l8.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -410158,6 +409948,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.7.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -411144,41 +410955,9 @@
      ]
     },
     {
-     "label": "l8.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l9.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -411207,6 +410986,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.8.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -412193,41 +411993,9 @@
      ]
     },
     {
-     "label": "l9.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l10.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -412256,6 +412024,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.9.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -413242,41 +413031,9 @@
      ]
     },
     {
-     "label": "l10.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l11.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -413305,6 +413062,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.10.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -414271,41 +414049,9 @@
      ]
     },
     {
-     "label": "l11.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l12.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -414334,6 +414080,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.11.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -415320,41 +415087,9 @@
      ]
     },
     {
-     "label": "l12.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l13.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -415383,6 +415118,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.12.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -416369,41 +416125,9 @@
      ]
     },
     {
-     "label": "l13.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l14.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -416432,6 +416156,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.13.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -417418,41 +417163,9 @@
      ]
     },
     {
-     "label": "l14.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l15.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -417481,6 +417194,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.14.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -418447,41 +418181,9 @@
      ]
     },
     {
-     "label": "l15.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l16.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -418510,6 +418212,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.15.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -419496,41 +419219,9 @@
      ]
     },
     {
-     "label": "l16.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l17.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -419559,6 +419250,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.16.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -420545,41 +420257,9 @@
      ]
     },
     {
-     "label": "l17.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l18.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -420608,6 +420288,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.17.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -421594,41 +421295,9 @@
      ]
     },
     {
-     "label": "l18.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l19.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -421657,6 +421326,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.18.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -422623,41 +422313,9 @@
      ]
     },
     {
-     "label": "l19.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l20.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -422686,6 +422344,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.19.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -423672,41 +423351,9 @@
      ]
     },
     {
-     "label": "l20.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l21.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -423735,6 +423382,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.20.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -424721,41 +424389,9 @@
      ]
     },
     {
-     "label": "l21.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l22.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -424784,6 +424420,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.21.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -425770,41 +425427,9 @@
      ]
     },
     {
-     "label": "l22.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l23.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -425833,6 +425458,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.22.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -426799,41 +426445,9 @@
      ]
     },
     {
-     "label": "l23.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l24.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -426862,6 +426476,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.23.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -427848,41 +427483,9 @@
      ]
     },
     {
-     "label": "l24.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l25.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -427911,6 +427514,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.24.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -428897,41 +428521,9 @@
      ]
     },
     {
-     "label": "l25.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l26.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -428960,6 +428552,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.25.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -429946,41 +429559,9 @@
      ]
     },
     {
-     "label": "l26.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l27.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -430009,6 +429590,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.26.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -430975,41 +430577,9 @@
      ]
     },
     {
-     "label": "l27.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l28.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -431038,6 +430608,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.27.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -432024,41 +431615,9 @@
      ]
     },
     {
-     "label": "l28.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l29.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -432087,6 +431646,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.28.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -433073,41 +432653,9 @@
      ]
     },
     {
-     "label": "l29.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l30.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -433136,6 +432684,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.29.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -434122,41 +433691,9 @@
      ]
     },
     {
-     "label": "l30.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l31.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -434185,6 +433722,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.30.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -435151,41 +434709,9 @@
      ]
     },
     {
-     "label": "l31.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l32.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -435214,6 +434740,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.31.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -436200,41 +435747,9 @@
      ]
     },
     {
-     "label": "l32.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l33.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -436263,6 +435778,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.32.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -437249,41 +436785,9 @@
      ]
     },
     {
-     "label": "l33.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l34.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -437312,6 +436816,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.33.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -438298,41 +437823,9 @@
      ]
     },
     {
-     "label": "l34.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l35.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -438361,6 +437854,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.34.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -439327,41 +438841,9 @@
      ]
     },
     {
-     "label": "l35.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l36.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -439396,6 +438878,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -440388,41 +439885,9 @@
      ]
     },
     {
-     "label": "l36.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l37.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -440457,6 +439922,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -441449,41 +440929,9 @@
      ]
     },
     {
-     "label": "l37.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l38.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -441518,6 +440966,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -442510,41 +441973,9 @@
      ]
     },
     {
-     "label": "l38.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l39.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -442579,6 +442010,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -443551,41 +442997,9 @@
      ]
     },
     {
-     "label": "l39.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l40.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -443620,6 +443034,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -444612,41 +444041,9 @@
      ]
     },
     {
-     "label": "l40.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l41.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -444681,6 +444078,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -445673,41 +445085,9 @@
      ]
     },
     {
-     "label": "l41.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l42.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -445742,6 +445122,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -446734,41 +446129,9 @@
      ]
     },
     {
-     "label": "l42.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l43.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -446803,6 +446166,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -447775,41 +447153,9 @@
      ]
     },
     {
-     "label": "l43.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l44.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -447844,6 +447190,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -448836,41 +448197,9 @@
      ]
     },
     {
-     "label": "l44.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l45.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -448905,6 +448234,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -449897,41 +449241,9 @@
      ]
     },
     {
-     "label": "l45.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l46.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -449966,6 +449278,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -450958,41 +450285,9 @@
      ]
     },
     {
-     "label": "l46.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l47.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -451027,6 +450322,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -451999,41 +451309,9 @@
      ]
     },
     {
-     "label": "l47.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l48.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -452068,6 +451346,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -453060,41 +452353,9 @@
      ]
     },
     {
-     "label": "l48.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l49.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -453129,6 +452390,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -454121,41 +453397,9 @@
      ]
     },
     {
-     "label": "l49.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l50.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -454190,6 +453434,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -455182,41 +454441,9 @@
      ]
     },
     {
-     "label": "l50.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l51.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -455251,6 +454478,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -456223,41 +455465,9 @@
      ]
     },
     {
-     "label": "l51.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l52.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -456292,6 +455502,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -457284,41 +456509,9 @@
      ]
     },
     {
-     "label": "l52.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l53.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -457353,6 +456546,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -458345,41 +457553,9 @@
      ]
     },
     {
-     "label": "l53.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l54.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -458414,6 +457590,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -459406,41 +458597,9 @@
      ]
     },
     {
-     "label": "l54.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l55.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -459475,6 +458634,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -460447,41 +459621,9 @@
      ]
     },
     {
-     "label": "l55.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l56.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -460516,6 +459658,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -461508,41 +460665,9 @@
      ]
     },
     {
-     "label": "l56.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l57.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -461577,6 +460702,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -462569,41 +461709,9 @@
      ]
     },
     {
-     "label": "l57.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l58.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -462638,6 +461746,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -463630,41 +462753,9 @@
      ]
     },
     {
-     "label": "l58.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l59.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -463699,6 +462790,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -464671,41 +463777,9 @@
      ]
     },
     {
-     "label": "l59.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l60.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -464740,6 +463814,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -465732,41 +464821,9 @@
      ]
     },
     {
-     "label": "l60.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l61.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -465801,6 +464858,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -466793,41 +465865,9 @@
      ]
     },
     {
-     "label": "l61.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l62.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -466862,6 +465902,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -467854,41 +466909,9 @@
      ]
     },
     {
-     "label": "l62.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l63.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -467923,6 +466946,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -468895,41 +467933,9 @@
      ]
     },
     {
-     "label": "l63.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l64.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -468964,6 +467970,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -469956,41 +468977,9 @@
      ]
     },
     {
-     "label": "l64.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l65.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -470025,6 +469014,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -471017,41 +470021,9 @@
      ]
     },
     {
-     "label": "l65.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l66.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -471086,6 +470058,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -472078,41 +471065,9 @@
      ]
     },
     {
-     "label": "l66.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l67.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -472147,6 +471102,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -473119,41 +472089,9 @@
      ]
     },
     {
-     "label": "l67.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l68.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -473188,6 +472126,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -474180,41 +473133,9 @@
      ]
     },
     {
-     "label": "l68.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l69.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -474249,6 +473170,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -475241,41 +474177,9 @@
      ]
     },
     {
-     "label": "l69.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l70.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -475310,6 +474214,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -476302,41 +475221,9 @@
      ]
     },
     {
-     "label": "l70.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l71.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -476371,6 +475258,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -477343,41 +476245,9 @@
      ]
     },
     {
-     "label": "l71.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l72.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -477412,6 +476282,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -478404,41 +477289,9 @@
      ]
     },
     {
-     "label": "l72.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l73.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -478473,6 +477326,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -479465,41 +478333,9 @@
      ]
     },
     {
-     "label": "l73.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l74.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -479534,6 +478370,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -480526,41 +479377,9 @@
      ]
     },
     {
-     "label": "l74.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l75.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -480595,6 +479414,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -481567,41 +480401,9 @@
      ]
     },
     {
-     "label": "l75.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l76.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -481636,6 +480438,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -482628,41 +481445,9 @@
      ]
     },
     {
-     "label": "l76.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l77.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -482697,6 +481482,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -483689,41 +482489,9 @@
      ]
     },
     {
-     "label": "l77.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l78.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -483758,6 +482526,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -484750,41 +483533,9 @@
      ]
     },
     {
-     "label": "l78.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l79.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -484819,6 +483570,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -485791,41 +484557,9 @@
      ]
     },
     {
-     "label": "l79.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l80.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -485860,6 +484594,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -486852,41 +485601,9 @@
      ]
     },
     {
-     "label": "l80.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l81.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -486921,6 +485638,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -487913,41 +486645,9 @@
      ]
     },
     {
-     "label": "l81.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l82.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -487982,6 +486682,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -488974,41 +487689,9 @@
      ]
     },
     {
-     "label": "l82.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l83.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -489043,6 +487726,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -490015,41 +488713,9 @@
      ]
     },
     {
-     "label": "l83.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l84.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -490084,6 +488750,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -491076,41 +489757,9 @@
      ]
     },
     {
-     "label": "l84.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l85.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -491145,6 +489794,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -492137,41 +490801,9 @@
      ]
     },
     {
-     "label": "l85.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l86.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -492206,6 +490838,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -493198,41 +491845,9 @@
      ]
     },
     {
-     "label": "l86.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l87.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -493267,6 +491882,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -494239,41 +492869,9 @@
      ]
     },
     {
-     "label": "l87.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l88.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -494308,6 +492906,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -495300,41 +493913,9 @@
      ]
     },
     {
-     "label": "l88.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l89.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -495369,6 +493950,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -496361,41 +494957,9 @@
      ]
     },
     {
-     "label": "l89.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l90.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -496430,6 +494994,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -497422,41 +496001,9 @@
      ]
     },
     {
-     "label": "l90.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l91.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -497491,6 +496038,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -498463,41 +497025,9 @@
      ]
     },
     {
-     "label": "l91.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "l92.res_in",
-     "op": "attnres_rms_push_stats",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -498532,6 +497062,21 @@
       },
       {
        "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
@@ -499504,41 +498049,9 @@
      ]
     },
     {
-     "label": "l92.hidden",
-     "op": "land_add2_v2",
-     "args": [
-      {
-       "buf": "routed_partial"
-      },
-      {
-       "buf": "shared_partial2"
-      },
-      {
-       "buf": "prefix2"
-      },
-      {
-       "buf": "hidden"
-      },
-      {
-       "i32": 1
-      },
-      {
-       "expr": {
-        "ceil_div": [
-         "tokens",
-         4
-        ]
-       }
-      }
-     ]
-    },
-    {
      "label": "out.res",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_add2",
      "args": [
-      {
-       "buf": "hidden"
-      },
       {
        "buf": "blocks"
       },
@@ -499567,6 +498080,27 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.92.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "buf": "routed_partial"
+      },
+      {
+       "buf": "shared_partial2"
+      },
+      {
+       "buf": "prefix2"
+      },
+      {
+       "buf": "hidden"
+      },
+      {
+       "i32": 1
       }
      ]
     },
