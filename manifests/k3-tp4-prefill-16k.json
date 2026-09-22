@@ -398090,6 +398090,1063 @@
     2
    ],
    "kind": "workspace"
+  },
+  "normed_fp8": {
+   "dtype": "u8",
+   "shape": [
+    16384,
+    7168
+   ],
+   "kind": "workspace"
+  },
+  "normed_fp8_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "workspace"
+  },
+  "quant_partials": {
+   "dtype": "f32",
+   "shape": [
+    2048
+   ],
+   "kind": "workspace"
+  },
+  "layers.0.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.0.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.1.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.1.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.2.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.2.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.4.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.4.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.5.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.5.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.6.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.6.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.8.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.8.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.9.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.9.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.10.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.10.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.12.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.12.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.13.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.13.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.14.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.14.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.16.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.16.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.17.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.17.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.18.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.18.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.20.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.20.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.21.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.21.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.22.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.22.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.24.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.24.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.25.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.25.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.26.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.26.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.28.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.28.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.29.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.29.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.30.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.30.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.32.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.32.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.33.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.33.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.34.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.34.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.36.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.36.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.37.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.37.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.38.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.38.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.40.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.40.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.41.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.41.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.42.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.42.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.44.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.44.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.45.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.45.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.46.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.46.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.48.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.48.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.49.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.49.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.50.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.50.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.52.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.52.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.53.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.53.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.54.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.54.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.56.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.56.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.57.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.57.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.58.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.58.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.60.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.60.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.61.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.61.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.62.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.62.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.64.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.64.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.65.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.65.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.66.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.66.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.68.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.68.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.69.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.69.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.70.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.70.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.72.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.72.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.73.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.73.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.74.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.74.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.76.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.76.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.77.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.77.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.78.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.78.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.80.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.80.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.81.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.81.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.82.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.82.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.84.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.84.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.85.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.85.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.86.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.86.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.88.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.88.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.89.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.89.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.90.wbig_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.90.wbig_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
   }
  },
  "modules": {
@@ -398212,6 +399269,10 @@
   "k3_residual_nb_stats": {
    "source": "k3_residual_nb_stats.cubin",
    "sha256": "1b4f188800c70d8c4c30a8adb3badb6cf8d1e07610dee77b7028de0080e45fe1"
+  },
+  "k3_quant_fp8_pair": {
+   "source": "k3_quant_fp8_pair.cubin",
+   "sha256": "b9ce8ea06cc988d5071a9ef70dae8cda297472872c64ac94d3bcb5da1a964fb3"
   }
  },
  "ops": {
@@ -402174,6 +403235,111 @@
      }
     ]
    }
+  },
+  "quant_fp8_tensor": {
+   "params": [
+    "in buffer<bf16>",
+    "out buffer<u8>",
+    "out buffer<f32>",
+    "out buffer<f32>",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_quant_fp8_pair",
+      "entry": "kern_quant_fp8_amax",
+      "params": [
+       "in buffer<bf16>",
+       "i32",
+       "out buffer<f32>"
+      ],
+      "block": [
+       256,
+       1,
+       1
+      ],
+      "grid": [
+       2048,
+       1,
+       1
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
+        "param": 4
+       },
+       {
+        "param": 3
+       }
+      ]
+     },
+     {
+      "module": "k3_quant_fp8_pair",
+      "entry": "kern_quant_fp8_apply",
+      "params": [
+       "in buffer<bf16>",
+       "out buffer<u8>",
+       "i32",
+       "in buffer<f32>",
+       "i32",
+       "out buffer<f32>"
+      ],
+      "block": [
+       256,
+       1,
+       1
+      ],
+      "grid": [
+       2048,
+       1,
+       1
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
+        "param": 1
+       },
+       {
+        "param": 4
+       },
+       {
+        "param": 3
+       },
+       {
+        "i32": 2048
+       },
+       {
+        "param": 2
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "gemm_fp8_qkvg": {
+   "params": [
+    "in buffer<u8>",
+    "in buffer<u8>",
+    "out buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<f32>",
+    "i32",
+    "i32",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "entry": "extern:cublaslt_fp8_tn"
+     }
+    ]
+   }
   }
  },
  "programs": {
@@ -402357,17 +403523,49 @@
      ]
     },
     {
-     "label": "l0.qkvg",
-     "op": "gemm_bf16",
+     "label": "l0.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.0.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l0.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.0.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.0.wbig_scale"
       },
       {
        "var": "tokens"
@@ -402901,17 +404099,49 @@
      ]
     },
     {
-     "label": "l1.qkvg",
-     "op": "gemm_bf16",
+     "label": "l1.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.1.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l1.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.1.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.1.wbig_scale"
       },
       {
        "var": "tokens"
@@ -403950,17 +405180,49 @@
      ]
     },
     {
-     "label": "l2.qkvg",
-     "op": "gemm_bf16",
+     "label": "l2.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.2.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l2.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.2.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.2.wbig_scale"
       },
       {
        "var": "tokens"
@@ -406028,17 +407290,49 @@
      ]
     },
     {
-     "label": "l4.qkvg",
-     "op": "gemm_bf16",
+     "label": "l4.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.4.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l4.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.4.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.4.wbig_scale"
       },
       {
        "var": "tokens"
@@ -407077,17 +408371,49 @@
      ]
     },
     {
-     "label": "l5.qkvg",
-     "op": "gemm_bf16",
+     "label": "l5.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.5.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l5.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.5.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.5.wbig_scale"
       },
       {
        "var": "tokens"
@@ -408126,17 +409452,49 @@
      ]
     },
     {
-     "label": "l6.qkvg",
-     "op": "gemm_bf16",
+     "label": "l6.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.6.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l6.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.6.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.6.wbig_scale"
       },
       {
        "var": "tokens"
@@ -410204,17 +411562,49 @@
      ]
     },
     {
-     "label": "l8.qkvg",
-     "op": "gemm_bf16",
+     "label": "l8.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.8.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l8.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.8.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.8.wbig_scale"
       },
       {
        "var": "tokens"
@@ -411253,17 +412643,49 @@
      ]
     },
     {
-     "label": "l9.qkvg",
-     "op": "gemm_bf16",
+     "label": "l9.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.9.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l9.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.9.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.9.wbig_scale"
       },
       {
        "var": "tokens"
@@ -412302,17 +413724,49 @@
      ]
     },
     {
-     "label": "l10.qkvg",
-     "op": "gemm_bf16",
+     "label": "l10.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.10.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l10.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.10.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.10.wbig_scale"
       },
       {
        "var": "tokens"
@@ -414380,17 +415834,49 @@
      ]
     },
     {
-     "label": "l12.qkvg",
-     "op": "gemm_bf16",
+     "label": "l12.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.12.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l12.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.12.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.12.wbig_scale"
       },
       {
        "var": "tokens"
@@ -415429,17 +416915,49 @@
      ]
     },
     {
-     "label": "l13.qkvg",
-     "op": "gemm_bf16",
+     "label": "l13.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.13.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l13.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.13.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.13.wbig_scale"
       },
       {
        "var": "tokens"
@@ -416478,17 +417996,49 @@
      ]
     },
     {
-     "label": "l14.qkvg",
-     "op": "gemm_bf16",
+     "label": "l14.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.14.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l14.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.14.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.14.wbig_scale"
       },
       {
        "var": "tokens"
@@ -418556,17 +420106,49 @@
      ]
     },
     {
-     "label": "l16.qkvg",
-     "op": "gemm_bf16",
+     "label": "l16.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.16.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l16.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.16.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.16.wbig_scale"
       },
       {
        "var": "tokens"
@@ -419605,17 +421187,49 @@
      ]
     },
     {
-     "label": "l17.qkvg",
-     "op": "gemm_bf16",
+     "label": "l17.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.17.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l17.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.17.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.17.wbig_scale"
       },
       {
        "var": "tokens"
@@ -420654,17 +422268,49 @@
      ]
     },
     {
-     "label": "l18.qkvg",
-     "op": "gemm_bf16",
+     "label": "l18.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.18.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l18.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.18.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.18.wbig_scale"
       },
       {
        "var": "tokens"
@@ -422732,17 +424378,49 @@
      ]
     },
     {
-     "label": "l20.qkvg",
-     "op": "gemm_bf16",
+     "label": "l20.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.20.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l20.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.20.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.20.wbig_scale"
       },
       {
        "var": "tokens"
@@ -423781,17 +425459,49 @@
      ]
     },
     {
-     "label": "l21.qkvg",
-     "op": "gemm_bf16",
+     "label": "l21.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.21.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l21.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.21.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.21.wbig_scale"
       },
       {
        "var": "tokens"
@@ -424830,17 +426540,49 @@
      ]
     },
     {
-     "label": "l22.qkvg",
-     "op": "gemm_bf16",
+     "label": "l22.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.22.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l22.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.22.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.22.wbig_scale"
       },
       {
        "var": "tokens"
@@ -426908,17 +428650,49 @@
      ]
     },
     {
-     "label": "l24.qkvg",
-     "op": "gemm_bf16",
+     "label": "l24.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.24.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l24.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.24.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.24.wbig_scale"
       },
       {
        "var": "tokens"
@@ -427957,17 +429731,49 @@
      ]
     },
     {
-     "label": "l25.qkvg",
-     "op": "gemm_bf16",
+     "label": "l25.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.25.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l25.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.25.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.25.wbig_scale"
       },
       {
        "var": "tokens"
@@ -429006,17 +430812,49 @@
      ]
     },
     {
-     "label": "l26.qkvg",
-     "op": "gemm_bf16",
+     "label": "l26.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.26.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l26.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.26.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.26.wbig_scale"
       },
       {
        "var": "tokens"
@@ -431084,17 +432922,49 @@
      ]
     },
     {
-     "label": "l28.qkvg",
-     "op": "gemm_bf16",
+     "label": "l28.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.28.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l28.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.28.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.28.wbig_scale"
       },
       {
        "var": "tokens"
@@ -432133,17 +434003,49 @@
      ]
     },
     {
-     "label": "l29.qkvg",
-     "op": "gemm_bf16",
+     "label": "l29.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.29.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l29.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.29.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.29.wbig_scale"
       },
       {
        "var": "tokens"
@@ -433182,17 +435084,49 @@
      ]
     },
     {
-     "label": "l30.qkvg",
-     "op": "gemm_bf16",
+     "label": "l30.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.30.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l30.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.30.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.30.wbig_scale"
       },
       {
        "var": "tokens"
@@ -435260,17 +437194,49 @@
      ]
     },
     {
-     "label": "l32.qkvg",
-     "op": "gemm_bf16",
+     "label": "l32.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.32.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l32.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.32.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.32.wbig_scale"
       },
       {
        "var": "tokens"
@@ -436309,17 +438275,49 @@
      ]
     },
     {
-     "label": "l33.qkvg",
-     "op": "gemm_bf16",
+     "label": "l33.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.33.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l33.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.33.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.33.wbig_scale"
       },
       {
        "var": "tokens"
@@ -437358,17 +439356,49 @@
      ]
     },
     {
-     "label": "l34.qkvg",
-     "op": "gemm_bf16",
+     "label": "l34.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.34.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l34.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.34.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.34.wbig_scale"
       },
       {
        "var": "tokens"
@@ -439442,17 +441472,49 @@
      ]
     },
     {
-     "label": "l36.qkvg",
-     "op": "gemm_bf16",
+     "label": "l36.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.36.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l36.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.36.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.36.wbig_scale"
       },
       {
        "var": "tokens"
@@ -440503,17 +442565,49 @@
      ]
     },
     {
-     "label": "l37.qkvg",
-     "op": "gemm_bf16",
+     "label": "l37.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.37.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l37.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.37.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.37.wbig_scale"
       },
       {
        "var": "tokens"
@@ -441564,17 +443658,49 @@
      ]
     },
     {
-     "label": "l38.qkvg",
-     "op": "gemm_bf16",
+     "label": "l38.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.38.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l38.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.38.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.38.wbig_scale"
       },
       {
        "var": "tokens"
@@ -443666,17 +445792,49 @@
      ]
     },
     {
-     "label": "l40.qkvg",
-     "op": "gemm_bf16",
+     "label": "l40.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.40.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l40.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.40.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.40.wbig_scale"
       },
       {
        "var": "tokens"
@@ -444727,17 +446885,49 @@
      ]
     },
     {
-     "label": "l41.qkvg",
-     "op": "gemm_bf16",
+     "label": "l41.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.41.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l41.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.41.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.41.wbig_scale"
       },
       {
        "var": "tokens"
@@ -445788,17 +447978,49 @@
      ]
     },
     {
-     "label": "l42.qkvg",
-     "op": "gemm_bf16",
+     "label": "l42.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.42.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l42.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.42.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.42.wbig_scale"
       },
       {
        "var": "tokens"
@@ -447890,17 +450112,49 @@
      ]
     },
     {
-     "label": "l44.qkvg",
-     "op": "gemm_bf16",
+     "label": "l44.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.44.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l44.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.44.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.44.wbig_scale"
       },
       {
        "var": "tokens"
@@ -448951,17 +451205,49 @@
      ]
     },
     {
-     "label": "l45.qkvg",
-     "op": "gemm_bf16",
+     "label": "l45.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.45.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l45.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.45.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.45.wbig_scale"
       },
       {
        "var": "tokens"
@@ -450012,17 +452298,49 @@
      ]
     },
     {
-     "label": "l46.qkvg",
-     "op": "gemm_bf16",
+     "label": "l46.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.46.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l46.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.46.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.46.wbig_scale"
       },
       {
        "var": "tokens"
@@ -452114,17 +454432,49 @@
      ]
     },
     {
-     "label": "l48.qkvg",
-     "op": "gemm_bf16",
+     "label": "l48.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.48.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l48.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.48.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.48.wbig_scale"
       },
       {
        "var": "tokens"
@@ -453175,17 +455525,49 @@
      ]
     },
     {
-     "label": "l49.qkvg",
-     "op": "gemm_bf16",
+     "label": "l49.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.49.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l49.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.49.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.49.wbig_scale"
       },
       {
        "var": "tokens"
@@ -454236,17 +456618,49 @@
      ]
     },
     {
-     "label": "l50.qkvg",
-     "op": "gemm_bf16",
+     "label": "l50.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.50.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l50.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.50.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.50.wbig_scale"
       },
       {
        "var": "tokens"
@@ -456338,17 +458752,49 @@
      ]
     },
     {
-     "label": "l52.qkvg",
-     "op": "gemm_bf16",
+     "label": "l52.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.52.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l52.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.52.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.52.wbig_scale"
       },
       {
        "var": "tokens"
@@ -457399,17 +459845,49 @@
      ]
     },
     {
-     "label": "l53.qkvg",
-     "op": "gemm_bf16",
+     "label": "l53.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.53.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l53.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.53.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.53.wbig_scale"
       },
       {
        "var": "tokens"
@@ -458460,17 +460938,49 @@
      ]
     },
     {
-     "label": "l54.qkvg",
-     "op": "gemm_bf16",
+     "label": "l54.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.54.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l54.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.54.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.54.wbig_scale"
       },
       {
        "var": "tokens"
@@ -460562,17 +463072,49 @@
      ]
     },
     {
-     "label": "l56.qkvg",
-     "op": "gemm_bf16",
+     "label": "l56.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.56.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l56.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.56.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.56.wbig_scale"
       },
       {
        "var": "tokens"
@@ -461623,17 +464165,49 @@
      ]
     },
     {
-     "label": "l57.qkvg",
-     "op": "gemm_bf16",
+     "label": "l57.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.57.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l57.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.57.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.57.wbig_scale"
       },
       {
        "var": "tokens"
@@ -462684,17 +465258,49 @@
      ]
     },
     {
-     "label": "l58.qkvg",
-     "op": "gemm_bf16",
+     "label": "l58.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.58.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l58.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.58.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.58.wbig_scale"
       },
       {
        "var": "tokens"
@@ -464786,17 +467392,49 @@
      ]
     },
     {
-     "label": "l60.qkvg",
-     "op": "gemm_bf16",
+     "label": "l60.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.60.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l60.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.60.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.60.wbig_scale"
       },
       {
        "var": "tokens"
@@ -465847,17 +468485,49 @@
      ]
     },
     {
-     "label": "l61.qkvg",
-     "op": "gemm_bf16",
+     "label": "l61.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.61.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l61.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.61.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.61.wbig_scale"
       },
       {
        "var": "tokens"
@@ -466908,17 +469578,49 @@
      ]
     },
     {
-     "label": "l62.qkvg",
-     "op": "gemm_bf16",
+     "label": "l62.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.62.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l62.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.62.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.62.wbig_scale"
       },
       {
        "var": "tokens"
@@ -469010,17 +471712,49 @@
      ]
     },
     {
-     "label": "l64.qkvg",
-     "op": "gemm_bf16",
+     "label": "l64.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.64.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l64.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.64.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.64.wbig_scale"
       },
       {
        "var": "tokens"
@@ -470071,17 +472805,49 @@
      ]
     },
     {
-     "label": "l65.qkvg",
-     "op": "gemm_bf16",
+     "label": "l65.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.65.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l65.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.65.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.65.wbig_scale"
       },
       {
        "var": "tokens"
@@ -471132,17 +473898,49 @@
      ]
     },
     {
-     "label": "l66.qkvg",
-     "op": "gemm_bf16",
+     "label": "l66.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.66.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l66.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.66.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.66.wbig_scale"
       },
       {
        "var": "tokens"
@@ -473234,17 +476032,49 @@
      ]
     },
     {
-     "label": "l68.qkvg",
-     "op": "gemm_bf16",
+     "label": "l68.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.68.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l68.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.68.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.68.wbig_scale"
       },
       {
        "var": "tokens"
@@ -474295,17 +477125,49 @@
      ]
     },
     {
-     "label": "l69.qkvg",
-     "op": "gemm_bf16",
+     "label": "l69.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.69.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l69.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.69.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.69.wbig_scale"
       },
       {
        "var": "tokens"
@@ -475356,17 +478218,49 @@
      ]
     },
     {
-     "label": "l70.qkvg",
-     "op": "gemm_bf16",
+     "label": "l70.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.70.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l70.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.70.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.70.wbig_scale"
       },
       {
        "var": "tokens"
@@ -477458,17 +480352,49 @@
      ]
     },
     {
-     "label": "l72.qkvg",
-     "op": "gemm_bf16",
+     "label": "l72.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.72.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l72.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.72.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.72.wbig_scale"
       },
       {
        "var": "tokens"
@@ -478519,17 +481445,49 @@
      ]
     },
     {
-     "label": "l73.qkvg",
-     "op": "gemm_bf16",
+     "label": "l73.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.73.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l73.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.73.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.73.wbig_scale"
       },
       {
        "var": "tokens"
@@ -479580,17 +482538,49 @@
      ]
     },
     {
-     "label": "l74.qkvg",
-     "op": "gemm_bf16",
+     "label": "l74.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.74.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l74.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.74.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.74.wbig_scale"
       },
       {
        "var": "tokens"
@@ -481682,17 +484672,49 @@
      ]
     },
     {
-     "label": "l76.qkvg",
-     "op": "gemm_bf16",
+     "label": "l76.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.76.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l76.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.76.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.76.wbig_scale"
       },
       {
        "var": "tokens"
@@ -482743,17 +485765,49 @@
      ]
     },
     {
-     "label": "l77.qkvg",
-     "op": "gemm_bf16",
+     "label": "l77.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.77.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l77.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.77.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.77.wbig_scale"
       },
       {
        "var": "tokens"
@@ -483804,17 +486858,49 @@
      ]
     },
     {
-     "label": "l78.qkvg",
-     "op": "gemm_bf16",
+     "label": "l78.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.78.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l78.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.78.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.78.wbig_scale"
       },
       {
        "var": "tokens"
@@ -485906,17 +488992,49 @@
      ]
     },
     {
-     "label": "l80.qkvg",
-     "op": "gemm_bf16",
+     "label": "l80.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.80.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l80.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.80.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.80.wbig_scale"
       },
       {
        "var": "tokens"
@@ -486967,17 +490085,49 @@
      ]
     },
     {
-     "label": "l81.qkvg",
-     "op": "gemm_bf16",
+     "label": "l81.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.81.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l81.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.81.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.81.wbig_scale"
       },
       {
        "var": "tokens"
@@ -488028,17 +491178,49 @@
      ]
     },
     {
-     "label": "l82.qkvg",
-     "op": "gemm_bf16",
+     "label": "l82.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.82.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l82.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.82.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.82.wbig_scale"
       },
       {
        "var": "tokens"
@@ -490130,17 +493312,49 @@
      ]
     },
     {
-     "label": "l84.qkvg",
-     "op": "gemm_bf16",
+     "label": "l84.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.84.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l84.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.84.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.84.wbig_scale"
       },
       {
        "var": "tokens"
@@ -491191,17 +494405,49 @@
      ]
     },
     {
-     "label": "l85.qkvg",
-     "op": "gemm_bf16",
+     "label": "l85.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.85.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l85.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.85.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.85.wbig_scale"
       },
       {
        "var": "tokens"
@@ -492252,17 +495498,49 @@
      ]
     },
     {
-     "label": "l86.qkvg",
-     "op": "gemm_bf16",
+     "label": "l86.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.86.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l86.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.86.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.86.wbig_scale"
       },
       {
        "var": "tokens"
@@ -494354,17 +497632,49 @@
      ]
     },
     {
-     "label": "l88.qkvg",
-     "op": "gemm_bf16",
+     "label": "l88.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.88.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l88.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.88.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.88.wbig_scale"
       },
       {
        "var": "tokens"
@@ -495415,17 +498725,49 @@
      ]
     },
     {
-     "label": "l89.qkvg",
-     "op": "gemm_bf16",
+     "label": "l89.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.89.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l89.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.89.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.89.wbig_scale"
       },
       {
        "var": "tokens"
@@ -496476,17 +499818,49 @@
      ]
     },
     {
-     "label": "l90.qkvg",
-     "op": "gemm_bf16",
+     "label": "l90.qkvg_quant",
+     "op": "quant_fp8_tensor",
      "args": [
       {
        "buf": "normed_all"
       },
       {
-       "buf": "layers.90.wbig"
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         "tokens",
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "label": "l90.qkvg",
+     "op": "gemm_fp8_qkvg",
+     "args": [
+      {
+       "buf": "normed_fp8"
+      },
+      {
+       "buf": "layers.90.wbig_fp8"
       },
       {
        "buf": "kda_partial"
+      },
+      {
+       "buf": "normed_fp8_scale"
+      },
+      {
+       "buf": "layers.90.wbig_scale"
       },
       {
        "var": "tokens"
@@ -515799,6 +519173,1455 @@
       },
       {
        "f32": 25.0
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.0.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.0.wbig"
+      },
+      {
+       "buf": "layers.0.wbig_fp8"
+      },
+      {
+       "buf": "layers.0.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.1.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.1.wbig"
+      },
+      {
+       "buf": "layers.1.wbig_fp8"
+      },
+      {
+       "buf": "layers.1.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.2.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.2.wbig"
+      },
+      {
+       "buf": "layers.2.wbig_fp8"
+      },
+      {
+       "buf": "layers.2.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.4.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.4.wbig"
+      },
+      {
+       "buf": "layers.4.wbig_fp8"
+      },
+      {
+       "buf": "layers.4.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.5.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.5.wbig"
+      },
+      {
+       "buf": "layers.5.wbig_fp8"
+      },
+      {
+       "buf": "layers.5.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.6.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.6.wbig"
+      },
+      {
+       "buf": "layers.6.wbig_fp8"
+      },
+      {
+       "buf": "layers.6.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.8.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.8.wbig"
+      },
+      {
+       "buf": "layers.8.wbig_fp8"
+      },
+      {
+       "buf": "layers.8.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.9.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.9.wbig"
+      },
+      {
+       "buf": "layers.9.wbig_fp8"
+      },
+      {
+       "buf": "layers.9.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.10.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.10.wbig"
+      },
+      {
+       "buf": "layers.10.wbig_fp8"
+      },
+      {
+       "buf": "layers.10.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.12.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.12.wbig"
+      },
+      {
+       "buf": "layers.12.wbig_fp8"
+      },
+      {
+       "buf": "layers.12.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.13.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.13.wbig"
+      },
+      {
+       "buf": "layers.13.wbig_fp8"
+      },
+      {
+       "buf": "layers.13.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.14.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.14.wbig"
+      },
+      {
+       "buf": "layers.14.wbig_fp8"
+      },
+      {
+       "buf": "layers.14.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.16.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.16.wbig"
+      },
+      {
+       "buf": "layers.16.wbig_fp8"
+      },
+      {
+       "buf": "layers.16.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.17.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.17.wbig"
+      },
+      {
+       "buf": "layers.17.wbig_fp8"
+      },
+      {
+       "buf": "layers.17.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.18.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.18.wbig"
+      },
+      {
+       "buf": "layers.18.wbig_fp8"
+      },
+      {
+       "buf": "layers.18.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.20.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.20.wbig"
+      },
+      {
+       "buf": "layers.20.wbig_fp8"
+      },
+      {
+       "buf": "layers.20.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.21.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.21.wbig"
+      },
+      {
+       "buf": "layers.21.wbig_fp8"
+      },
+      {
+       "buf": "layers.21.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.22.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.22.wbig"
+      },
+      {
+       "buf": "layers.22.wbig_fp8"
+      },
+      {
+       "buf": "layers.22.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.24.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.24.wbig"
+      },
+      {
+       "buf": "layers.24.wbig_fp8"
+      },
+      {
+       "buf": "layers.24.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.25.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.25.wbig"
+      },
+      {
+       "buf": "layers.25.wbig_fp8"
+      },
+      {
+       "buf": "layers.25.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.26.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.26.wbig"
+      },
+      {
+       "buf": "layers.26.wbig_fp8"
+      },
+      {
+       "buf": "layers.26.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.28.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.28.wbig"
+      },
+      {
+       "buf": "layers.28.wbig_fp8"
+      },
+      {
+       "buf": "layers.28.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.29.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.29.wbig"
+      },
+      {
+       "buf": "layers.29.wbig_fp8"
+      },
+      {
+       "buf": "layers.29.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.30.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.30.wbig"
+      },
+      {
+       "buf": "layers.30.wbig_fp8"
+      },
+      {
+       "buf": "layers.30.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.32.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.32.wbig"
+      },
+      {
+       "buf": "layers.32.wbig_fp8"
+      },
+      {
+       "buf": "layers.32.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.33.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.33.wbig"
+      },
+      {
+       "buf": "layers.33.wbig_fp8"
+      },
+      {
+       "buf": "layers.33.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.34.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.34.wbig"
+      },
+      {
+       "buf": "layers.34.wbig_fp8"
+      },
+      {
+       "buf": "layers.34.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.36.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.36.wbig"
+      },
+      {
+       "buf": "layers.36.wbig_fp8"
+      },
+      {
+       "buf": "layers.36.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.37.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.37.wbig"
+      },
+      {
+       "buf": "layers.37.wbig_fp8"
+      },
+      {
+       "buf": "layers.37.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.38.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.38.wbig"
+      },
+      {
+       "buf": "layers.38.wbig_fp8"
+      },
+      {
+       "buf": "layers.38.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.40.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.40.wbig"
+      },
+      {
+       "buf": "layers.40.wbig_fp8"
+      },
+      {
+       "buf": "layers.40.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.41.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.41.wbig"
+      },
+      {
+       "buf": "layers.41.wbig_fp8"
+      },
+      {
+       "buf": "layers.41.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.42.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.42.wbig"
+      },
+      {
+       "buf": "layers.42.wbig_fp8"
+      },
+      {
+       "buf": "layers.42.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.44.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.44.wbig"
+      },
+      {
+       "buf": "layers.44.wbig_fp8"
+      },
+      {
+       "buf": "layers.44.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.45.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.45.wbig"
+      },
+      {
+       "buf": "layers.45.wbig_fp8"
+      },
+      {
+       "buf": "layers.45.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.46.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.46.wbig"
+      },
+      {
+       "buf": "layers.46.wbig_fp8"
+      },
+      {
+       "buf": "layers.46.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.48.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.48.wbig"
+      },
+      {
+       "buf": "layers.48.wbig_fp8"
+      },
+      {
+       "buf": "layers.48.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.49.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.49.wbig"
+      },
+      {
+       "buf": "layers.49.wbig_fp8"
+      },
+      {
+       "buf": "layers.49.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.50.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.50.wbig"
+      },
+      {
+       "buf": "layers.50.wbig_fp8"
+      },
+      {
+       "buf": "layers.50.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.52.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.52.wbig"
+      },
+      {
+       "buf": "layers.52.wbig_fp8"
+      },
+      {
+       "buf": "layers.52.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.53.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.53.wbig"
+      },
+      {
+       "buf": "layers.53.wbig_fp8"
+      },
+      {
+       "buf": "layers.53.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.54.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.54.wbig"
+      },
+      {
+       "buf": "layers.54.wbig_fp8"
+      },
+      {
+       "buf": "layers.54.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.56.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.56.wbig"
+      },
+      {
+       "buf": "layers.56.wbig_fp8"
+      },
+      {
+       "buf": "layers.56.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.57.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.57.wbig"
+      },
+      {
+       "buf": "layers.57.wbig_fp8"
+      },
+      {
+       "buf": "layers.57.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.58.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.58.wbig"
+      },
+      {
+       "buf": "layers.58.wbig_fp8"
+      },
+      {
+       "buf": "layers.58.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.60.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.60.wbig"
+      },
+      {
+       "buf": "layers.60.wbig_fp8"
+      },
+      {
+       "buf": "layers.60.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.61.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.61.wbig"
+      },
+      {
+       "buf": "layers.61.wbig_fp8"
+      },
+      {
+       "buf": "layers.61.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.62.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.62.wbig"
+      },
+      {
+       "buf": "layers.62.wbig_fp8"
+      },
+      {
+       "buf": "layers.62.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.64.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.64.wbig"
+      },
+      {
+       "buf": "layers.64.wbig_fp8"
+      },
+      {
+       "buf": "layers.64.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.65.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.65.wbig"
+      },
+      {
+       "buf": "layers.65.wbig_fp8"
+      },
+      {
+       "buf": "layers.65.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.66.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.66.wbig"
+      },
+      {
+       "buf": "layers.66.wbig_fp8"
+      },
+      {
+       "buf": "layers.66.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.68.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.68.wbig"
+      },
+      {
+       "buf": "layers.68.wbig_fp8"
+      },
+      {
+       "buf": "layers.68.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.69.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.69.wbig"
+      },
+      {
+       "buf": "layers.69.wbig_fp8"
+      },
+      {
+       "buf": "layers.69.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.70.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.70.wbig"
+      },
+      {
+       "buf": "layers.70.wbig_fp8"
+      },
+      {
+       "buf": "layers.70.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.72.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.72.wbig"
+      },
+      {
+       "buf": "layers.72.wbig_fp8"
+      },
+      {
+       "buf": "layers.72.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.73.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.73.wbig"
+      },
+      {
+       "buf": "layers.73.wbig_fp8"
+      },
+      {
+       "buf": "layers.73.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.74.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.74.wbig"
+      },
+      {
+       "buf": "layers.74.wbig_fp8"
+      },
+      {
+       "buf": "layers.74.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.76.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.76.wbig"
+      },
+      {
+       "buf": "layers.76.wbig_fp8"
+      },
+      {
+       "buf": "layers.76.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.77.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.77.wbig"
+      },
+      {
+       "buf": "layers.77.wbig_fp8"
+      },
+      {
+       "buf": "layers.77.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.78.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.78.wbig"
+      },
+      {
+       "buf": "layers.78.wbig_fp8"
+      },
+      {
+       "buf": "layers.78.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.80.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.80.wbig"
+      },
+      {
+       "buf": "layers.80.wbig_fp8"
+      },
+      {
+       "buf": "layers.80.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.81.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.81.wbig"
+      },
+      {
+       "buf": "layers.81.wbig_fp8"
+      },
+      {
+       "buf": "layers.81.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.82.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.82.wbig"
+      },
+      {
+       "buf": "layers.82.wbig_fp8"
+      },
+      {
+       "buf": "layers.82.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.84.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.84.wbig"
+      },
+      {
+       "buf": "layers.84.wbig_fp8"
+      },
+      {
+       "buf": "layers.84.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.85.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.85.wbig"
+      },
+      {
+       "buf": "layers.85.wbig_fp8"
+      },
+      {
+       "buf": "layers.85.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.86.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.86.wbig"
+      },
+      {
+       "buf": "layers.86.wbig_fp8"
+      },
+      {
+       "buf": "layers.86.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.88.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.88.wbig"
+      },
+      {
+       "buf": "layers.88.wbig_fp8"
+      },
+      {
+       "buf": "layers.88.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.89.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.89.wbig"
+      },
+      {
+       "buf": "layers.89.wbig_fp8"
+      },
+      {
+       "buf": "layers.89.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.90.wbig",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.90.wbig"
+      },
+      {
+       "buf": "layers.90.wbig_fp8"
+      },
+      {
+       "buf": "layers.90.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
       }
      ]
     }

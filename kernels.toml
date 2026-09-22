@@ -239,3 +239,7 @@ source = "source/k3_residual_push_stats.cu"
 sha256 = "1b4f188800c70d8c4c30a8adb3badb6cf8d1e07610dee77b7028de0080e45fe1"
 source = "source/k3_residual_nb_stats.cu"
 defines = { LAND_BF16 = 1 }
+
+[kernels.k3_quant_fp8_pair]
+sha256 = "b9ce8ea06cc988d5071a9ef70dae8cda297472872c64ac94d3bcb5da1a964fb3"
+source = "source/k3_quant_fp8_pair.cu"
