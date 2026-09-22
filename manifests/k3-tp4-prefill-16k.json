@@ -399262,13 +399262,13 @@
    "source": "k3_residual_nb_stats.cubin",
    "sha256": "1b4f188800c70d8c4c30a8adb3badb6cf8d1e07610dee77b7028de0080e45fe1"
   },
-  "k3_quant_fp8_pair": {
-   "source": "k3_quant_fp8_pair.cubin",
-   "sha256": "b9ce8ea06cc988d5071a9ef70dae8cda297472872c64ac94d3bcb5da1a964fb3"
-  },
   "k3_residual_push_add2": {
    "source": "k3_residual_push_add2.cubin",
    "sha256": "5ce33ae9f3e3655363bf15f426c91f9237f7e976c7ff831fd340044629cd3f17"
+  },
+  "k3_quant_fp8_pair_v2": {
+   "source": "k3_quant_fp8_pair_v2.cubin",
+   "sha256": "69ded945e6c67b909b8dad6fb47dd9c110c361fcecb68cfd924e4400199220e0"
   }
  },
  "ops": {
@@ -403032,8 +403032,8 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_quant_fp8_pair",
-      "entry": "kern_quant_fp8_amax",
+      "module": "k3_quant_fp8_pair_v2",
+      "entry": "kern_quant_fp8_amax_v2",
       "params": [
        "in buffer<bf16>",
        "i32",
@@ -403062,8 +403062,8 @@
       ]
      },
      {
-      "module": "k3_quant_fp8_pair",
-      "entry": "kern_quant_fp8_apply",
+      "module": "k3_quant_fp8_pair_v2",
+      "entry": "kern_quant_fp8_apply_v2",
       "params": [
        "in buffer<bf16>",
        "out buffer<u8>",
