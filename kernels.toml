@@ -243,3 +243,7 @@ defines = { LAND_BF16 = 1 }
 [kernels.k3_quant_fp8_pair]
 sha256 = "b9ce8ea06cc988d5071a9ef70dae8cda297472872c64ac94d3bcb5da1a964fb3"
 source = "source/k3_quant_fp8_pair.cu"
+
+[kernels.k3_residual_push_add2]
+sha256 = "5ce33ae9f3e3655363bf15f426c91f9237f7e976c7ff831fd340044629cd3f17"
+source = "source/k3_residual_push_add2.cu"
