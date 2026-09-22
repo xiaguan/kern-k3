@@ -400542,6 +400542,1386 @@
     1
    ],
    "kind": "carry"
+  },
+  "layers.1.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.1.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.2.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.2.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.3.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.3.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.4.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.4.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.5.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.5.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.6.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.6.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.7.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.7.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.8.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.8.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.9.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.9.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.10.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.10.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.11.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.11.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.12.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.12.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.13.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.13.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.14.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.14.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.15.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.15.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.16.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.16.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.17.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.17.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.18.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.18.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.19.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.19.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.20.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.20.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.21.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.21.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.22.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.22.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.23.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.23.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.24.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.24.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.25.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.25.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.26.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.26.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.27.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.27.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.28.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.28.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.29.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.29.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.30.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.30.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.31.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.31.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.32.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.32.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.33.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.33.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.34.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.34.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.35.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.35.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.36.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.36.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.37.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.37.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.38.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.38.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.39.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.39.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.40.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.40.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.41.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.41.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.42.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.42.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.43.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.43.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.44.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.44.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.45.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.45.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.46.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.46.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.47.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.47.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.48.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.48.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.49.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.49.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.50.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.50.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.51.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.51.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.52.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.52.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.53.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.53.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.54.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.54.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.55.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.55.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.56.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.56.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.57.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.57.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.58.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.58.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.59.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.59.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.60.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.60.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.61.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.61.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.62.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.62.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.63.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.63.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.64.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.64.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.65.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.65.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.66.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.66.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.67.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.67.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.68.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.68.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.69.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.69.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.70.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.70.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.71.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.71.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.72.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.72.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.73.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.73.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.74.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.74.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.75.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.75.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.76.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.76.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.77.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.77.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.78.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.78.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.79.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.79.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.80.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.80.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.81.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.81.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.82.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.82.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.83.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.83.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.84.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.84.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.85.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.85.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.86.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.86.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.87.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.87.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.88.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.88.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.89.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.89.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.90.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.90.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.91.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.91.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.92.w_lat_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    3584,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.92.w_lat_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
   }
  },
  "modules": {
@@ -405881,16 +407261,22 @@
     },
     {
      "label": "l1.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.1.w_lat_down"
+       "buf": "layers.1.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.1.w_lat_down_scale"
       },
       {
        "expr": {
@@ -406988,16 +408374,22 @@
     },
     {
      "label": "l2.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.2.w_lat_down"
+       "buf": "layers.2.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.2.w_lat_down_scale"
       },
       {
        "expr": {
@@ -408043,16 +409435,22 @@
     },
     {
      "label": "l3.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.3.w_lat_down"
+       "buf": "layers.3.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.3.w_lat_down_scale"
       },
       {
        "expr": {
@@ -409150,16 +410548,22 @@
     },
     {
      "label": "l4.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.4.w_lat_down"
+       "buf": "layers.4.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.4.w_lat_down_scale"
       },
       {
        "expr": {
@@ -410257,16 +411661,22 @@
     },
     {
      "label": "l5.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.5.w_lat_down"
+       "buf": "layers.5.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.5.w_lat_down_scale"
       },
       {
        "expr": {
@@ -411364,16 +412774,22 @@
     },
     {
      "label": "l6.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.6.w_lat_down"
+       "buf": "layers.6.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.6.w_lat_down_scale"
       },
       {
        "expr": {
@@ -412419,16 +413835,22 @@
     },
     {
      "label": "l7.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.7.w_lat_down"
+       "buf": "layers.7.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.7.w_lat_down_scale"
       },
       {
        "expr": {
@@ -413526,16 +414948,22 @@
     },
     {
      "label": "l8.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.8.w_lat_down"
+       "buf": "layers.8.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.8.w_lat_down_scale"
       },
       {
        "expr": {
@@ -414633,16 +416061,22 @@
     },
     {
      "label": "l9.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.9.w_lat_down"
+       "buf": "layers.9.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.9.w_lat_down_scale"
       },
       {
        "expr": {
@@ -415740,16 +417174,22 @@
     },
     {
      "label": "l10.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.10.w_lat_down"
+       "buf": "layers.10.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.10.w_lat_down_scale"
       },
       {
        "expr": {
@@ -416795,16 +418235,22 @@
     },
     {
      "label": "l11.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.11.w_lat_down"
+       "buf": "layers.11.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.11.w_lat_down_scale"
       },
       {
        "expr": {
@@ -417902,16 +419348,22 @@
     },
     {
      "label": "l12.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.12.w_lat_down"
+       "buf": "layers.12.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.12.w_lat_down_scale"
       },
       {
        "expr": {
@@ -419009,16 +420461,22 @@
     },
     {
      "label": "l13.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.13.w_lat_down"
+       "buf": "layers.13.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.13.w_lat_down_scale"
       },
       {
        "expr": {
@@ -420116,16 +421574,22 @@
     },
     {
      "label": "l14.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.14.w_lat_down"
+       "buf": "layers.14.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.14.w_lat_down_scale"
       },
       {
        "expr": {
@@ -421171,16 +422635,22 @@
     },
     {
      "label": "l15.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.15.w_lat_down"
+       "buf": "layers.15.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.15.w_lat_down_scale"
       },
       {
        "expr": {
@@ -422278,16 +423748,22 @@
     },
     {
      "label": "l16.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.16.w_lat_down"
+       "buf": "layers.16.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.16.w_lat_down_scale"
       },
       {
        "expr": {
@@ -423385,16 +424861,22 @@
     },
     {
      "label": "l17.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.17.w_lat_down"
+       "buf": "layers.17.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.17.w_lat_down_scale"
       },
       {
        "expr": {
@@ -424492,16 +425974,22 @@
     },
     {
      "label": "l18.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.18.w_lat_down"
+       "buf": "layers.18.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.18.w_lat_down_scale"
       },
       {
        "expr": {
@@ -425547,16 +427035,22 @@
     },
     {
      "label": "l19.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.19.w_lat_down"
+       "buf": "layers.19.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.19.w_lat_down_scale"
       },
       {
        "expr": {
@@ -426654,16 +428148,22 @@
     },
     {
      "label": "l20.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.20.w_lat_down"
+       "buf": "layers.20.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.20.w_lat_down_scale"
       },
       {
        "expr": {
@@ -427761,16 +429261,22 @@
     },
     {
      "label": "l21.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.21.w_lat_down"
+       "buf": "layers.21.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.21.w_lat_down_scale"
       },
       {
        "expr": {
@@ -428868,16 +430374,22 @@
     },
     {
      "label": "l22.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.22.w_lat_down"
+       "buf": "layers.22.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.22.w_lat_down_scale"
       },
       {
        "expr": {
@@ -429923,16 +431435,22 @@
     },
     {
      "label": "l23.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.23.w_lat_down"
+       "buf": "layers.23.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.23.w_lat_down_scale"
       },
       {
        "expr": {
@@ -431030,16 +432548,22 @@
     },
     {
      "label": "l24.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.24.w_lat_down"
+       "buf": "layers.24.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.24.w_lat_down_scale"
       },
       {
        "expr": {
@@ -432137,16 +433661,22 @@
     },
     {
      "label": "l25.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.25.w_lat_down"
+       "buf": "layers.25.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.25.w_lat_down_scale"
       },
       {
        "expr": {
@@ -433244,16 +434774,22 @@
     },
     {
      "label": "l26.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.26.w_lat_down"
+       "buf": "layers.26.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.26.w_lat_down_scale"
       },
       {
        "expr": {
@@ -434299,16 +435835,22 @@
     },
     {
      "label": "l27.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.27.w_lat_down"
+       "buf": "layers.27.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.27.w_lat_down_scale"
       },
       {
        "expr": {
@@ -435406,16 +436948,22 @@
     },
     {
      "label": "l28.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.28.w_lat_down"
+       "buf": "layers.28.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.28.w_lat_down_scale"
       },
       {
        "expr": {
@@ -436513,16 +438061,22 @@
     },
     {
      "label": "l29.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.29.w_lat_down"
+       "buf": "layers.29.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.29.w_lat_down_scale"
       },
       {
        "expr": {
@@ -437620,16 +439174,22 @@
     },
     {
      "label": "l30.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.30.w_lat_down"
+       "buf": "layers.30.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.30.w_lat_down_scale"
       },
       {
        "expr": {
@@ -438675,16 +440235,22 @@
     },
     {
      "label": "l31.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.31.w_lat_down"
+       "buf": "layers.31.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.31.w_lat_down_scale"
       },
       {
        "expr": {
@@ -439782,16 +441348,22 @@
     },
     {
      "label": "l32.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.32.w_lat_down"
+       "buf": "layers.32.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.32.w_lat_down_scale"
       },
       {
        "expr": {
@@ -440889,16 +442461,22 @@
     },
     {
      "label": "l33.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.33.w_lat_down"
+       "buf": "layers.33.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.33.w_lat_down_scale"
       },
       {
        "expr": {
@@ -441996,16 +443574,22 @@
     },
     {
      "label": "l34.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.34.w_lat_down"
+       "buf": "layers.34.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.34.w_lat_down_scale"
       },
       {
        "expr": {
@@ -443051,16 +444635,22 @@
     },
     {
      "label": "l35.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.35.w_lat_down"
+       "buf": "layers.35.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.35.w_lat_down_scale"
       },
       {
        "expr": {
@@ -444164,16 +445754,22 @@
     },
     {
      "label": "l36.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.36.w_lat_down"
+       "buf": "layers.36.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.36.w_lat_down_scale"
       },
       {
        "expr": {
@@ -445277,16 +446873,22 @@
     },
     {
      "label": "l37.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.37.w_lat_down"
+       "buf": "layers.37.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.37.w_lat_down_scale"
       },
       {
        "expr": {
@@ -446390,16 +447992,22 @@
     },
     {
      "label": "l38.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.38.w_lat_down"
+       "buf": "layers.38.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.38.w_lat_down_scale"
       },
       {
        "expr": {
@@ -447451,16 +449059,22 @@
     },
     {
      "label": "l39.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.39.w_lat_down"
+       "buf": "layers.39.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.39.w_lat_down_scale"
       },
       {
        "expr": {
@@ -448564,16 +450178,22 @@
     },
     {
      "label": "l40.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.40.w_lat_down"
+       "buf": "layers.40.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.40.w_lat_down_scale"
       },
       {
        "expr": {
@@ -449677,16 +451297,22 @@
     },
     {
      "label": "l41.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.41.w_lat_down"
+       "buf": "layers.41.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.41.w_lat_down_scale"
       },
       {
        "expr": {
@@ -450790,16 +452416,22 @@
     },
     {
      "label": "l42.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.42.w_lat_down"
+       "buf": "layers.42.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.42.w_lat_down_scale"
       },
       {
        "expr": {
@@ -451851,16 +453483,22 @@
     },
     {
      "label": "l43.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.43.w_lat_down"
+       "buf": "layers.43.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.43.w_lat_down_scale"
       },
       {
        "expr": {
@@ -452964,16 +454602,22 @@
     },
     {
      "label": "l44.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.44.w_lat_down"
+       "buf": "layers.44.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.44.w_lat_down_scale"
       },
       {
        "expr": {
@@ -454077,16 +455721,22 @@
     },
     {
      "label": "l45.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.45.w_lat_down"
+       "buf": "layers.45.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.45.w_lat_down_scale"
       },
       {
        "expr": {
@@ -455190,16 +456840,22 @@
     },
     {
      "label": "l46.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.46.w_lat_down"
+       "buf": "layers.46.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.46.w_lat_down_scale"
       },
       {
        "expr": {
@@ -456251,16 +457907,22 @@
     },
     {
      "label": "l47.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.47.w_lat_down"
+       "buf": "layers.47.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.47.w_lat_down_scale"
       },
       {
        "expr": {
@@ -457364,16 +459026,22 @@
     },
     {
      "label": "l48.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.48.w_lat_down"
+       "buf": "layers.48.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.48.w_lat_down_scale"
       },
       {
        "expr": {
@@ -458477,16 +460145,22 @@
     },
     {
      "label": "l49.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.49.w_lat_down"
+       "buf": "layers.49.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.49.w_lat_down_scale"
       },
       {
        "expr": {
@@ -459590,16 +461264,22 @@
     },
     {
      "label": "l50.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.50.w_lat_down"
+       "buf": "layers.50.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.50.w_lat_down_scale"
       },
       {
        "expr": {
@@ -460651,16 +462331,22 @@
     },
     {
      "label": "l51.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.51.w_lat_down"
+       "buf": "layers.51.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.51.w_lat_down_scale"
       },
       {
        "expr": {
@@ -461764,16 +463450,22 @@
     },
     {
      "label": "l52.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.52.w_lat_down"
+       "buf": "layers.52.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.52.w_lat_down_scale"
       },
       {
        "expr": {
@@ -462877,16 +464569,22 @@
     },
     {
      "label": "l53.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.53.w_lat_down"
+       "buf": "layers.53.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.53.w_lat_down_scale"
       },
       {
        "expr": {
@@ -463990,16 +465688,22 @@
     },
     {
      "label": "l54.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.54.w_lat_down"
+       "buf": "layers.54.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.54.w_lat_down_scale"
       },
       {
        "expr": {
@@ -465051,16 +466755,22 @@
     },
     {
      "label": "l55.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.55.w_lat_down"
+       "buf": "layers.55.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.55.w_lat_down_scale"
       },
       {
        "expr": {
@@ -466164,16 +467874,22 @@
     },
     {
      "label": "l56.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.56.w_lat_down"
+       "buf": "layers.56.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.56.w_lat_down_scale"
       },
       {
        "expr": {
@@ -467277,16 +468993,22 @@
     },
     {
      "label": "l57.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.57.w_lat_down"
+       "buf": "layers.57.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.57.w_lat_down_scale"
       },
       {
        "expr": {
@@ -468390,16 +470112,22 @@
     },
     {
      "label": "l58.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.58.w_lat_down"
+       "buf": "layers.58.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.58.w_lat_down_scale"
       },
       {
        "expr": {
@@ -469451,16 +471179,22 @@
     },
     {
      "label": "l59.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.59.w_lat_down"
+       "buf": "layers.59.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.59.w_lat_down_scale"
       },
       {
        "expr": {
@@ -470564,16 +472298,22 @@
     },
     {
      "label": "l60.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.60.w_lat_down"
+       "buf": "layers.60.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.60.w_lat_down_scale"
       },
       {
        "expr": {
@@ -471677,16 +473417,22 @@
     },
     {
      "label": "l61.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.61.w_lat_down"
+       "buf": "layers.61.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.61.w_lat_down_scale"
       },
       {
        "expr": {
@@ -472790,16 +474536,22 @@
     },
     {
      "label": "l62.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.62.w_lat_down"
+       "buf": "layers.62.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.62.w_lat_down_scale"
       },
       {
        "expr": {
@@ -473851,16 +475603,22 @@
     },
     {
      "label": "l63.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.63.w_lat_down"
+       "buf": "layers.63.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.63.w_lat_down_scale"
       },
       {
        "expr": {
@@ -474964,16 +476722,22 @@
     },
     {
      "label": "l64.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.64.w_lat_down"
+       "buf": "layers.64.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.64.w_lat_down_scale"
       },
       {
        "expr": {
@@ -476077,16 +477841,22 @@
     },
     {
      "label": "l65.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.65.w_lat_down"
+       "buf": "layers.65.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.65.w_lat_down_scale"
       },
       {
        "expr": {
@@ -477190,16 +478960,22 @@
     },
     {
      "label": "l66.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.66.w_lat_down"
+       "buf": "layers.66.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.66.w_lat_down_scale"
       },
       {
        "expr": {
@@ -478251,16 +480027,22 @@
     },
     {
      "label": "l67.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.67.w_lat_down"
+       "buf": "layers.67.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.67.w_lat_down_scale"
       },
       {
        "expr": {
@@ -479364,16 +481146,22 @@
     },
     {
      "label": "l68.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.68.w_lat_down"
+       "buf": "layers.68.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.68.w_lat_down_scale"
       },
       {
        "expr": {
@@ -480477,16 +482265,22 @@
     },
     {
      "label": "l69.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.69.w_lat_down"
+       "buf": "layers.69.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.69.w_lat_down_scale"
       },
       {
        "expr": {
@@ -481590,16 +483384,22 @@
     },
     {
      "label": "l70.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.70.w_lat_down"
+       "buf": "layers.70.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.70.w_lat_down_scale"
       },
       {
        "expr": {
@@ -482651,16 +484451,22 @@
     },
     {
      "label": "l71.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.71.w_lat_down"
+       "buf": "layers.71.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.71.w_lat_down_scale"
       },
       {
        "expr": {
@@ -483764,16 +485570,22 @@
     },
     {
      "label": "l72.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.72.w_lat_down"
+       "buf": "layers.72.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.72.w_lat_down_scale"
       },
       {
        "expr": {
@@ -484877,16 +486689,22 @@
     },
     {
      "label": "l73.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.73.w_lat_down"
+       "buf": "layers.73.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.73.w_lat_down_scale"
       },
       {
        "expr": {
@@ -485990,16 +487808,22 @@
     },
     {
      "label": "l74.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.74.w_lat_down"
+       "buf": "layers.74.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.74.w_lat_down_scale"
       },
       {
        "expr": {
@@ -487051,16 +488875,22 @@
     },
     {
      "label": "l75.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.75.w_lat_down"
+       "buf": "layers.75.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.75.w_lat_down_scale"
       },
       {
        "expr": {
@@ -488164,16 +489994,22 @@
     },
     {
      "label": "l76.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.76.w_lat_down"
+       "buf": "layers.76.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.76.w_lat_down_scale"
       },
       {
        "expr": {
@@ -489277,16 +491113,22 @@
     },
     {
      "label": "l77.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.77.w_lat_down"
+       "buf": "layers.77.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.77.w_lat_down_scale"
       },
       {
        "expr": {
@@ -490390,16 +492232,22 @@
     },
     {
      "label": "l78.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.78.w_lat_down"
+       "buf": "layers.78.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.78.w_lat_down_scale"
       },
       {
        "expr": {
@@ -491451,16 +493299,22 @@
     },
     {
      "label": "l79.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.79.w_lat_down"
+       "buf": "layers.79.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.79.w_lat_down_scale"
       },
       {
        "expr": {
@@ -492564,16 +494418,22 @@
     },
     {
      "label": "l80.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.80.w_lat_down"
+       "buf": "layers.80.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.80.w_lat_down_scale"
       },
       {
        "expr": {
@@ -493677,16 +495537,22 @@
     },
     {
      "label": "l81.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.81.w_lat_down"
+       "buf": "layers.81.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.81.w_lat_down_scale"
       },
       {
        "expr": {
@@ -494790,16 +496656,22 @@
     },
     {
      "label": "l82.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.82.w_lat_down"
+       "buf": "layers.82.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.82.w_lat_down_scale"
       },
       {
        "expr": {
@@ -495851,16 +497723,22 @@
     },
     {
      "label": "l83.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.83.w_lat_down"
+       "buf": "layers.83.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.83.w_lat_down_scale"
       },
       {
        "expr": {
@@ -496964,16 +498842,22 @@
     },
     {
      "label": "l84.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.84.w_lat_down"
+       "buf": "layers.84.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.84.w_lat_down_scale"
       },
       {
        "expr": {
@@ -498077,16 +499961,22 @@
     },
     {
      "label": "l85.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.85.w_lat_down"
+       "buf": "layers.85.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.85.w_lat_down_scale"
       },
       {
        "expr": {
@@ -499190,16 +501080,22 @@
     },
     {
      "label": "l86.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.86.w_lat_down"
+       "buf": "layers.86.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.86.w_lat_down_scale"
       },
       {
        "expr": {
@@ -500251,16 +502147,22 @@
     },
     {
      "label": "l87.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.87.w_lat_down"
+       "buf": "layers.87.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.87.w_lat_down_scale"
       },
       {
        "expr": {
@@ -501364,16 +503266,22 @@
     },
     {
      "label": "l88.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.88.w_lat_down"
+       "buf": "layers.88.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.88.w_lat_down_scale"
       },
       {
        "expr": {
@@ -502477,16 +504385,22 @@
     },
     {
      "label": "l89.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.89.w_lat_down"
+       "buf": "layers.89.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.89.w_lat_down_scale"
       },
       {
        "expr": {
@@ -503590,16 +505504,22 @@
     },
     {
      "label": "l90.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.90.w_lat_down"
+       "buf": "layers.90.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.90.w_lat_down_scale"
       },
       {
        "expr": {
@@ -504651,16 +506571,22 @@
     },
     {
      "label": "l91.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.91.w_lat_down"
+       "buf": "layers.91.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.91.w_lat_down_scale"
       },
       {
        "expr": {
@@ -505712,16 +507638,22 @@
     },
     {
      "label": "l92.lat_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.92.w_lat_down"
+       "buf": "layers.92.w_lat_down_fp8"
       },
       {
        "buf": "latent"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.92.w_lat_down_scale"
       },
       {
        "expr": {
@@ -525907,6 +527839,1938 @@
       },
       {
        "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.1.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.1.w_lat_down"
+      },
+      {
+       "buf": "layers.1.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.1.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.2.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.2.w_lat_down"
+      },
+      {
+       "buf": "layers.2.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.2.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.3.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.3.w_lat_down"
+      },
+      {
+       "buf": "layers.3.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.3.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.4.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.4.w_lat_down"
+      },
+      {
+       "buf": "layers.4.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.4.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.5.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.5.w_lat_down"
+      },
+      {
+       "buf": "layers.5.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.5.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.6.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.6.w_lat_down"
+      },
+      {
+       "buf": "layers.6.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.6.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.7.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.7.w_lat_down"
+      },
+      {
+       "buf": "layers.7.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.7.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.8.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.8.w_lat_down"
+      },
+      {
+       "buf": "layers.8.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.8.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.9.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.9.w_lat_down"
+      },
+      {
+       "buf": "layers.9.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.9.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.10.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.10.w_lat_down"
+      },
+      {
+       "buf": "layers.10.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.10.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.11.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.11.w_lat_down"
+      },
+      {
+       "buf": "layers.11.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.11.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.12.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.12.w_lat_down"
+      },
+      {
+       "buf": "layers.12.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.12.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.13.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.13.w_lat_down"
+      },
+      {
+       "buf": "layers.13.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.13.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.14.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.14.w_lat_down"
+      },
+      {
+       "buf": "layers.14.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.14.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.15.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.15.w_lat_down"
+      },
+      {
+       "buf": "layers.15.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.15.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.16.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.16.w_lat_down"
+      },
+      {
+       "buf": "layers.16.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.16.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.17.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.17.w_lat_down"
+      },
+      {
+       "buf": "layers.17.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.17.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.18.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.18.w_lat_down"
+      },
+      {
+       "buf": "layers.18.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.18.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.19.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.19.w_lat_down"
+      },
+      {
+       "buf": "layers.19.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.19.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.20.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.20.w_lat_down"
+      },
+      {
+       "buf": "layers.20.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.20.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.21.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.21.w_lat_down"
+      },
+      {
+       "buf": "layers.21.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.21.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.22.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.22.w_lat_down"
+      },
+      {
+       "buf": "layers.22.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.22.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.23.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.23.w_lat_down"
+      },
+      {
+       "buf": "layers.23.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.23.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.24.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.24.w_lat_down"
+      },
+      {
+       "buf": "layers.24.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.24.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.25.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.25.w_lat_down"
+      },
+      {
+       "buf": "layers.25.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.25.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.26.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.26.w_lat_down"
+      },
+      {
+       "buf": "layers.26.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.26.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.27.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.27.w_lat_down"
+      },
+      {
+       "buf": "layers.27.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.27.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.28.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.28.w_lat_down"
+      },
+      {
+       "buf": "layers.28.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.28.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.29.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.29.w_lat_down"
+      },
+      {
+       "buf": "layers.29.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.29.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.30.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.30.w_lat_down"
+      },
+      {
+       "buf": "layers.30.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.30.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.31.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.31.w_lat_down"
+      },
+      {
+       "buf": "layers.31.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.31.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.32.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.32.w_lat_down"
+      },
+      {
+       "buf": "layers.32.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.32.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.33.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.33.w_lat_down"
+      },
+      {
+       "buf": "layers.33.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.33.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.34.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.34.w_lat_down"
+      },
+      {
+       "buf": "layers.34.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.34.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.35.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.35.w_lat_down"
+      },
+      {
+       "buf": "layers.35.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.35.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.36.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.36.w_lat_down"
+      },
+      {
+       "buf": "layers.36.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.36.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.37.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.37.w_lat_down"
+      },
+      {
+       "buf": "layers.37.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.37.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.38.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.38.w_lat_down"
+      },
+      {
+       "buf": "layers.38.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.38.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.39.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.39.w_lat_down"
+      },
+      {
+       "buf": "layers.39.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.39.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.40.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.40.w_lat_down"
+      },
+      {
+       "buf": "layers.40.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.40.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.41.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.41.w_lat_down"
+      },
+      {
+       "buf": "layers.41.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.41.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.42.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.42.w_lat_down"
+      },
+      {
+       "buf": "layers.42.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.42.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.43.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.43.w_lat_down"
+      },
+      {
+       "buf": "layers.43.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.43.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.44.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.44.w_lat_down"
+      },
+      {
+       "buf": "layers.44.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.44.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.45.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.45.w_lat_down"
+      },
+      {
+       "buf": "layers.45.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.45.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.46.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.46.w_lat_down"
+      },
+      {
+       "buf": "layers.46.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.46.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.47.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.47.w_lat_down"
+      },
+      {
+       "buf": "layers.47.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.47.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.48.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.48.w_lat_down"
+      },
+      {
+       "buf": "layers.48.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.48.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.49.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.49.w_lat_down"
+      },
+      {
+       "buf": "layers.49.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.49.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.50.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.50.w_lat_down"
+      },
+      {
+       "buf": "layers.50.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.50.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.51.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.51.w_lat_down"
+      },
+      {
+       "buf": "layers.51.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.51.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.52.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.52.w_lat_down"
+      },
+      {
+       "buf": "layers.52.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.52.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.53.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.53.w_lat_down"
+      },
+      {
+       "buf": "layers.53.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.53.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.54.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.54.w_lat_down"
+      },
+      {
+       "buf": "layers.54.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.54.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.55.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.55.w_lat_down"
+      },
+      {
+       "buf": "layers.55.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.55.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.56.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.56.w_lat_down"
+      },
+      {
+       "buf": "layers.56.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.56.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.57.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.57.w_lat_down"
+      },
+      {
+       "buf": "layers.57.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.57.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.58.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.58.w_lat_down"
+      },
+      {
+       "buf": "layers.58.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.58.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.59.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.59.w_lat_down"
+      },
+      {
+       "buf": "layers.59.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.59.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.60.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.60.w_lat_down"
+      },
+      {
+       "buf": "layers.60.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.60.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.61.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.61.w_lat_down"
+      },
+      {
+       "buf": "layers.61.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.61.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.62.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.62.w_lat_down"
+      },
+      {
+       "buf": "layers.62.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.62.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.63.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.63.w_lat_down"
+      },
+      {
+       "buf": "layers.63.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.63.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.64.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.64.w_lat_down"
+      },
+      {
+       "buf": "layers.64.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.64.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.65.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.65.w_lat_down"
+      },
+      {
+       "buf": "layers.65.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.65.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.66.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.66.w_lat_down"
+      },
+      {
+       "buf": "layers.66.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.66.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.67.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.67.w_lat_down"
+      },
+      {
+       "buf": "layers.67.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.67.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.68.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.68.w_lat_down"
+      },
+      {
+       "buf": "layers.68.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.68.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.69.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.69.w_lat_down"
+      },
+      {
+       "buf": "layers.69.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.69.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.70.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.70.w_lat_down"
+      },
+      {
+       "buf": "layers.70.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.70.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.71.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.71.w_lat_down"
+      },
+      {
+       "buf": "layers.71.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.71.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.72.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.72.w_lat_down"
+      },
+      {
+       "buf": "layers.72.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.72.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.73.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.73.w_lat_down"
+      },
+      {
+       "buf": "layers.73.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.73.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.74.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.74.w_lat_down"
+      },
+      {
+       "buf": "layers.74.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.74.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.75.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.75.w_lat_down"
+      },
+      {
+       "buf": "layers.75.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.75.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.76.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.76.w_lat_down"
+      },
+      {
+       "buf": "layers.76.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.76.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.77.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.77.w_lat_down"
+      },
+      {
+       "buf": "layers.77.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.77.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.78.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.78.w_lat_down"
+      },
+      {
+       "buf": "layers.78.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.78.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.79.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.79.w_lat_down"
+      },
+      {
+       "buf": "layers.79.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.79.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.80.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.80.w_lat_down"
+      },
+      {
+       "buf": "layers.80.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.80.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.81.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.81.w_lat_down"
+      },
+      {
+       "buf": "layers.81.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.81.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.82.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.82.w_lat_down"
+      },
+      {
+       "buf": "layers.82.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.82.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.83.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.83.w_lat_down"
+      },
+      {
+       "buf": "layers.83.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.83.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.84.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.84.w_lat_down"
+      },
+      {
+       "buf": "layers.84.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.84.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.85.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.85.w_lat_down"
+      },
+      {
+       "buf": "layers.85.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.85.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.86.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.86.w_lat_down"
+      },
+      {
+       "buf": "layers.86.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.86.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.87.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.87.w_lat_down"
+      },
+      {
+       "buf": "layers.87.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.87.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.88.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.88.w_lat_down"
+      },
+      {
+       "buf": "layers.88.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.88.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.89.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.89.w_lat_down"
+      },
+      {
+       "buf": "layers.89.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.89.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.90.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.90.w_lat_down"
+      },
+      {
+       "buf": "layers.90.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.90.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.91.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.91.w_lat_down"
+      },
+      {
+       "buf": "layers.91.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.91.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.92.w_lat_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.92.w_lat_down"
+      },
+      {
+       "buf": "layers.92.w_lat_down_fp8"
+      },
+      {
+       "buf": "layers.92.w_lat_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 25690112
       }
      ]
     }
