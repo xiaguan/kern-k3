@@ -401922,6 +401922,1401 @@
     1
    ],
    "kind": "carry"
+  },
+  "shared_act_fp8": {
+   "dtype": "u8",
+   "shape": [
+    4096,
+    6144
+   ],
+   "kind": "workspace"
+  },
+  "shared_act_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "workspace"
+  },
+  "layers.1.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.1.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.2.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.2.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.3.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.3.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.4.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.4.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.5.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.5.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.6.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.6.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.7.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.7.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.8.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.8.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.9.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.9.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.10.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.10.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.11.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.11.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.12.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.12.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.13.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.13.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.14.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.14.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.15.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.15.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.16.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.16.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.17.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.17.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.18.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.18.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.19.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.19.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.20.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.20.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.21.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.21.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.22.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.22.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.23.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.23.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.24.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.24.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.25.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.25.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.26.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.26.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.27.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.27.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.28.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.28.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.29.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.29.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.30.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.30.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.31.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.31.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.32.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.32.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.33.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.33.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.34.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.34.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.35.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.35.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.36.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.36.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.37.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.37.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.38.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.38.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.39.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.39.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.40.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.40.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.41.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.41.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.42.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.42.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.43.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.43.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.44.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.44.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.45.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.45.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.46.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.46.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.47.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.47.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.48.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.48.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.49.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.49.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.50.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.50.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.51.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.51.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.52.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.52.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.53.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.53.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.54.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.54.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.55.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.55.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.56.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.56.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.57.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.57.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.58.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.58.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.59.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.59.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.60.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.60.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.61.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.61.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.62.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.62.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.63.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.63.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.64.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.64.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.65.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.65.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.66.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.66.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.67.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.67.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.68.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.68.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.69.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.69.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.70.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.70.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.71.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.71.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.72.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.72.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.73.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.73.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.74.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.74.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.75.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.75.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.76.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.76.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.77.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.77.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.78.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.78.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.79.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.79.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.80.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.80.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.81.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.81.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.82.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.82.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.83.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.83.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.84.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.84.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.85.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.85.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.86.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.86.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.87.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.87.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.88.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.88.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.89.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.89.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.90.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.90.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.91.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.91.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.92.sh_down_fp8": {
+   "dtype": "u8",
+   "shape": [
+    7168,
+    6144
+   ],
+   "kind": "carry"
+  },
+  "layers.92.sh_down_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
   }
  },
  "modules": {
@@ -407733,6 +409128,37 @@
      ]
     },
     {
+     "label": "l1.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l1.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -407766,16 +409192,22 @@
     },
     {
      "label": "l1.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.1.sh_down"
+       "buf": "layers.1.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.1.sh_down_scale"
       },
       {
        "expr": {
@@ -408846,6 +410278,37 @@
      ]
     },
     {
+     "label": "l2.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l2.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -408879,16 +410342,22 @@
     },
     {
      "label": "l2.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.2.sh_down"
+       "buf": "layers.2.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.2.sh_down_scale"
       },
       {
        "expr": {
@@ -409907,6 +411376,37 @@
      ]
     },
     {
+     "label": "l3.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l3.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -409940,16 +411440,22 @@
     },
     {
      "label": "l3.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.3.sh_down"
+       "buf": "layers.3.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.3.sh_down_scale"
       },
       {
        "expr": {
@@ -411020,6 +412526,37 @@
      ]
     },
     {
+     "label": "l4.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l4.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -411053,16 +412590,22 @@
     },
     {
      "label": "l4.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.4.sh_down"
+       "buf": "layers.4.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.4.sh_down_scale"
       },
       {
        "expr": {
@@ -412133,6 +413676,37 @@
      ]
     },
     {
+     "label": "l5.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l5.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -412166,16 +413740,22 @@
     },
     {
      "label": "l5.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.5.sh_down"
+       "buf": "layers.5.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.5.sh_down_scale"
       },
       {
        "expr": {
@@ -413246,6 +414826,37 @@
      ]
     },
     {
+     "label": "l6.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l6.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -413279,16 +414890,22 @@
     },
     {
      "label": "l6.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.6.sh_down"
+       "buf": "layers.6.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.6.sh_down_scale"
       },
       {
        "expr": {
@@ -414307,6 +415924,37 @@
      ]
     },
     {
+     "label": "l7.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l7.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -414340,16 +415988,22 @@
     },
     {
      "label": "l7.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.7.sh_down"
+       "buf": "layers.7.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.7.sh_down_scale"
       },
       {
        "expr": {
@@ -415420,6 +417074,37 @@
      ]
     },
     {
+     "label": "l8.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l8.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -415453,16 +417138,22 @@
     },
     {
      "label": "l8.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.8.sh_down"
+       "buf": "layers.8.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.8.sh_down_scale"
       },
       {
        "expr": {
@@ -416533,6 +418224,37 @@
      ]
     },
     {
+     "label": "l9.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l9.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -416566,16 +418288,22 @@
     },
     {
      "label": "l9.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.9.sh_down"
+       "buf": "layers.9.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.9.sh_down_scale"
       },
       {
        "expr": {
@@ -417646,6 +419374,37 @@
      ]
     },
     {
+     "label": "l10.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l10.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -417679,16 +419438,22 @@
     },
     {
      "label": "l10.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.10.sh_down"
+       "buf": "layers.10.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.10.sh_down_scale"
       },
       {
        "expr": {
@@ -418707,6 +420472,37 @@
      ]
     },
     {
+     "label": "l11.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l11.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -418740,16 +420536,22 @@
     },
     {
      "label": "l11.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.11.sh_down"
+       "buf": "layers.11.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.11.sh_down_scale"
       },
       {
        "expr": {
@@ -419820,6 +421622,37 @@
      ]
     },
     {
+     "label": "l12.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l12.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -419853,16 +421686,22 @@
     },
     {
      "label": "l12.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.12.sh_down"
+       "buf": "layers.12.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.12.sh_down_scale"
       },
       {
        "expr": {
@@ -420933,6 +422772,37 @@
      ]
     },
     {
+     "label": "l13.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l13.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -420966,16 +422836,22 @@
     },
     {
      "label": "l13.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.13.sh_down"
+       "buf": "layers.13.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.13.sh_down_scale"
       },
       {
        "expr": {
@@ -422046,6 +423922,37 @@
      ]
     },
     {
+     "label": "l14.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l14.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -422079,16 +423986,22 @@
     },
     {
      "label": "l14.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.14.sh_down"
+       "buf": "layers.14.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.14.sh_down_scale"
       },
       {
        "expr": {
@@ -423107,6 +425020,37 @@
      ]
     },
     {
+     "label": "l15.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l15.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -423140,16 +425084,22 @@
     },
     {
      "label": "l15.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.15.sh_down"
+       "buf": "layers.15.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.15.sh_down_scale"
       },
       {
        "expr": {
@@ -424220,6 +426170,37 @@
      ]
     },
     {
+     "label": "l16.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l16.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -424253,16 +426234,22 @@
     },
     {
      "label": "l16.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.16.sh_down"
+       "buf": "layers.16.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.16.sh_down_scale"
       },
       {
        "expr": {
@@ -425333,6 +427320,37 @@
      ]
     },
     {
+     "label": "l17.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l17.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -425366,16 +427384,22 @@
     },
     {
      "label": "l17.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.17.sh_down"
+       "buf": "layers.17.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.17.sh_down_scale"
       },
       {
        "expr": {
@@ -426446,6 +428470,37 @@
      ]
     },
     {
+     "label": "l18.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l18.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -426479,16 +428534,22 @@
     },
     {
      "label": "l18.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.18.sh_down"
+       "buf": "layers.18.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.18.sh_down_scale"
       },
       {
        "expr": {
@@ -427507,6 +429568,37 @@
      ]
     },
     {
+     "label": "l19.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l19.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -427540,16 +429632,22 @@
     },
     {
      "label": "l19.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.19.sh_down"
+       "buf": "layers.19.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.19.sh_down_scale"
       },
       {
        "expr": {
@@ -428620,6 +430718,37 @@
      ]
     },
     {
+     "label": "l20.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l20.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -428653,16 +430782,22 @@
     },
     {
      "label": "l20.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.20.sh_down"
+       "buf": "layers.20.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.20.sh_down_scale"
       },
       {
        "expr": {
@@ -429733,6 +431868,37 @@
      ]
     },
     {
+     "label": "l21.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l21.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -429766,16 +431932,22 @@
     },
     {
      "label": "l21.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.21.sh_down"
+       "buf": "layers.21.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.21.sh_down_scale"
       },
       {
        "expr": {
@@ -430846,6 +433018,37 @@
      ]
     },
     {
+     "label": "l22.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l22.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -430879,16 +433082,22 @@
     },
     {
      "label": "l22.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.22.sh_down"
+       "buf": "layers.22.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.22.sh_down_scale"
       },
       {
        "expr": {
@@ -431907,6 +434116,37 @@
      ]
     },
     {
+     "label": "l23.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l23.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -431940,16 +434180,22 @@
     },
     {
      "label": "l23.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.23.sh_down"
+       "buf": "layers.23.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.23.sh_down_scale"
       },
       {
        "expr": {
@@ -433020,6 +435266,37 @@
      ]
     },
     {
+     "label": "l24.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l24.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -433053,16 +435330,22 @@
     },
     {
      "label": "l24.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.24.sh_down"
+       "buf": "layers.24.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.24.sh_down_scale"
       },
       {
        "expr": {
@@ -434133,6 +436416,37 @@
      ]
     },
     {
+     "label": "l25.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l25.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -434166,16 +436480,22 @@
     },
     {
      "label": "l25.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.25.sh_down"
+       "buf": "layers.25.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.25.sh_down_scale"
       },
       {
        "expr": {
@@ -435246,6 +437566,37 @@
      ]
     },
     {
+     "label": "l26.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l26.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -435279,16 +437630,22 @@
     },
     {
      "label": "l26.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.26.sh_down"
+       "buf": "layers.26.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.26.sh_down_scale"
       },
       {
        "expr": {
@@ -436307,6 +438664,37 @@
      ]
     },
     {
+     "label": "l27.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l27.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -436340,16 +438728,22 @@
     },
     {
      "label": "l27.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.27.sh_down"
+       "buf": "layers.27.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.27.sh_down_scale"
       },
       {
        "expr": {
@@ -437420,6 +439814,37 @@
      ]
     },
     {
+     "label": "l28.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l28.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -437453,16 +439878,22 @@
     },
     {
      "label": "l28.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.28.sh_down"
+       "buf": "layers.28.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.28.sh_down_scale"
       },
       {
        "expr": {
@@ -438533,6 +440964,37 @@
      ]
     },
     {
+     "label": "l29.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l29.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -438566,16 +441028,22 @@
     },
     {
      "label": "l29.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.29.sh_down"
+       "buf": "layers.29.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.29.sh_down_scale"
       },
       {
        "expr": {
@@ -439646,6 +442114,37 @@
      ]
     },
     {
+     "label": "l30.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l30.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -439679,16 +442178,22 @@
     },
     {
      "label": "l30.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.30.sh_down"
+       "buf": "layers.30.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.30.sh_down_scale"
       },
       {
        "expr": {
@@ -440707,6 +443212,37 @@
      ]
     },
     {
+     "label": "l31.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l31.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -440740,16 +443276,22 @@
     },
     {
      "label": "l31.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.31.sh_down"
+       "buf": "layers.31.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.31.sh_down_scale"
       },
       {
        "expr": {
@@ -441820,6 +444362,37 @@
      ]
     },
     {
+     "label": "l32.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l32.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -441853,16 +444426,22 @@
     },
     {
      "label": "l32.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.32.sh_down"
+       "buf": "layers.32.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.32.sh_down_scale"
       },
       {
        "expr": {
@@ -442933,6 +445512,37 @@
      ]
     },
     {
+     "label": "l33.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l33.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -442966,16 +445576,22 @@
     },
     {
      "label": "l33.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.33.sh_down"
+       "buf": "layers.33.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.33.sh_down_scale"
       },
       {
        "expr": {
@@ -444046,6 +446662,37 @@
      ]
     },
     {
+     "label": "l34.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l34.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -444079,16 +446726,22 @@
     },
     {
      "label": "l34.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.34.sh_down"
+       "buf": "layers.34.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.34.sh_down_scale"
       },
       {
        "expr": {
@@ -445107,6 +447760,37 @@
      ]
     },
     {
+     "label": "l35.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l35.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -445140,16 +447824,22 @@
     },
     {
      "label": "l35.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.35.sh_down"
+       "buf": "layers.35.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.35.sh_down_scale"
       },
       {
        "expr": {
@@ -446226,6 +448916,37 @@
      ]
     },
     {
+     "label": "l36.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l36.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -446259,16 +448980,22 @@
     },
     {
      "label": "l36.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.36.sh_down"
+       "buf": "layers.36.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.36.sh_down_scale"
       },
       {
        "expr": {
@@ -447345,6 +450072,37 @@
      ]
     },
     {
+     "label": "l37.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l37.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -447378,16 +450136,22 @@
     },
     {
      "label": "l37.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.37.sh_down"
+       "buf": "layers.37.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.37.sh_down_scale"
       },
       {
        "expr": {
@@ -448464,6 +451228,37 @@
      ]
     },
     {
+     "label": "l38.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l38.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -448497,16 +451292,22 @@
     },
     {
      "label": "l38.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.38.sh_down"
+       "buf": "layers.38.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.38.sh_down_scale"
       },
       {
        "expr": {
@@ -449531,6 +452332,37 @@
      ]
     },
     {
+     "label": "l39.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l39.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -449564,16 +452396,22 @@
     },
     {
      "label": "l39.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.39.sh_down"
+       "buf": "layers.39.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.39.sh_down_scale"
       },
       {
        "expr": {
@@ -450650,6 +453488,37 @@
      ]
     },
     {
+     "label": "l40.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l40.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -450683,16 +453552,22 @@
     },
     {
      "label": "l40.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.40.sh_down"
+       "buf": "layers.40.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.40.sh_down_scale"
       },
       {
        "expr": {
@@ -451769,6 +454644,37 @@
      ]
     },
     {
+     "label": "l41.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l41.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -451802,16 +454708,22 @@
     },
     {
      "label": "l41.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.41.sh_down"
+       "buf": "layers.41.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.41.sh_down_scale"
       },
       {
        "expr": {
@@ -452888,6 +455800,37 @@
      ]
     },
     {
+     "label": "l42.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l42.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -452921,16 +455864,22 @@
     },
     {
      "label": "l42.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.42.sh_down"
+       "buf": "layers.42.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.42.sh_down_scale"
       },
       {
        "expr": {
@@ -453955,6 +456904,37 @@
      ]
     },
     {
+     "label": "l43.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l43.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -453988,16 +456968,22 @@
     },
     {
      "label": "l43.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.43.sh_down"
+       "buf": "layers.43.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.43.sh_down_scale"
       },
       {
        "expr": {
@@ -455074,6 +458060,37 @@
      ]
     },
     {
+     "label": "l44.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l44.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -455107,16 +458124,22 @@
     },
     {
      "label": "l44.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.44.sh_down"
+       "buf": "layers.44.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.44.sh_down_scale"
       },
       {
        "expr": {
@@ -456193,6 +459216,37 @@
      ]
     },
     {
+     "label": "l45.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l45.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -456226,16 +459280,22 @@
     },
     {
      "label": "l45.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.45.sh_down"
+       "buf": "layers.45.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.45.sh_down_scale"
       },
       {
        "expr": {
@@ -457312,6 +460372,37 @@
      ]
     },
     {
+     "label": "l46.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l46.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -457345,16 +460436,22 @@
     },
     {
      "label": "l46.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.46.sh_down"
+       "buf": "layers.46.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.46.sh_down_scale"
       },
       {
        "expr": {
@@ -458379,6 +461476,37 @@
      ]
     },
     {
+     "label": "l47.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l47.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -458412,16 +461540,22 @@
     },
     {
      "label": "l47.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.47.sh_down"
+       "buf": "layers.47.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.47.sh_down_scale"
       },
       {
        "expr": {
@@ -459498,6 +462632,37 @@
      ]
     },
     {
+     "label": "l48.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l48.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -459531,16 +462696,22 @@
     },
     {
      "label": "l48.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.48.sh_down"
+       "buf": "layers.48.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.48.sh_down_scale"
       },
       {
        "expr": {
@@ -460617,6 +463788,37 @@
      ]
     },
     {
+     "label": "l49.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l49.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -460650,16 +463852,22 @@
     },
     {
      "label": "l49.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.49.sh_down"
+       "buf": "layers.49.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.49.sh_down_scale"
       },
       {
        "expr": {
@@ -461736,6 +464944,37 @@
      ]
     },
     {
+     "label": "l50.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l50.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -461769,16 +465008,22 @@
     },
     {
      "label": "l50.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.50.sh_down"
+       "buf": "layers.50.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.50.sh_down_scale"
       },
       {
        "expr": {
@@ -462803,6 +466048,37 @@
      ]
     },
     {
+     "label": "l51.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l51.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -462836,16 +466112,22 @@
     },
     {
      "label": "l51.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.51.sh_down"
+       "buf": "layers.51.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.51.sh_down_scale"
       },
       {
        "expr": {
@@ -463922,6 +467204,37 @@
      ]
     },
     {
+     "label": "l52.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l52.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -463955,16 +467268,22 @@
     },
     {
      "label": "l52.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.52.sh_down"
+       "buf": "layers.52.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.52.sh_down_scale"
       },
       {
        "expr": {
@@ -465041,6 +468360,37 @@
      ]
     },
     {
+     "label": "l53.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l53.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -465074,16 +468424,22 @@
     },
     {
      "label": "l53.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.53.sh_down"
+       "buf": "layers.53.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.53.sh_down_scale"
       },
       {
        "expr": {
@@ -466160,6 +469516,37 @@
      ]
     },
     {
+     "label": "l54.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l54.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -466193,16 +469580,22 @@
     },
     {
      "label": "l54.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.54.sh_down"
+       "buf": "layers.54.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.54.sh_down_scale"
       },
       {
        "expr": {
@@ -467227,6 +470620,37 @@
      ]
     },
     {
+     "label": "l55.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l55.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -467260,16 +470684,22 @@
     },
     {
      "label": "l55.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.55.sh_down"
+       "buf": "layers.55.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.55.sh_down_scale"
       },
       {
        "expr": {
@@ -468346,6 +471776,37 @@
      ]
     },
     {
+     "label": "l56.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l56.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -468379,16 +471840,22 @@
     },
     {
      "label": "l56.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.56.sh_down"
+       "buf": "layers.56.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.56.sh_down_scale"
       },
       {
        "expr": {
@@ -469465,6 +472932,37 @@
      ]
     },
     {
+     "label": "l57.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l57.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -469498,16 +472996,22 @@
     },
     {
      "label": "l57.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.57.sh_down"
+       "buf": "layers.57.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.57.sh_down_scale"
       },
       {
        "expr": {
@@ -470584,6 +474088,37 @@
      ]
     },
     {
+     "label": "l58.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l58.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -470617,16 +474152,22 @@
     },
     {
      "label": "l58.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.58.sh_down"
+       "buf": "layers.58.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.58.sh_down_scale"
       },
       {
        "expr": {
@@ -471651,6 +475192,37 @@
      ]
     },
     {
+     "label": "l59.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l59.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -471684,16 +475256,22 @@
     },
     {
      "label": "l59.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.59.sh_down"
+       "buf": "layers.59.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.59.sh_down_scale"
       },
       {
        "expr": {
@@ -472770,6 +476348,37 @@
      ]
     },
     {
+     "label": "l60.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l60.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -472803,16 +476412,22 @@
     },
     {
      "label": "l60.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.60.sh_down"
+       "buf": "layers.60.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.60.sh_down_scale"
       },
       {
        "expr": {
@@ -473889,6 +477504,37 @@
      ]
     },
     {
+     "label": "l61.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l61.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -473922,16 +477568,22 @@
     },
     {
      "label": "l61.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.61.sh_down"
+       "buf": "layers.61.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.61.sh_down_scale"
       },
       {
        "expr": {
@@ -475008,6 +478660,37 @@
      ]
     },
     {
+     "label": "l62.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l62.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -475041,16 +478724,22 @@
     },
     {
      "label": "l62.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.62.sh_down"
+       "buf": "layers.62.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.62.sh_down_scale"
       },
       {
        "expr": {
@@ -476075,6 +479764,37 @@
      ]
     },
     {
+     "label": "l63.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l63.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -476108,16 +479828,22 @@
     },
     {
      "label": "l63.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.63.sh_down"
+       "buf": "layers.63.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.63.sh_down_scale"
       },
       {
        "expr": {
@@ -477194,6 +480920,37 @@
      ]
     },
     {
+     "label": "l64.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l64.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -477227,16 +480984,22 @@
     },
     {
      "label": "l64.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.64.sh_down"
+       "buf": "layers.64.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.64.sh_down_scale"
       },
       {
        "expr": {
@@ -478313,6 +482076,37 @@
      ]
     },
     {
+     "label": "l65.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l65.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -478346,16 +482140,22 @@
     },
     {
      "label": "l65.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.65.sh_down"
+       "buf": "layers.65.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.65.sh_down_scale"
       },
       {
        "expr": {
@@ -479432,6 +483232,37 @@
      ]
     },
     {
+     "label": "l66.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l66.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -479465,16 +483296,22 @@
     },
     {
      "label": "l66.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.66.sh_down"
+       "buf": "layers.66.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.66.sh_down_scale"
       },
       {
        "expr": {
@@ -480499,6 +484336,37 @@
      ]
     },
     {
+     "label": "l67.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l67.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -480532,16 +484400,22 @@
     },
     {
      "label": "l67.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.67.sh_down"
+       "buf": "layers.67.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.67.sh_down_scale"
       },
       {
        "expr": {
@@ -481618,6 +485492,37 @@
      ]
     },
     {
+     "label": "l68.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l68.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -481651,16 +485556,22 @@
     },
     {
      "label": "l68.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.68.sh_down"
+       "buf": "layers.68.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.68.sh_down_scale"
       },
       {
        "expr": {
@@ -482737,6 +486648,37 @@
      ]
     },
     {
+     "label": "l69.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l69.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -482770,16 +486712,22 @@
     },
     {
      "label": "l69.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.69.sh_down"
+       "buf": "layers.69.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.69.sh_down_scale"
       },
       {
        "expr": {
@@ -483856,6 +487804,37 @@
      ]
     },
     {
+     "label": "l70.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l70.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -483889,16 +487868,22 @@
     },
     {
      "label": "l70.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.70.sh_down"
+       "buf": "layers.70.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.70.sh_down_scale"
       },
       {
        "expr": {
@@ -484923,6 +488908,37 @@
      ]
     },
     {
+     "label": "l71.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l71.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -484956,16 +488972,22 @@
     },
     {
      "label": "l71.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.71.sh_down"
+       "buf": "layers.71.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.71.sh_down_scale"
       },
       {
        "expr": {
@@ -486042,6 +490064,37 @@
      ]
     },
     {
+     "label": "l72.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l72.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -486075,16 +490128,22 @@
     },
     {
      "label": "l72.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.72.sh_down"
+       "buf": "layers.72.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.72.sh_down_scale"
       },
       {
        "expr": {
@@ -487161,6 +491220,37 @@
      ]
     },
     {
+     "label": "l73.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l73.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -487194,16 +491284,22 @@
     },
     {
      "label": "l73.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.73.sh_down"
+       "buf": "layers.73.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.73.sh_down_scale"
       },
       {
        "expr": {
@@ -488280,6 +492376,37 @@
      ]
     },
     {
+     "label": "l74.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l74.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -488313,16 +492440,22 @@
     },
     {
      "label": "l74.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.74.sh_down"
+       "buf": "layers.74.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.74.sh_down_scale"
       },
       {
        "expr": {
@@ -489347,6 +493480,37 @@
      ]
     },
     {
+     "label": "l75.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l75.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -489380,16 +493544,22 @@
     },
     {
      "label": "l75.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.75.sh_down"
+       "buf": "layers.75.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.75.sh_down_scale"
       },
       {
        "expr": {
@@ -490466,6 +494636,37 @@
      ]
     },
     {
+     "label": "l76.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l76.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -490499,16 +494700,22 @@
     },
     {
      "label": "l76.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.76.sh_down"
+       "buf": "layers.76.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.76.sh_down_scale"
       },
       {
        "expr": {
@@ -491585,6 +495792,37 @@
      ]
     },
     {
+     "label": "l77.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l77.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -491618,16 +495856,22 @@
     },
     {
      "label": "l77.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.77.sh_down"
+       "buf": "layers.77.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.77.sh_down_scale"
       },
       {
        "expr": {
@@ -492704,6 +496948,37 @@
      ]
     },
     {
+     "label": "l78.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l78.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -492737,16 +497012,22 @@
     },
     {
      "label": "l78.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.78.sh_down"
+       "buf": "layers.78.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.78.sh_down_scale"
       },
       {
        "expr": {
@@ -493771,6 +498052,37 @@
      ]
     },
     {
+     "label": "l79.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l79.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -493804,16 +498116,22 @@
     },
     {
      "label": "l79.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.79.sh_down"
+       "buf": "layers.79.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.79.sh_down_scale"
       },
       {
        "expr": {
@@ -494890,6 +499208,37 @@
      ]
     },
     {
+     "label": "l80.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l80.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -494923,16 +499272,22 @@
     },
     {
      "label": "l80.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.80.sh_down"
+       "buf": "layers.80.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.80.sh_down_scale"
       },
       {
        "expr": {
@@ -496009,6 +500364,37 @@
      ]
     },
     {
+     "label": "l81.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l81.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -496042,16 +500428,22 @@
     },
     {
      "label": "l81.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.81.sh_down"
+       "buf": "layers.81.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.81.sh_down_scale"
       },
       {
        "expr": {
@@ -497128,6 +501520,37 @@
      ]
     },
     {
+     "label": "l82.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l82.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -497161,16 +501584,22 @@
     },
     {
      "label": "l82.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.82.sh_down"
+       "buf": "layers.82.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.82.sh_down_scale"
       },
       {
        "expr": {
@@ -498195,6 +502624,37 @@
      ]
     },
     {
+     "label": "l83.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l83.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -498228,16 +502688,22 @@
     },
     {
      "label": "l83.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.83.sh_down"
+       "buf": "layers.83.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.83.sh_down_scale"
       },
       {
        "expr": {
@@ -499314,6 +503780,37 @@
      ]
     },
     {
+     "label": "l84.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l84.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -499347,16 +503844,22 @@
     },
     {
      "label": "l84.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.84.sh_down"
+       "buf": "layers.84.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.84.sh_down_scale"
       },
       {
        "expr": {
@@ -500433,6 +504936,37 @@
      ]
     },
     {
+     "label": "l85.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l85.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -500466,16 +505000,22 @@
     },
     {
      "label": "l85.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.85.sh_down"
+       "buf": "layers.85.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.85.sh_down_scale"
       },
       {
        "expr": {
@@ -501552,6 +506092,37 @@
      ]
     },
     {
+     "label": "l86.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l86.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -501585,16 +506156,22 @@
     },
     {
      "label": "l86.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.86.sh_down"
+       "buf": "layers.86.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.86.sh_down_scale"
       },
       {
        "expr": {
@@ -502619,6 +507196,37 @@
      ]
     },
     {
+     "label": "l87.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l87.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -502652,16 +507260,22 @@
     },
     {
      "label": "l87.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.87.sh_down"
+       "buf": "layers.87.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.87.sh_down_scale"
       },
       {
        "expr": {
@@ -503738,6 +508352,37 @@
      ]
     },
     {
+     "label": "l88.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l88.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -503771,16 +508416,22 @@
     },
     {
      "label": "l88.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.88.sh_down"
+       "buf": "layers.88.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.88.sh_down_scale"
       },
       {
        "expr": {
@@ -504857,6 +509508,37 @@
      ]
     },
     {
+     "label": "l89.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l89.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -504890,16 +509572,22 @@
     },
     {
      "label": "l89.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.89.sh_down"
+       "buf": "layers.89.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.89.sh_down_scale"
       },
       {
        "expr": {
@@ -505976,6 +510664,37 @@
      ]
     },
     {
+     "label": "l90.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l90.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -506009,16 +510728,22 @@
     },
     {
      "label": "l90.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.90.sh_down"
+       "buf": "layers.90.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.90.sh_down_scale"
       },
       {
        "expr": {
@@ -507043,6 +511768,37 @@
      ]
     },
     {
+     "label": "l91.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l91.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -507076,16 +511832,22 @@
     },
     {
      "label": "l91.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.91.sh_down"
+       "buf": "layers.91.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.91.sh_down_scale"
       },
       {
        "expr": {
@@ -508110,6 +512872,37 @@
      ]
     },
     {
+     "label": "l92.shared_act_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "shared_act"
+      },
+      {
+       "buf": "shared_act_fp8"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         6144
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l92.lat_up",
      "op": "gemm_bf16",
      "args": [
@@ -508143,16 +512936,22 @@
     },
     {
      "label": "l92.sh_down",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "shared_act"
+       "buf": "shared_act_fp8"
       },
       {
-       "buf": "layers.92.sh_down"
+       "buf": "layers.92.sh_down_fp8"
       },
       {
        "buf": "shared_partial2"
+      },
+      {
+       "buf": "shared_act_scale"
+      },
+      {
+       "buf": "layers.92.sh_down_scale"
       },
       {
        "expr": {
@@ -529771,6 +534570,1938 @@
       },
       {
        "i32": 25690112
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.1.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.1.sh_down"
+      },
+      {
+       "buf": "layers.1.sh_down_fp8"
+      },
+      {
+       "buf": "layers.1.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.2.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.2.sh_down"
+      },
+      {
+       "buf": "layers.2.sh_down_fp8"
+      },
+      {
+       "buf": "layers.2.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.3.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.3.sh_down"
+      },
+      {
+       "buf": "layers.3.sh_down_fp8"
+      },
+      {
+       "buf": "layers.3.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.4.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.4.sh_down"
+      },
+      {
+       "buf": "layers.4.sh_down_fp8"
+      },
+      {
+       "buf": "layers.4.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.5.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.5.sh_down"
+      },
+      {
+       "buf": "layers.5.sh_down_fp8"
+      },
+      {
+       "buf": "layers.5.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.6.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.6.sh_down"
+      },
+      {
+       "buf": "layers.6.sh_down_fp8"
+      },
+      {
+       "buf": "layers.6.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.7.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.7.sh_down"
+      },
+      {
+       "buf": "layers.7.sh_down_fp8"
+      },
+      {
+       "buf": "layers.7.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.8.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.8.sh_down"
+      },
+      {
+       "buf": "layers.8.sh_down_fp8"
+      },
+      {
+       "buf": "layers.8.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.9.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.9.sh_down"
+      },
+      {
+       "buf": "layers.9.sh_down_fp8"
+      },
+      {
+       "buf": "layers.9.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.10.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.10.sh_down"
+      },
+      {
+       "buf": "layers.10.sh_down_fp8"
+      },
+      {
+       "buf": "layers.10.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.11.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.11.sh_down"
+      },
+      {
+       "buf": "layers.11.sh_down_fp8"
+      },
+      {
+       "buf": "layers.11.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.12.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.12.sh_down"
+      },
+      {
+       "buf": "layers.12.sh_down_fp8"
+      },
+      {
+       "buf": "layers.12.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.13.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.13.sh_down"
+      },
+      {
+       "buf": "layers.13.sh_down_fp8"
+      },
+      {
+       "buf": "layers.13.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.14.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.14.sh_down"
+      },
+      {
+       "buf": "layers.14.sh_down_fp8"
+      },
+      {
+       "buf": "layers.14.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.15.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.15.sh_down"
+      },
+      {
+       "buf": "layers.15.sh_down_fp8"
+      },
+      {
+       "buf": "layers.15.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.16.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.16.sh_down"
+      },
+      {
+       "buf": "layers.16.sh_down_fp8"
+      },
+      {
+       "buf": "layers.16.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.17.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.17.sh_down"
+      },
+      {
+       "buf": "layers.17.sh_down_fp8"
+      },
+      {
+       "buf": "layers.17.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.18.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.18.sh_down"
+      },
+      {
+       "buf": "layers.18.sh_down_fp8"
+      },
+      {
+       "buf": "layers.18.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.19.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.19.sh_down"
+      },
+      {
+       "buf": "layers.19.sh_down_fp8"
+      },
+      {
+       "buf": "layers.19.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.20.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.20.sh_down"
+      },
+      {
+       "buf": "layers.20.sh_down_fp8"
+      },
+      {
+       "buf": "layers.20.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.21.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.21.sh_down"
+      },
+      {
+       "buf": "layers.21.sh_down_fp8"
+      },
+      {
+       "buf": "layers.21.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.22.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.22.sh_down"
+      },
+      {
+       "buf": "layers.22.sh_down_fp8"
+      },
+      {
+       "buf": "layers.22.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.23.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.23.sh_down"
+      },
+      {
+       "buf": "layers.23.sh_down_fp8"
+      },
+      {
+       "buf": "layers.23.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.24.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.24.sh_down"
+      },
+      {
+       "buf": "layers.24.sh_down_fp8"
+      },
+      {
+       "buf": "layers.24.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.25.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.25.sh_down"
+      },
+      {
+       "buf": "layers.25.sh_down_fp8"
+      },
+      {
+       "buf": "layers.25.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.26.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.26.sh_down"
+      },
+      {
+       "buf": "layers.26.sh_down_fp8"
+      },
+      {
+       "buf": "layers.26.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.27.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.27.sh_down"
+      },
+      {
+       "buf": "layers.27.sh_down_fp8"
+      },
+      {
+       "buf": "layers.27.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.28.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.28.sh_down"
+      },
+      {
+       "buf": "layers.28.sh_down_fp8"
+      },
+      {
+       "buf": "layers.28.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.29.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.29.sh_down"
+      },
+      {
+       "buf": "layers.29.sh_down_fp8"
+      },
+      {
+       "buf": "layers.29.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.30.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.30.sh_down"
+      },
+      {
+       "buf": "layers.30.sh_down_fp8"
+      },
+      {
+       "buf": "layers.30.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.31.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.31.sh_down"
+      },
+      {
+       "buf": "layers.31.sh_down_fp8"
+      },
+      {
+       "buf": "layers.31.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.32.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.32.sh_down"
+      },
+      {
+       "buf": "layers.32.sh_down_fp8"
+      },
+      {
+       "buf": "layers.32.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.33.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.33.sh_down"
+      },
+      {
+       "buf": "layers.33.sh_down_fp8"
+      },
+      {
+       "buf": "layers.33.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.34.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.34.sh_down"
+      },
+      {
+       "buf": "layers.34.sh_down_fp8"
+      },
+      {
+       "buf": "layers.34.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.35.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.35.sh_down"
+      },
+      {
+       "buf": "layers.35.sh_down_fp8"
+      },
+      {
+       "buf": "layers.35.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.36.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.36.sh_down"
+      },
+      {
+       "buf": "layers.36.sh_down_fp8"
+      },
+      {
+       "buf": "layers.36.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.37.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.37.sh_down"
+      },
+      {
+       "buf": "layers.37.sh_down_fp8"
+      },
+      {
+       "buf": "layers.37.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.38.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.38.sh_down"
+      },
+      {
+       "buf": "layers.38.sh_down_fp8"
+      },
+      {
+       "buf": "layers.38.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.39.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.39.sh_down"
+      },
+      {
+       "buf": "layers.39.sh_down_fp8"
+      },
+      {
+       "buf": "layers.39.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.40.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.40.sh_down"
+      },
+      {
+       "buf": "layers.40.sh_down_fp8"
+      },
+      {
+       "buf": "layers.40.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.41.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.41.sh_down"
+      },
+      {
+       "buf": "layers.41.sh_down_fp8"
+      },
+      {
+       "buf": "layers.41.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.42.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.42.sh_down"
+      },
+      {
+       "buf": "layers.42.sh_down_fp8"
+      },
+      {
+       "buf": "layers.42.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.43.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.43.sh_down"
+      },
+      {
+       "buf": "layers.43.sh_down_fp8"
+      },
+      {
+       "buf": "layers.43.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.44.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.44.sh_down"
+      },
+      {
+       "buf": "layers.44.sh_down_fp8"
+      },
+      {
+       "buf": "layers.44.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.45.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.45.sh_down"
+      },
+      {
+       "buf": "layers.45.sh_down_fp8"
+      },
+      {
+       "buf": "layers.45.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.46.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.46.sh_down"
+      },
+      {
+       "buf": "layers.46.sh_down_fp8"
+      },
+      {
+       "buf": "layers.46.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.47.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.47.sh_down"
+      },
+      {
+       "buf": "layers.47.sh_down_fp8"
+      },
+      {
+       "buf": "layers.47.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.48.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.48.sh_down"
+      },
+      {
+       "buf": "layers.48.sh_down_fp8"
+      },
+      {
+       "buf": "layers.48.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.49.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.49.sh_down"
+      },
+      {
+       "buf": "layers.49.sh_down_fp8"
+      },
+      {
+       "buf": "layers.49.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.50.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.50.sh_down"
+      },
+      {
+       "buf": "layers.50.sh_down_fp8"
+      },
+      {
+       "buf": "layers.50.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.51.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.51.sh_down"
+      },
+      {
+       "buf": "layers.51.sh_down_fp8"
+      },
+      {
+       "buf": "layers.51.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.52.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.52.sh_down"
+      },
+      {
+       "buf": "layers.52.sh_down_fp8"
+      },
+      {
+       "buf": "layers.52.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.53.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.53.sh_down"
+      },
+      {
+       "buf": "layers.53.sh_down_fp8"
+      },
+      {
+       "buf": "layers.53.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.54.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.54.sh_down"
+      },
+      {
+       "buf": "layers.54.sh_down_fp8"
+      },
+      {
+       "buf": "layers.54.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.55.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.55.sh_down"
+      },
+      {
+       "buf": "layers.55.sh_down_fp8"
+      },
+      {
+       "buf": "layers.55.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.56.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.56.sh_down"
+      },
+      {
+       "buf": "layers.56.sh_down_fp8"
+      },
+      {
+       "buf": "layers.56.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.57.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.57.sh_down"
+      },
+      {
+       "buf": "layers.57.sh_down_fp8"
+      },
+      {
+       "buf": "layers.57.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.58.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.58.sh_down"
+      },
+      {
+       "buf": "layers.58.sh_down_fp8"
+      },
+      {
+       "buf": "layers.58.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.59.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.59.sh_down"
+      },
+      {
+       "buf": "layers.59.sh_down_fp8"
+      },
+      {
+       "buf": "layers.59.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.60.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.60.sh_down"
+      },
+      {
+       "buf": "layers.60.sh_down_fp8"
+      },
+      {
+       "buf": "layers.60.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.61.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.61.sh_down"
+      },
+      {
+       "buf": "layers.61.sh_down_fp8"
+      },
+      {
+       "buf": "layers.61.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.62.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.62.sh_down"
+      },
+      {
+       "buf": "layers.62.sh_down_fp8"
+      },
+      {
+       "buf": "layers.62.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.63.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.63.sh_down"
+      },
+      {
+       "buf": "layers.63.sh_down_fp8"
+      },
+      {
+       "buf": "layers.63.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.64.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.64.sh_down"
+      },
+      {
+       "buf": "layers.64.sh_down_fp8"
+      },
+      {
+       "buf": "layers.64.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.65.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.65.sh_down"
+      },
+      {
+       "buf": "layers.65.sh_down_fp8"
+      },
+      {
+       "buf": "layers.65.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.66.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.66.sh_down"
+      },
+      {
+       "buf": "layers.66.sh_down_fp8"
+      },
+      {
+       "buf": "layers.66.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.67.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.67.sh_down"
+      },
+      {
+       "buf": "layers.67.sh_down_fp8"
+      },
+      {
+       "buf": "layers.67.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.68.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.68.sh_down"
+      },
+      {
+       "buf": "layers.68.sh_down_fp8"
+      },
+      {
+       "buf": "layers.68.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.69.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.69.sh_down"
+      },
+      {
+       "buf": "layers.69.sh_down_fp8"
+      },
+      {
+       "buf": "layers.69.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.70.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.70.sh_down"
+      },
+      {
+       "buf": "layers.70.sh_down_fp8"
+      },
+      {
+       "buf": "layers.70.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.71.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.71.sh_down"
+      },
+      {
+       "buf": "layers.71.sh_down_fp8"
+      },
+      {
+       "buf": "layers.71.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.72.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.72.sh_down"
+      },
+      {
+       "buf": "layers.72.sh_down_fp8"
+      },
+      {
+       "buf": "layers.72.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.73.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.73.sh_down"
+      },
+      {
+       "buf": "layers.73.sh_down_fp8"
+      },
+      {
+       "buf": "layers.73.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.74.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.74.sh_down"
+      },
+      {
+       "buf": "layers.74.sh_down_fp8"
+      },
+      {
+       "buf": "layers.74.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.75.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.75.sh_down"
+      },
+      {
+       "buf": "layers.75.sh_down_fp8"
+      },
+      {
+       "buf": "layers.75.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.76.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.76.sh_down"
+      },
+      {
+       "buf": "layers.76.sh_down_fp8"
+      },
+      {
+       "buf": "layers.76.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.77.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.77.sh_down"
+      },
+      {
+       "buf": "layers.77.sh_down_fp8"
+      },
+      {
+       "buf": "layers.77.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.78.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.78.sh_down"
+      },
+      {
+       "buf": "layers.78.sh_down_fp8"
+      },
+      {
+       "buf": "layers.78.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.79.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.79.sh_down"
+      },
+      {
+       "buf": "layers.79.sh_down_fp8"
+      },
+      {
+       "buf": "layers.79.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.80.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.80.sh_down"
+      },
+      {
+       "buf": "layers.80.sh_down_fp8"
+      },
+      {
+       "buf": "layers.80.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.81.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.81.sh_down"
+      },
+      {
+       "buf": "layers.81.sh_down_fp8"
+      },
+      {
+       "buf": "layers.81.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.82.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.82.sh_down"
+      },
+      {
+       "buf": "layers.82.sh_down_fp8"
+      },
+      {
+       "buf": "layers.82.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.83.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.83.sh_down"
+      },
+      {
+       "buf": "layers.83.sh_down_fp8"
+      },
+      {
+       "buf": "layers.83.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.84.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.84.sh_down"
+      },
+      {
+       "buf": "layers.84.sh_down_fp8"
+      },
+      {
+       "buf": "layers.84.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.85.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.85.sh_down"
+      },
+      {
+       "buf": "layers.85.sh_down_fp8"
+      },
+      {
+       "buf": "layers.85.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.86.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.86.sh_down"
+      },
+      {
+       "buf": "layers.86.sh_down_fp8"
+      },
+      {
+       "buf": "layers.86.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.87.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.87.sh_down"
+      },
+      {
+       "buf": "layers.87.sh_down_fp8"
+      },
+      {
+       "buf": "layers.87.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.88.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.88.sh_down"
+      },
+      {
+       "buf": "layers.88.sh_down_fp8"
+      },
+      {
+       "buf": "layers.88.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.89.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.89.sh_down"
+      },
+      {
+       "buf": "layers.89.sh_down_fp8"
+      },
+      {
+       "buf": "layers.89.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.90.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.90.sh_down"
+      },
+      {
+       "buf": "layers.90.sh_down_fp8"
+      },
+      {
+       "buf": "layers.90.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.91.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.91.sh_down"
+      },
+      {
+       "buf": "layers.91.sh_down_fp8"
+      },
+      {
+       "buf": "layers.91.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.92.sh_down",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.92.sh_down"
+      },
+      {
+       "buf": "layers.92.sh_down_fp8"
+      },
+      {
+       "buf": "layers.92.sh_down_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 44040192
       }
      ]
     }
