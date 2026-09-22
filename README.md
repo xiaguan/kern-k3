@@ -425,3 +425,39 @@ python3 scripts/gen_flash_kda_vllm.py --reference /path/to/baseline.json \
 One initial V-split bench exited 139 before timing. Its launch ABI was checked
 against a captured upstream launch; two later bench runs and both direct tests
 completed. The failed attempt is retained in the experiment records.
+
+## FlashKDA sequence split (prototype 2026-09-22, not adopted yet)
+
+K2 is one serial recurrence per (head, V half) over T/16 chunks, so at 16k it takes ~745 us
+whatever the head count and occupies only 2*H CTAs: 48 of 152 SMs at TP4, 24 at TP8. SGLang's
+`ptx_kda` splits every head's sequence into piece chains and therefore wins at 12 heads (527 us
+against FlashKDA's 817 at 16k, single GB300) while losing at 24 heads (919 against 877, or 772
+with this repository's K2 patches).
+
+The recurrence is affine in its state, S_end = S_start M + C, and so is the output, and the kernel
+already takes varlen pieces with per-piece initial/final states. `scripts/kda_split_proto.py`
+therefore runs one sequence as P pieces in two parallel passes of the stock `flash_kda.fwd`:
+pass A with the real values from a zero start (local outputs, C_p), pass B with v = 0 from an
+identity start (its output is z_t = M_{<t} q_t, its final state M_p); then E_p = E_{p-1} M_p + C_p
+(P small matmuls) and out_t += E_{p-1} z_t (one bf16 batched GEMM per piece). GPU kernel time per
+16k call, one GB300, torch profiler:
+
+| heads | P | V-split | single pass | two K2 passes | two K1 | prototype total | ptx_kda |
+|---:|---:|:--:|---:|---:|---:|---:|---:|
+| 12 | 6 | on | 815 | 264 | 135 | 560 | 527 |
+| 12 | 12 | off | | 191 | 141 | 603 | |
+| 24 | 3 | on | 875 | 509 | 253 | 908 | 919 |
+| 24 | 6 | off | | 354 | 259 | 844 | |
+
+Past the V-split budget (2*H*P > 152) the kernel runs the full-V recurrence at ~10% more per
+chunk, so more pieces keep paying. Accuracy against SGLang's Triton `chunk_kda` (fp32 state) with
+K3-like slow decay: output max|err| 1.95e-3 for both the single pass and the split, final state
+1.47e-2 against 1.34e-2; the split adds nothing beyond the bf16 resident state both share.
+
+What the prototype wastes, and a kernel-level version removes: the second K1 (its six chunk
+intermediates depend on neither v nor the start state, so pass B reuses pass A's workspace), the
+elementwise add/convert around the fix-up (a `baddbmm` epilogue), and the serial chain of P fp32
+matmuls (one batched GEMM). Projected 16k call: 12 heads P=12 ~285 us (1.8x over ptx_kda, 2.9x
+over today), 24 heads P=6 ~505 us (~480 with the K2 patches), i.e. the manifest's 69 KDA calls
+fall from 53 to ~33 ms, about 4% of the 16k graph. Plan: fuse the two passes into one 2N-piece
+launch that shares K1, add the fix-up GEMM and the chain as manifest ops, gate with the 16k judge.
