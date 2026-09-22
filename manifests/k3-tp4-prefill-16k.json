@@ -398152,10 +398152,6 @@
    "source": "k3_collectives.cubin",
    "sha256": "36db46baac84af1d068205afd72e3689f57886c81b3f80c7ade7d2de929d740f"
   },
-  "k3_allgather4": {
-   "source": "k3_allgather4.cubin",
-   "sha256": "922033b1f92178e770779a07a6b75a3b3b75d0047431f9d590e7c39c7650a88f"
-  },
   "k3_moe_prefill_v3+EP_STRIDED=1": {
    "source": "k3_moe_prefill_v3+EP_STRIDED=1.cubin",
    "sha256": "b4f8c82206ee1436a3e06c1dd58082aac2983686601fea741512f56a3d0a7a80"
@@ -398174,7 +398170,7 @@
   },
   "k3_residual_push_v3": {
    "source": "k3_residual_push_v3.cubin",
-   "sha256": "399d1d982e3011ca8aa05c115394ad68d432fa18b5dd12db94ac22baaf577535"
+   "sha256": "be16ededb5338a9407174ff9d303389c9e0a44d60bcb8b5d7ce22312a2a4b578"
   },
   "k3_mla_prep_bf16+INNER=3072+MLA_FUSED=5184": {
    "source": "k3_mla_prep_bf16+INNER=3072+MLA_FUSED=5184.cubin",
@@ -398195,6 +398191,10 @@
   "k3_moe_prefill_v4+EP_RANKS=4+EP_STRIDED=1+TILE_SHIFT=7+SCATTER_WARPS=16": {
    "source": "k3_moe_prefill_v4+EP_RANKS=4+EP_STRIDED=1+TILE_SHIFT=7+SCATTER_WARPS=16.cubin",
    "sha256": "5ae86d929d347748f15f7bf8a8e84b07bdfc6b2a953900340eca7ddef1f49bbc"
+  },
+  "k3_allgather4_v3": {
+   "source": "k3_allgather4_v3.cubin",
+   "sha256": "a45eb82ec975a12d2f8cd64a63b45181dd7699c88aa575819661ab7ba3e78d07"
   }
  },
  "ops": {
@@ -401394,7 +401394,7 @@
    "impl": {
     "launches": [
      {
-      "module": "k3_allgather4",
+      "module": "k3_allgather4_v3",
       "entry": "kern_k3_allgather4_push",
       "params": [
        "in buffer<u8>",

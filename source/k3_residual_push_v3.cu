@@ -121,6 +121,14 @@ __device__ __forceinline__ V8 ldv(const void* p) {
 __device__ __forceinline__ void stv(void* p, const V8& v) {
     *(uint4*)p = make_uint4(v.w[0], v.w[1], v.w[2], v.w[3]);
 }
+/* The three peer copies go into another rank's memory: the line they leave in
+ * *our* L2 is a forwarding buffer for a write this rank never reads back, so it
+ * should go early instead of evicting something the next kernels wanted.  This
+ * rank's own slice of `normed_all` is the opposite -- `l*.qkvg` reads it a few
+ * microseconds later -- so it keeps the default write-back policy. */
+__device__ __forceinline__ void stv_peer(void* p, const V8& v) {
+    __stcs((uint4*)p, make_uint4(v.w[0], v.w[1], v.w[2], v.w[3]));
+}
 __device__ __forceinline__ bf162_t as_bf162(unsigned u) {
     return __halves2bfloat162(__ushort_as_bfloat16((unsigned short)(u & 0xffffu)),
                               __ushort_as_bfloat16((unsigned short)(u >> 16)));
@@ -308,7 +316,7 @@ __device__ __forceinline__ void attnres_rms_row(
 #pragma unroll
         for (int q = 0; q < K3_MAX_RANKS; ++q)
             if (q < nranks && q != rank)
-                stv((bf16_t*)(uintptr_t)dst_peer[q] + dst_off + u, o);
+                stv_peer((bf16_t*)(uintptr_t)dst_peer[q] + dst_off + u, o);
     }
 }
 
