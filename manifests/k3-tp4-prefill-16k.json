@@ -398081,6 +398081,15 @@
     169869312
    ],
    "kind": "workspace"
+  },
+  "attn_stats": {
+   "dtype": "f32",
+   "shape": [
+    4096,
+    8,
+    2
+   ],
+   "kind": "workspace"
   }
  },
  "modules": {
@@ -398195,6 +398204,14 @@
   "k3_allgather4_v3": {
    "source": "k3_allgather4_v3.cubin",
    "sha256": "a45eb82ec975a12d2f8cd64a63b45181dd7699c88aa575819661ab7ba3e78d07"
+  },
+  "k3_residual_push_stats": {
+   "source": "k3_residual_push_stats.cubin",
+   "sha256": "5fefe40813a9e320aefa6bbc2aa05639d2bc6afc07661caa1a2c1bf512d78a01"
+  },
+  "k3_residual_nb_stats": {
+   "source": "k3_residual_nb_stats.cubin",
+   "sha256": "1b4f188800c70d8c4c30a8adb3badb6cf8d1e07610dee77b7028de0080e45fe1"
   }
  },
  "ops": {
@@ -401880,12 +401897,14 @@
     "out buffer<bf16>",
     "i32",
     "i32",
+    "i32",
+    "in buffer<f32>",
     "i32"
    ],
    "impl": {
     "launches": [
      {
-      "module": "k3_residual_nb+LAND_BF16=1",
+      "module": "k3_residual_nb_stats",
       "entry": "kern_k3_land_add_attnres_rms_nb4",
       "block": [
        128,
@@ -401917,12 +401936,14 @@
     "out buffer<bf16>",
     "i32",
     "i32",
+    "i32",
+    "in buffer<f32>",
     "i32"
    ],
    "impl": {
     "launches": [
      {
-      "module": "k3_residual_nb+LAND_BF16=1",
+      "module": "k3_residual_nb_stats",
       "entry": "kern_k3_land_add_attnres_rms_nb5",
       "block": [
        128,
@@ -401954,12 +401975,14 @@
     "out buffer<bf16>",
     "i32",
     "i32",
+    "i32",
+    "in buffer<f32>",
     "i32"
    ],
    "impl": {
     "launches": [
      {
-      "module": "k3_residual_nb+LAND_BF16=1",
+      "module": "k3_residual_nb_stats",
       "entry": "kern_k3_land_add_attnres_rms_nb6",
       "block": [
        128,
@@ -401991,12 +402014,14 @@
     "out buffer<bf16>",
     "i32",
     "i32",
+    "i32",
+    "in buffer<f32>",
     "i32"
    ],
    "impl": {
     "launches": [
      {
-      "module": "k3_residual_nb+LAND_BF16=1",
+      "module": "k3_residual_nb_stats",
       "entry": "kern_k3_land_add_attnres_rms_nb7",
       "block": [
        128,
@@ -402028,13 +402053,109 @@
     "out buffer<bf16>",
     "i32",
     "i32",
+    "i32",
+    "in buffer<f32>",
     "i32"
    ],
    "impl": {
     "launches": [
      {
-      "module": "k3_residual_nb+LAND_BF16=1",
+      "module": "k3_residual_nb_stats",
       "entry": "kern_k3_land_add_attnres_rms_nb8",
+      "block": [
+       128,
+       1,
+       1
+      ],
+      "grid": [
+       {
+        "ceil_div": [
+         "tokens",
+         4
+        ]
+       },
+       1,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  "attnres_rms_push_stats": {
+   "params": [
+    "in buffer<bf16>",
+    "inout buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<bf16>",
+    "out buffer<bf16>",
+    "in buffer<u64>",
+    "i32",
+    "i32",
+    "i32",
+    "in buffer<f32>",
+    "out buffer<f32>"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "module": "k3_residual_push_stats",
+      "entry": "kern_k3_attnres_rms_push",
+      "params": [
+       "in buffer<bf16>",
+       "inout buffer<bf16>",
+       "in buffer<f32>",
+       "in buffer<bf16>",
+       "out buffer<bf16>",
+       "in buffer<u64>",
+       "i32",
+       "i32",
+       "i32",
+       "i32",
+       "i32",
+       "in buffer<f32>",
+       "out buffer<f32>"
+      ],
+      "args": [
+       {
+        "param": 0
+       },
+       {
+        "param": 1
+       },
+       {
+        "param": 2
+       },
+       {
+        "param": 3
+       },
+       {
+        "param": 4
+       },
+       {
+        "param": 5
+       },
+       {
+        "param": 6
+       },
+       {
+        "param": 7
+       },
+       {
+        "param": 8
+       },
+       {
+        "rank": "tp"
+       },
+       {
+        "i32": 4
+       },
+       {
+        "param": 9
+       },
+       {
+        "param": 10
+       }
+      ],
       "block": [
        128,
        1,
@@ -439236,7 +439357,7 @@
     },
     {
      "label": "l36.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -439269,6 +439390,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.36.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -439665,6 +439792,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 3
       }
      ]
     },
@@ -440285,7 +440418,7 @@
     },
     {
      "label": "l37.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -440318,6 +440451,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.37.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -440714,6 +440853,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -441334,7 +441479,7 @@
     },
     {
      "label": "l38.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -441367,6 +441512,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.38.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -441763,6 +441914,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -442383,7 +442540,7 @@
     },
     {
      "label": "l39.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -442416,6 +442573,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.39.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -442792,6 +442955,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -443412,7 +443581,7 @@
     },
     {
      "label": "l40.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -443445,6 +443614,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.40.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -443841,6 +444016,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -444461,7 +444642,7 @@
     },
     {
      "label": "l41.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -444494,6 +444675,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.41.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -444890,6 +445077,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -445510,7 +445703,7 @@
     },
     {
      "label": "l42.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -445543,6 +445736,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.42.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -445939,6 +446138,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -446559,7 +446764,7 @@
     },
     {
      "label": "l43.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -446592,6 +446797,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.43.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -446968,6 +447179,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -447588,7 +447805,7 @@
     },
     {
      "label": "l44.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -447621,6 +447838,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.44.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -448017,6 +448240,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -448637,7 +448866,7 @@
     },
     {
      "label": "l45.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -448670,6 +448899,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.45.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -449066,6 +449301,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -449686,7 +449927,7 @@
     },
     {
      "label": "l46.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -449719,6 +449960,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.46.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -450115,6 +450362,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -450735,7 +450988,7 @@
     },
     {
      "label": "l47.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -450768,6 +451021,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.47.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -451144,6 +451403,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -451764,7 +452029,7 @@
     },
     {
      "label": "l48.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -451797,6 +452062,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.48.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -452193,6 +452464,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 4
       }
      ]
     },
@@ -452813,7 +453090,7 @@
     },
     {
      "label": "l49.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -452846,6 +453123,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.49.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -453242,6 +453525,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -453862,7 +454151,7 @@
     },
     {
      "label": "l50.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -453895,6 +454184,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.50.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -454291,6 +454586,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -454911,7 +455212,7 @@
     },
     {
      "label": "l51.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -454944,6 +455245,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.51.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -455320,6 +455627,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -455940,7 +456253,7 @@
     },
     {
      "label": "l52.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -455973,6 +456286,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.52.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -456369,6 +456688,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -456989,7 +457314,7 @@
     },
     {
      "label": "l53.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -457022,6 +457347,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.53.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -457418,6 +457749,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -458038,7 +458375,7 @@
     },
     {
      "label": "l54.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -458071,6 +458408,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.54.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -458467,6 +458810,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -459087,7 +459436,7 @@
     },
     {
      "label": "l55.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -459120,6 +459469,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.55.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -459496,6 +459851,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -460116,7 +460477,7 @@
     },
     {
      "label": "l56.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -460149,6 +460510,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.56.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -460545,6 +460912,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -461165,7 +461538,7 @@
     },
     {
      "label": "l57.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -461198,6 +461571,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.57.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -461594,6 +461973,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -462214,7 +462599,7 @@
     },
     {
      "label": "l58.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -462247,6 +462632,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.58.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -462643,6 +463034,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -463263,7 +463660,7 @@
     },
     {
      "label": "l59.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -463296,6 +463693,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.59.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -463672,6 +464075,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -464292,7 +464701,7 @@
     },
     {
      "label": "l60.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -464325,6 +464734,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.60.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -464721,6 +465136,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 5
       }
      ]
     },
@@ -465341,7 +465762,7 @@
     },
     {
      "label": "l61.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -465374,6 +465795,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.61.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -465770,6 +466197,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -466390,7 +466823,7 @@
     },
     {
      "label": "l62.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -466423,6 +466856,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.62.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -466819,6 +467258,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -467439,7 +467884,7 @@
     },
     {
      "label": "l63.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -467472,6 +467917,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.63.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -467848,6 +468299,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -468468,7 +468925,7 @@
     },
     {
      "label": "l64.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -468501,6 +468958,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.64.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -468897,6 +469360,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -469517,7 +469986,7 @@
     },
     {
      "label": "l65.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -469550,6 +470019,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.65.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -469946,6 +470421,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -470566,7 +471047,7 @@
     },
     {
      "label": "l66.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -470599,6 +471080,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.66.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -470995,6 +471482,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -471615,7 +472108,7 @@
     },
     {
      "label": "l67.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -471648,6 +472141,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.67.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -472024,6 +472523,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -472644,7 +473149,7 @@
     },
     {
      "label": "l68.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -472677,6 +473182,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.68.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -473073,6 +473584,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -473693,7 +474210,7 @@
     },
     {
      "label": "l69.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -473726,6 +474243,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.69.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -474122,6 +474645,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -474742,7 +475271,7 @@
     },
     {
      "label": "l70.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -474775,6 +475304,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.70.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -475171,6 +475706,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -475791,7 +476332,7 @@
     },
     {
      "label": "l71.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -475824,6 +476365,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.71.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -476200,6 +476747,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -476820,7 +477373,7 @@
     },
     {
      "label": "l72.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -476853,6 +477406,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.72.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -477249,6 +477808,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 6
       }
      ]
     },
@@ -477869,7 +478434,7 @@
     },
     {
      "label": "l73.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -477902,6 +478467,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.73.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -478298,6 +478869,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -478918,7 +479495,7 @@
     },
     {
      "label": "l74.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -478951,6 +479528,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.74.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -479347,6 +479930,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -479967,7 +480556,7 @@
     },
     {
      "label": "l75.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -480000,6 +480589,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.75.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -480376,6 +480971,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -480996,7 +481597,7 @@
     },
     {
      "label": "l76.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -481029,6 +481630,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.76.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -481425,6 +482032,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -482045,7 +482658,7 @@
     },
     {
      "label": "l77.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -482078,6 +482691,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.77.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -482474,6 +483093,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -483094,7 +483719,7 @@
     },
     {
      "label": "l78.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -483127,6 +483752,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.78.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -483523,6 +484154,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -484143,7 +484780,7 @@
     },
     {
      "label": "l79.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -484176,6 +484813,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.79.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -484552,6 +485195,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -485172,7 +485821,7 @@
     },
     {
      "label": "l80.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -485205,6 +485854,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.80.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -485601,6 +486256,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -486221,7 +486882,7 @@
     },
     {
      "label": "l81.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -486254,6 +486915,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.81.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -486650,6 +487317,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -487270,7 +487943,7 @@
     },
     {
      "label": "l82.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -487303,6 +487976,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.82.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -487699,6 +488378,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -488319,7 +489004,7 @@
     },
     {
      "label": "l83.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -488352,6 +489037,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.83.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -488728,6 +489419,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -489348,7 +490045,7 @@
     },
     {
      "label": "l84.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -489381,6 +490078,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.84.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -489777,6 +490480,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 7
       }
      ]
     },
@@ -490397,7 +491106,7 @@
     },
     {
      "label": "l85.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -490430,6 +491139,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.85.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -490826,6 +491541,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 8
       }
      ]
     },
@@ -491446,7 +492167,7 @@
     },
     {
      "label": "l86.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -491479,6 +492200,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.86.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -491875,6 +492602,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 8
       }
      ]
     },
@@ -492495,7 +493228,7 @@
     },
     {
      "label": "l87.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -492528,6 +493261,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.87.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -492904,6 +493643,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 8
       }
      ]
     },
@@ -493524,7 +494269,7 @@
     },
     {
      "label": "l88.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -493557,6 +494302,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.88.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -493953,6 +494704,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 8
       }
      ]
     },
@@ -494573,7 +495330,7 @@
     },
     {
      "label": "l89.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -494606,6 +495363,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.89.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -495002,6 +495765,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 8
       }
      ]
     },
@@ -495622,7 +496391,7 @@
     },
     {
      "label": "l90.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -495655,6 +496424,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.90.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -496051,6 +496826,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 8
       }
      ]
     },
@@ -496671,7 +497452,7 @@
     },
     {
      "label": "l91.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -496704,6 +497485,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.91.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -497080,6 +497867,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 8
       }
      ]
     },
@@ -497700,7 +498493,7 @@
     },
     {
      "label": "l92.res_in",
-     "op": "attnres_rms_push_v3",
+     "op": "attnres_rms_push_stats",
      "args": [
       {
        "buf": "hidden"
@@ -497733,6 +498526,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "layers.92.sw_mlp"
+      },
+      {
+       "buf": "attn_stats"
       }
      ]
     },
@@ -498109,6 +498908,12 @@
          4
         ]
        }
+      },
+      {
+       "buf": "attn_stats"
+      },
+      {
+       "i32": 8
       }
      ]
     },

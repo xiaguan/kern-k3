@@ -230,3 +230,12 @@ defines = { EP_RANKS = 4, EP_STRIDED = 1, TILE_SHIFT = 7, SCATTER_WARPS = 16 }
 [kernels.k3_allgather4_v3]
 sha256 = "a45eb82ec975a12d2f8cd64a63b45181dd7699c88aa575819661ab7ba3e78d07"
 source = "source/k3_allgather4_v3.cu"
+
+[kernels.k3_residual_push_stats]
+sha256 = "5fefe40813a9e320aefa6bbc2aa05639d2bc6afc07661caa1a2c1bf512d78a01"
+source = "source/k3_residual_push_stats.cu"
+
+[kernels.k3_residual_nb_stats]
+sha256 = "1b4f188800c70d8c4c30a8adb3badb6cf8d1e07610dee77b7028de0080e45fe1"
+source = "source/k3_residual_nb_stats.cu"
+defines = { LAND_BF16 = 1 }
