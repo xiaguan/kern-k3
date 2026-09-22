@@ -79,6 +79,12 @@ FlashKDA（source/flash-kda-vllm，CUTLASS 在 /opt/cutlass）：
 prebuilt/<模块名>.cubin 并用 prebuilt = 指向它（compose 收 source/、prebuilt/、generator、kernels.toml、manifest）。
 没有源码的模块：moe_fc1 / moe_fc2（trtllm-gen 的 batched GEMM cubin）和 mla_fmha（TRT-LLM fmha cubin），
 它们只能整体替换（换成别的 cubin 或自己写的核），改不了内部。dense GEMM 走 cuBLASLt，同理。
+runtime 内置的 fp8 GEMM：`{"entry": "extern:cublaslt_fp8_tn"}`（bf16 输出）/ `extern:cublaslt_fp8_tn_f32`（f32 输出），
+op params `[in buffer<u8> a[m,k], in buffer<u8> w[n,k], out buffer c[m,n], in buffer<f32> a_scale, in buffer<f32> w_scale, i32 m, i32 n, i32 k, i32 ldc]`
+（ldc 可省），C = (a_scale·w_scale)·A·Wᵀ，两个 scale 各是 device 上的一个 f32，e4m3 操作数、f32 累加，k 必须是 16 的倍数，
+图内可捕获，16384×12288×7168 一次 0.62 ms（bf16 1.44）。`scripts/gen_fp8_qkvg.py` + `source/k3_quant_fp8_pair.cu` 是范例：
+权重在 `load` 里量化一次进 carry buffer + scale，激活在 GEMM 前量化。这是 judge 认可的数值改动（band 内），
+commit message 照样要写 `numerics-changing:`。
 模型和部署的常量（4 rank、每 rank 的 head 数、宽度、专家数）是固定的，把它们作为 constexpr / 模板参数交给编译器，
 而不是从 op params 里在运行时读；**token 数不是常量**：评测只跑 16384，但 judge 的语料是各种长度的 prompt，
 之后还要在 4k / 8k 上跑，grid 必须仍是 tokens 的函数，核不许假设 rows = 16384 或 4096。

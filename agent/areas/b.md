@@ -44,3 +44,8 @@ builder 就在这些例子里）；TensorRT-LLM 的 `moe/cutlass/`（sm100 TMA w
 按真实的 per-expert 行数分布（从 moe.blockcount / route_map 读一次真实路由）跑自己那个 op 的形状，报 TF 对照 3.0–3.3 PF；
 达不到 3.5 PF 就写下结论停手。达到了再对 ABI：接同一份 route_map / cta_batch / total_padded，输出比特相同或
 test16k 可解释。探针是两人共用的，先写出来的放自己的记录目录，另一个人直接读结果不重做。
+
+## 2026-09-22 起：shared-expert 侧的 dense fp8
+`wsh`（M=tokens/4，N=12288，K=7168，输入 `normed`）、`sh_down`（K=6144，输入 `shared_act`）、`lat_up`、`lat_down`（输入 `normed`）
+换成 runtime 内置 fp8 GEMM（见 TASK.md，照 `scripts/gen_fp8_qkvg.py`）：`normed` 量化一次喂 wsh + lat_down（router 的 f32 GEMM
+可用 `_f32` 变体吃同一份），权重 load 时量化进 carry。o_proj / wfu / wsm / 量化核提速归 c。

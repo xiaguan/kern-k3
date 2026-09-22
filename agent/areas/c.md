@@ -39,3 +39,8 @@ builder 就在这些例子里）；TensorRT-LLM 的 `moe/cutlass/`（sm100 TMA w
 按真实的 per-expert 行数分布（从 moe.blockcount / route_map 读一次真实路由）跑自己那个 op 的形状，报 TF 对照 3.0–3.3 PF；
 达不到 3.5 PF 就写下结论停手。达到了再对 ABI：接同一份 route_map / cta_batch / total_padded，输出比特相同或
 test16k 可解释。探针是两人共用的，先写出来的放自己的记录目录，另一个人直接读结果不重做。
+
+## 2026-09-22 起：dense fp8
+qkvg 已经走 runtime 内置 fp8 GEMM（见 TASK.md，`scripts/gen_fp8_qkvg.py`）。你负责：量化 pass 提速（现在 0.42 ms/次，
+带宽允许 ~0.1：16 B 向量读写、grid 摆满 SM、amax 并进写 `normed_all` 的核）、`normed_all` 一份量化同时喂 qkvg / wfu / wsm
+（wsm 用 `_f32` 变体）、`o_proj`（输入 `gated`，K=3072）。wsh / sh_down / lat_up / lat_down 归 b。自写 CUTLASS fp8 核的路停掉。
