@@ -399147,6 +399147,1401 @@
     1
    ],
    "kind": "carry"
+  },
+  "mlp_normed_fp8": {
+   "dtype": "u8",
+   "shape": [
+    4096,
+    7168
+   ],
+   "kind": "workspace"
+  },
+  "mlp_normed_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "workspace"
+  },
+  "layers.1.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.1.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.2.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.2.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.3.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.3.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.4.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.4.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.5.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.5.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.6.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.6.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.7.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.7.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.8.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.8.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.9.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.9.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.10.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.10.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.11.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.11.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.12.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.12.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.13.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.13.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.14.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.14.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.15.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.15.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.16.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.16.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.17.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.17.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.18.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.18.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.19.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.19.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.20.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.20.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.21.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.21.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.22.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.22.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.23.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.23.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.24.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.24.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.25.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.25.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.26.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.26.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.27.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.27.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.28.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.28.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.29.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.29.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.30.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.30.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.31.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.31.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.32.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.32.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.33.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.33.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.34.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.34.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.35.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.35.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.36.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.36.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.37.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.37.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.38.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.38.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.39.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.39.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.40.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.40.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.41.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.41.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.42.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.42.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.43.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.43.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.44.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.44.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.45.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.45.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.46.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.46.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.47.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.47.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.48.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.48.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.49.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.49.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.50.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.50.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.51.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.51.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.52.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.52.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.53.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.53.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.54.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.54.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.55.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.55.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.56.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.56.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.57.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.57.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.58.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.58.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.59.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.59.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.60.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.60.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.61.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.61.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.62.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.62.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.63.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.63.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.64.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.64.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.65.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.65.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.66.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.66.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.67.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.67.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.68.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.68.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.69.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.69.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.70.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.70.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.71.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.71.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.72.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.72.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.73.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.73.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.74.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.74.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.75.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.75.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.76.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.76.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.77.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.77.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.78.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.78.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.79.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.79.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.80.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.80.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.81.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.81.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.82.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.82.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.83.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.83.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.84.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.84.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.85.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.85.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.86.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.86.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.87.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.87.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.88.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.88.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.89.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.89.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.90.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.90.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.91.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.91.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
+  },
+  "layers.92.wsh_fp8": {
+   "dtype": "u8",
+   "shape": [
+    12288,
+    7168
+   ],
+   "kind": "carry"
+  },
+  "layers.92.wsh_scale": {
+   "dtype": "f32",
+   "shape": [
+    1
+   ],
+   "kind": "carry"
   }
  },
  "modules": {
@@ -403239,6 +404634,26 @@
      }
     ]
    }
+  },
+  "gemm_fp8_shared": {
+   "params": [
+    "in buffer<u8>",
+    "in buffer<u8>",
+    "out buffer<bf16>",
+    "in buffer<f32>",
+    "in buffer<f32>",
+    "i32",
+    "i32",
+    "i32",
+    "i32"
+   ],
+   "impl": {
+    "launches": [
+     {
+      "entry": "extern:cublaslt_fp8_tn"
+     }
+    ]
+   }
   }
  },
  "programs": {
@@ -404373,6 +405788,37 @@
      ]
     },
     {
+     "label": "l1.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l1.router",
      "op": "gemm_f32",
      "args": [
@@ -404827,16 +406273,22 @@
     },
     {
      "label": "l1.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.1.wsh"
+       "buf": "layers.1.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.1.wsh_scale"
       },
       {
        "expr": {
@@ -405443,6 +406895,37 @@
      ]
     },
     {
+     "label": "l2.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l2.router",
      "op": "gemm_f32",
      "args": [
@@ -405897,16 +407380,22 @@
     },
     {
      "label": "l2.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.2.wsh"
+       "buf": "layers.2.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.2.wsh_scale"
       },
       {
        "expr": {
@@ -406461,6 +407950,37 @@
      ]
     },
     {
+     "label": "l3.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l3.router",
      "op": "gemm_f32",
      "args": [
@@ -406915,16 +408435,22 @@
     },
     {
      "label": "l3.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.3.wsh"
+       "buf": "layers.3.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.3.wsh_scale"
       },
       {
        "expr": {
@@ -407531,6 +409057,37 @@
      ]
     },
     {
+     "label": "l4.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l4.router",
      "op": "gemm_f32",
      "args": [
@@ -407985,16 +409542,22 @@
     },
     {
      "label": "l4.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.4.wsh"
+       "buf": "layers.4.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.4.wsh_scale"
       },
       {
        "expr": {
@@ -408601,6 +410164,37 @@
      ]
     },
     {
+     "label": "l5.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l5.router",
      "op": "gemm_f32",
      "args": [
@@ -409055,16 +410649,22 @@
     },
     {
      "label": "l5.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.5.wsh"
+       "buf": "layers.5.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.5.wsh_scale"
       },
       {
        "expr": {
@@ -409671,6 +411271,37 @@
      ]
     },
     {
+     "label": "l6.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l6.router",
      "op": "gemm_f32",
      "args": [
@@ -410125,16 +411756,22 @@
     },
     {
      "label": "l6.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.6.wsh"
+       "buf": "layers.6.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.6.wsh_scale"
       },
       {
        "expr": {
@@ -410689,6 +412326,37 @@
      ]
     },
     {
+     "label": "l7.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l7.router",
      "op": "gemm_f32",
      "args": [
@@ -411143,16 +412811,22 @@
     },
     {
      "label": "l7.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.7.wsh"
+       "buf": "layers.7.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.7.wsh_scale"
       },
       {
        "expr": {
@@ -411759,6 +413433,37 @@
      ]
     },
     {
+     "label": "l8.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l8.router",
      "op": "gemm_f32",
      "args": [
@@ -412213,16 +413918,22 @@
     },
     {
      "label": "l8.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.8.wsh"
+       "buf": "layers.8.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.8.wsh_scale"
       },
       {
        "expr": {
@@ -412829,6 +414540,37 @@
      ]
     },
     {
+     "label": "l9.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l9.router",
      "op": "gemm_f32",
      "args": [
@@ -413283,16 +415025,22 @@
     },
     {
      "label": "l9.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.9.wsh"
+       "buf": "layers.9.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.9.wsh_scale"
       },
       {
        "expr": {
@@ -413899,6 +415647,37 @@
      ]
     },
     {
+     "label": "l10.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l10.router",
      "op": "gemm_f32",
      "args": [
@@ -414353,16 +416132,22 @@
     },
     {
      "label": "l10.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.10.wsh"
+       "buf": "layers.10.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.10.wsh_scale"
       },
       {
        "expr": {
@@ -414917,6 +416702,37 @@
      ]
     },
     {
+     "label": "l11.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l11.router",
      "op": "gemm_f32",
      "args": [
@@ -415371,16 +417187,22 @@
     },
     {
      "label": "l11.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.11.wsh"
+       "buf": "layers.11.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.11.wsh_scale"
       },
       {
        "expr": {
@@ -415987,6 +417809,37 @@
      ]
     },
     {
+     "label": "l12.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l12.router",
      "op": "gemm_f32",
      "args": [
@@ -416441,16 +418294,22 @@
     },
     {
      "label": "l12.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.12.wsh"
+       "buf": "layers.12.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.12.wsh_scale"
       },
       {
        "expr": {
@@ -417057,6 +418916,37 @@
      ]
     },
     {
+     "label": "l13.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l13.router",
      "op": "gemm_f32",
      "args": [
@@ -417511,16 +419401,22 @@
     },
     {
      "label": "l13.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.13.wsh"
+       "buf": "layers.13.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.13.wsh_scale"
       },
       {
        "expr": {
@@ -418127,6 +420023,37 @@
      ]
     },
     {
+     "label": "l14.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l14.router",
      "op": "gemm_f32",
      "args": [
@@ -418581,16 +420508,22 @@
     },
     {
      "label": "l14.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.14.wsh"
+       "buf": "layers.14.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.14.wsh_scale"
       },
       {
        "expr": {
@@ -419145,6 +421078,37 @@
      ]
     },
     {
+     "label": "l15.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l15.router",
      "op": "gemm_f32",
      "args": [
@@ -419599,16 +421563,22 @@
     },
     {
      "label": "l15.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.15.wsh"
+       "buf": "layers.15.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.15.wsh_scale"
       },
       {
        "expr": {
@@ -420215,6 +422185,37 @@
      ]
     },
     {
+     "label": "l16.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l16.router",
      "op": "gemm_f32",
      "args": [
@@ -420669,16 +422670,22 @@
     },
     {
      "label": "l16.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.16.wsh"
+       "buf": "layers.16.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.16.wsh_scale"
       },
       {
        "expr": {
@@ -421285,6 +423292,37 @@
      ]
     },
     {
+     "label": "l17.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l17.router",
      "op": "gemm_f32",
      "args": [
@@ -421739,16 +423777,22 @@
     },
     {
      "label": "l17.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.17.wsh"
+       "buf": "layers.17.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.17.wsh_scale"
       },
       {
        "expr": {
@@ -422355,6 +424399,37 @@
      ]
     },
     {
+     "label": "l18.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l18.router",
      "op": "gemm_f32",
      "args": [
@@ -422809,16 +424884,22 @@
     },
     {
      "label": "l18.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.18.wsh"
+       "buf": "layers.18.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.18.wsh_scale"
       },
       {
        "expr": {
@@ -423373,6 +425454,37 @@
      ]
     },
     {
+     "label": "l19.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l19.router",
      "op": "gemm_f32",
      "args": [
@@ -423827,16 +425939,22 @@
     },
     {
      "label": "l19.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.19.wsh"
+       "buf": "layers.19.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.19.wsh_scale"
       },
       {
        "expr": {
@@ -424443,6 +426561,37 @@
      ]
     },
     {
+     "label": "l20.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l20.router",
      "op": "gemm_f32",
      "args": [
@@ -424897,16 +427046,22 @@
     },
     {
      "label": "l20.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.20.wsh"
+       "buf": "layers.20.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.20.wsh_scale"
       },
       {
        "expr": {
@@ -425513,6 +427668,37 @@
      ]
     },
     {
+     "label": "l21.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l21.router",
      "op": "gemm_f32",
      "args": [
@@ -425967,16 +428153,22 @@
     },
     {
      "label": "l21.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.21.wsh"
+       "buf": "layers.21.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.21.wsh_scale"
       },
       {
        "expr": {
@@ -426583,6 +428775,37 @@
      ]
     },
     {
+     "label": "l22.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l22.router",
      "op": "gemm_f32",
      "args": [
@@ -427037,16 +429260,22 @@
     },
     {
      "label": "l22.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.22.wsh"
+       "buf": "layers.22.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.22.wsh_scale"
       },
       {
        "expr": {
@@ -427601,6 +429830,37 @@
      ]
     },
     {
+     "label": "l23.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l23.router",
      "op": "gemm_f32",
      "args": [
@@ -428055,16 +430315,22 @@
     },
     {
      "label": "l23.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.23.wsh"
+       "buf": "layers.23.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.23.wsh_scale"
       },
       {
        "expr": {
@@ -428671,6 +430937,37 @@
      ]
     },
     {
+     "label": "l24.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l24.router",
      "op": "gemm_f32",
      "args": [
@@ -429125,16 +431422,22 @@
     },
     {
      "label": "l24.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.24.wsh"
+       "buf": "layers.24.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.24.wsh_scale"
       },
       {
        "expr": {
@@ -429741,6 +432044,37 @@
      ]
     },
     {
+     "label": "l25.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l25.router",
      "op": "gemm_f32",
      "args": [
@@ -430195,16 +432529,22 @@
     },
     {
      "label": "l25.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.25.wsh"
+       "buf": "layers.25.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.25.wsh_scale"
       },
       {
        "expr": {
@@ -430811,6 +433151,37 @@
      ]
     },
     {
+     "label": "l26.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l26.router",
      "op": "gemm_f32",
      "args": [
@@ -431265,16 +433636,22 @@
     },
     {
      "label": "l26.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.26.wsh"
+       "buf": "layers.26.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.26.wsh_scale"
       },
       {
        "expr": {
@@ -431829,6 +434206,37 @@
      ]
     },
     {
+     "label": "l27.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l27.router",
      "op": "gemm_f32",
      "args": [
@@ -432283,16 +434691,22 @@
     },
     {
      "label": "l27.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.27.wsh"
+       "buf": "layers.27.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.27.wsh_scale"
       },
       {
        "expr": {
@@ -432899,6 +435313,37 @@
      ]
     },
     {
+     "label": "l28.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l28.router",
      "op": "gemm_f32",
      "args": [
@@ -433353,16 +435798,22 @@
     },
     {
      "label": "l28.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.28.wsh"
+       "buf": "layers.28.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.28.wsh_scale"
       },
       {
        "expr": {
@@ -433969,6 +436420,37 @@
      ]
     },
     {
+     "label": "l29.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l29.router",
      "op": "gemm_f32",
      "args": [
@@ -434423,16 +436905,22 @@
     },
     {
      "label": "l29.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.29.wsh"
+       "buf": "layers.29.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.29.wsh_scale"
       },
       {
        "expr": {
@@ -435039,6 +437527,37 @@
      ]
     },
     {
+     "label": "l30.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l30.router",
      "op": "gemm_f32",
      "args": [
@@ -435493,16 +438012,22 @@
     },
     {
      "label": "l30.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.30.wsh"
+       "buf": "layers.30.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.30.wsh_scale"
       },
       {
        "expr": {
@@ -436057,6 +438582,37 @@
      ]
     },
     {
+     "label": "l31.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l31.router",
      "op": "gemm_f32",
      "args": [
@@ -436511,16 +439067,22 @@
     },
     {
      "label": "l31.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.31.wsh"
+       "buf": "layers.31.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.31.wsh_scale"
       },
       {
        "expr": {
@@ -437127,6 +439689,37 @@
      ]
     },
     {
+     "label": "l32.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l32.router",
      "op": "gemm_f32",
      "args": [
@@ -437581,16 +440174,22 @@
     },
     {
      "label": "l32.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.32.wsh"
+       "buf": "layers.32.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.32.wsh_scale"
       },
       {
        "expr": {
@@ -438197,6 +440796,37 @@
      ]
     },
     {
+     "label": "l33.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l33.router",
      "op": "gemm_f32",
      "args": [
@@ -438651,16 +441281,22 @@
     },
     {
      "label": "l33.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.33.wsh"
+       "buf": "layers.33.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.33.wsh_scale"
       },
       {
        "expr": {
@@ -439267,6 +441903,37 @@
      ]
     },
     {
+     "label": "l34.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l34.router",
      "op": "gemm_f32",
      "args": [
@@ -439721,16 +442388,22 @@
     },
     {
      "label": "l34.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.34.wsh"
+       "buf": "layers.34.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.34.wsh_scale"
       },
       {
        "expr": {
@@ -440285,6 +442958,37 @@
      ]
     },
     {
+     "label": "l35.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l35.router",
      "op": "gemm_f32",
      "args": [
@@ -440739,16 +443443,22 @@
     },
     {
      "label": "l35.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.35.wsh"
+       "buf": "layers.35.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.35.wsh_scale"
       },
       {
        "expr": {
@@ -441361,6 +444071,37 @@
      ]
     },
     {
+     "label": "l36.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l36.router",
      "op": "gemm_f32",
      "args": [
@@ -441815,16 +444556,22 @@
     },
     {
      "label": "l36.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.36.wsh"
+       "buf": "layers.36.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.36.wsh_scale"
       },
       {
        "expr": {
@@ -442437,6 +445184,37 @@
      ]
     },
     {
+     "label": "l37.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l37.router",
      "op": "gemm_f32",
      "args": [
@@ -442891,16 +445669,22 @@
     },
     {
      "label": "l37.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.37.wsh"
+       "buf": "layers.37.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.37.wsh_scale"
       },
       {
        "expr": {
@@ -443513,6 +446297,37 @@
      ]
     },
     {
+     "label": "l38.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l38.router",
      "op": "gemm_f32",
      "args": [
@@ -443967,16 +446782,22 @@
     },
     {
      "label": "l38.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.38.wsh"
+       "buf": "layers.38.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.38.wsh_scale"
       },
       {
        "expr": {
@@ -444537,6 +447358,37 @@
      ]
     },
     {
+     "label": "l39.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l39.router",
      "op": "gemm_f32",
      "args": [
@@ -444991,16 +447843,22 @@
     },
     {
      "label": "l39.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.39.wsh"
+       "buf": "layers.39.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.39.wsh_scale"
       },
       {
        "expr": {
@@ -445613,6 +448471,37 @@
      ]
     },
     {
+     "label": "l40.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l40.router",
      "op": "gemm_f32",
      "args": [
@@ -446067,16 +448956,22 @@
     },
     {
      "label": "l40.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.40.wsh"
+       "buf": "layers.40.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.40.wsh_scale"
       },
       {
        "expr": {
@@ -446689,6 +449584,37 @@
      ]
     },
     {
+     "label": "l41.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l41.router",
      "op": "gemm_f32",
      "args": [
@@ -447143,16 +450069,22 @@
     },
     {
      "label": "l41.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.41.wsh"
+       "buf": "layers.41.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.41.wsh_scale"
       },
       {
        "expr": {
@@ -447765,6 +450697,37 @@
      ]
     },
     {
+     "label": "l42.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l42.router",
      "op": "gemm_f32",
      "args": [
@@ -448219,16 +451182,22 @@
     },
     {
      "label": "l42.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.42.wsh"
+       "buf": "layers.42.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.42.wsh_scale"
       },
       {
        "expr": {
@@ -448789,6 +451758,37 @@
      ]
     },
     {
+     "label": "l43.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l43.router",
      "op": "gemm_f32",
      "args": [
@@ -449243,16 +452243,22 @@
     },
     {
      "label": "l43.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.43.wsh"
+       "buf": "layers.43.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.43.wsh_scale"
       },
       {
        "expr": {
@@ -449865,6 +452871,37 @@
      ]
     },
     {
+     "label": "l44.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l44.router",
      "op": "gemm_f32",
      "args": [
@@ -450319,16 +453356,22 @@
     },
     {
      "label": "l44.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.44.wsh"
+       "buf": "layers.44.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.44.wsh_scale"
       },
       {
        "expr": {
@@ -450941,6 +453984,37 @@
      ]
     },
     {
+     "label": "l45.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l45.router",
      "op": "gemm_f32",
      "args": [
@@ -451395,16 +454469,22 @@
     },
     {
      "label": "l45.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.45.wsh"
+       "buf": "layers.45.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.45.wsh_scale"
       },
       {
        "expr": {
@@ -452017,6 +455097,37 @@
      ]
     },
     {
+     "label": "l46.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l46.router",
      "op": "gemm_f32",
      "args": [
@@ -452471,16 +455582,22 @@
     },
     {
      "label": "l46.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.46.wsh"
+       "buf": "layers.46.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.46.wsh_scale"
       },
       {
        "expr": {
@@ -453041,6 +456158,37 @@
      ]
     },
     {
+     "label": "l47.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l47.router",
      "op": "gemm_f32",
      "args": [
@@ -453495,16 +456643,22 @@
     },
     {
      "label": "l47.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.47.wsh"
+       "buf": "layers.47.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.47.wsh_scale"
       },
       {
        "expr": {
@@ -454117,6 +457271,37 @@
      ]
     },
     {
+     "label": "l48.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l48.router",
      "op": "gemm_f32",
      "args": [
@@ -454571,16 +457756,22 @@
     },
     {
      "label": "l48.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.48.wsh"
+       "buf": "layers.48.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.48.wsh_scale"
       },
       {
        "expr": {
@@ -455193,6 +458384,37 @@
      ]
     },
     {
+     "label": "l49.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l49.router",
      "op": "gemm_f32",
      "args": [
@@ -455647,16 +458869,22 @@
     },
     {
      "label": "l49.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.49.wsh"
+       "buf": "layers.49.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.49.wsh_scale"
       },
       {
        "expr": {
@@ -456269,6 +459497,37 @@
      ]
     },
     {
+     "label": "l50.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l50.router",
      "op": "gemm_f32",
      "args": [
@@ -456723,16 +459982,22 @@
     },
     {
      "label": "l50.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.50.wsh"
+       "buf": "layers.50.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.50.wsh_scale"
       },
       {
        "expr": {
@@ -457293,6 +460558,37 @@
      ]
     },
     {
+     "label": "l51.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l51.router",
      "op": "gemm_f32",
      "args": [
@@ -457747,16 +461043,22 @@
     },
     {
      "label": "l51.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.51.wsh"
+       "buf": "layers.51.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.51.wsh_scale"
       },
       {
        "expr": {
@@ -458369,6 +461671,37 @@
      ]
     },
     {
+     "label": "l52.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l52.router",
      "op": "gemm_f32",
      "args": [
@@ -458823,16 +462156,22 @@
     },
     {
      "label": "l52.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.52.wsh"
+       "buf": "layers.52.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.52.wsh_scale"
       },
       {
        "expr": {
@@ -459445,6 +462784,37 @@
      ]
     },
     {
+     "label": "l53.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l53.router",
      "op": "gemm_f32",
      "args": [
@@ -459899,16 +463269,22 @@
     },
     {
      "label": "l53.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.53.wsh"
+       "buf": "layers.53.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.53.wsh_scale"
       },
       {
        "expr": {
@@ -460521,6 +463897,37 @@
      ]
     },
     {
+     "label": "l54.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l54.router",
      "op": "gemm_f32",
      "args": [
@@ -460975,16 +464382,22 @@
     },
     {
      "label": "l54.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.54.wsh"
+       "buf": "layers.54.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.54.wsh_scale"
       },
       {
        "expr": {
@@ -461545,6 +464958,37 @@
      ]
     },
     {
+     "label": "l55.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l55.router",
      "op": "gemm_f32",
      "args": [
@@ -461999,16 +465443,22 @@
     },
     {
      "label": "l55.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.55.wsh"
+       "buf": "layers.55.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.55.wsh_scale"
       },
       {
        "expr": {
@@ -462621,6 +466071,37 @@
      ]
     },
     {
+     "label": "l56.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l56.router",
      "op": "gemm_f32",
      "args": [
@@ -463075,16 +466556,22 @@
     },
     {
      "label": "l56.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.56.wsh"
+       "buf": "layers.56.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.56.wsh_scale"
       },
       {
        "expr": {
@@ -463697,6 +467184,37 @@
      ]
     },
     {
+     "label": "l57.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l57.router",
      "op": "gemm_f32",
      "args": [
@@ -464151,16 +467669,22 @@
     },
     {
      "label": "l57.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.57.wsh"
+       "buf": "layers.57.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.57.wsh_scale"
       },
       {
        "expr": {
@@ -464773,6 +468297,37 @@
      ]
     },
     {
+     "label": "l58.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l58.router",
      "op": "gemm_f32",
      "args": [
@@ -465227,16 +468782,22 @@
     },
     {
      "label": "l58.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.58.wsh"
+       "buf": "layers.58.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.58.wsh_scale"
       },
       {
        "expr": {
@@ -465797,6 +469358,37 @@
      ]
     },
     {
+     "label": "l59.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l59.router",
      "op": "gemm_f32",
      "args": [
@@ -466251,16 +469843,22 @@
     },
     {
      "label": "l59.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.59.wsh"
+       "buf": "layers.59.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.59.wsh_scale"
       },
       {
        "expr": {
@@ -466873,6 +470471,37 @@
      ]
     },
     {
+     "label": "l60.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l60.router",
      "op": "gemm_f32",
      "args": [
@@ -467327,16 +470956,22 @@
     },
     {
      "label": "l60.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.60.wsh"
+       "buf": "layers.60.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.60.wsh_scale"
       },
       {
        "expr": {
@@ -467949,6 +471584,37 @@
      ]
     },
     {
+     "label": "l61.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l61.router",
      "op": "gemm_f32",
      "args": [
@@ -468403,16 +472069,22 @@
     },
     {
      "label": "l61.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.61.wsh"
+       "buf": "layers.61.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.61.wsh_scale"
       },
       {
        "expr": {
@@ -469025,6 +472697,37 @@
      ]
     },
     {
+     "label": "l62.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l62.router",
      "op": "gemm_f32",
      "args": [
@@ -469479,16 +473182,22 @@
     },
     {
      "label": "l62.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.62.wsh"
+       "buf": "layers.62.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.62.wsh_scale"
       },
       {
        "expr": {
@@ -470049,6 +473758,37 @@
      ]
     },
     {
+     "label": "l63.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l63.router",
      "op": "gemm_f32",
      "args": [
@@ -470503,16 +474243,22 @@
     },
     {
      "label": "l63.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.63.wsh"
+       "buf": "layers.63.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.63.wsh_scale"
       },
       {
        "expr": {
@@ -471125,6 +474871,37 @@
      ]
     },
     {
+     "label": "l64.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l64.router",
      "op": "gemm_f32",
      "args": [
@@ -471579,16 +475356,22 @@
     },
     {
      "label": "l64.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.64.wsh"
+       "buf": "layers.64.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.64.wsh_scale"
       },
       {
        "expr": {
@@ -472201,6 +475984,37 @@
      ]
     },
     {
+     "label": "l65.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l65.router",
      "op": "gemm_f32",
      "args": [
@@ -472655,16 +476469,22 @@
     },
     {
      "label": "l65.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.65.wsh"
+       "buf": "layers.65.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.65.wsh_scale"
       },
       {
        "expr": {
@@ -473277,6 +477097,37 @@
      ]
     },
     {
+     "label": "l66.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l66.router",
      "op": "gemm_f32",
      "args": [
@@ -473731,16 +477582,22 @@
     },
     {
      "label": "l66.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.66.wsh"
+       "buf": "layers.66.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.66.wsh_scale"
       },
       {
        "expr": {
@@ -474301,6 +478158,37 @@
      ]
     },
     {
+     "label": "l67.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l67.router",
      "op": "gemm_f32",
      "args": [
@@ -474755,16 +478643,22 @@
     },
     {
      "label": "l67.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.67.wsh"
+       "buf": "layers.67.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.67.wsh_scale"
       },
       {
        "expr": {
@@ -475377,6 +479271,37 @@
      ]
     },
     {
+     "label": "l68.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l68.router",
      "op": "gemm_f32",
      "args": [
@@ -475831,16 +479756,22 @@
     },
     {
      "label": "l68.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.68.wsh"
+       "buf": "layers.68.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.68.wsh_scale"
       },
       {
        "expr": {
@@ -476453,6 +480384,37 @@
      ]
     },
     {
+     "label": "l69.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l69.router",
      "op": "gemm_f32",
      "args": [
@@ -476907,16 +480869,22 @@
     },
     {
      "label": "l69.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.69.wsh"
+       "buf": "layers.69.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.69.wsh_scale"
       },
       {
        "expr": {
@@ -477529,6 +481497,37 @@
      ]
     },
     {
+     "label": "l70.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l70.router",
      "op": "gemm_f32",
      "args": [
@@ -477983,16 +481982,22 @@
     },
     {
      "label": "l70.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.70.wsh"
+       "buf": "layers.70.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.70.wsh_scale"
       },
       {
        "expr": {
@@ -478553,6 +482558,37 @@
      ]
     },
     {
+     "label": "l71.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l71.router",
      "op": "gemm_f32",
      "args": [
@@ -479007,16 +483043,22 @@
     },
     {
      "label": "l71.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.71.wsh"
+       "buf": "layers.71.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.71.wsh_scale"
       },
       {
        "expr": {
@@ -479629,6 +483671,37 @@
      ]
     },
     {
+     "label": "l72.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l72.router",
      "op": "gemm_f32",
      "args": [
@@ -480083,16 +484156,22 @@
     },
     {
      "label": "l72.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.72.wsh"
+       "buf": "layers.72.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.72.wsh_scale"
       },
       {
        "expr": {
@@ -480705,6 +484784,37 @@
      ]
     },
     {
+     "label": "l73.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l73.router",
      "op": "gemm_f32",
      "args": [
@@ -481159,16 +485269,22 @@
     },
     {
      "label": "l73.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.73.wsh"
+       "buf": "layers.73.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.73.wsh_scale"
       },
       {
        "expr": {
@@ -481781,6 +485897,37 @@
      ]
     },
     {
+     "label": "l74.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l74.router",
      "op": "gemm_f32",
      "args": [
@@ -482235,16 +486382,22 @@
     },
     {
      "label": "l74.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.74.wsh"
+       "buf": "layers.74.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.74.wsh_scale"
       },
       {
        "expr": {
@@ -482805,6 +486958,37 @@
      ]
     },
     {
+     "label": "l75.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l75.router",
      "op": "gemm_f32",
      "args": [
@@ -483259,16 +487443,22 @@
     },
     {
      "label": "l75.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.75.wsh"
+       "buf": "layers.75.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.75.wsh_scale"
       },
       {
        "expr": {
@@ -483881,6 +488071,37 @@
      ]
     },
     {
+     "label": "l76.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l76.router",
      "op": "gemm_f32",
      "args": [
@@ -484335,16 +488556,22 @@
     },
     {
      "label": "l76.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.76.wsh"
+       "buf": "layers.76.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.76.wsh_scale"
       },
       {
        "expr": {
@@ -484957,6 +489184,37 @@
      ]
     },
     {
+     "label": "l77.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l77.router",
      "op": "gemm_f32",
      "args": [
@@ -485411,16 +489669,22 @@
     },
     {
      "label": "l77.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.77.wsh"
+       "buf": "layers.77.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.77.wsh_scale"
       },
       {
        "expr": {
@@ -486033,6 +490297,37 @@
      ]
     },
     {
+     "label": "l78.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l78.router",
      "op": "gemm_f32",
      "args": [
@@ -486487,16 +490782,22 @@
     },
     {
      "label": "l78.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.78.wsh"
+       "buf": "layers.78.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.78.wsh_scale"
       },
       {
        "expr": {
@@ -487057,6 +491358,37 @@
      ]
     },
     {
+     "label": "l79.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l79.router",
      "op": "gemm_f32",
      "args": [
@@ -487511,16 +491843,22 @@
     },
     {
      "label": "l79.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.79.wsh"
+       "buf": "layers.79.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.79.wsh_scale"
       },
       {
        "expr": {
@@ -488133,6 +492471,37 @@
      ]
     },
     {
+     "label": "l80.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l80.router",
      "op": "gemm_f32",
      "args": [
@@ -488587,16 +492956,22 @@
     },
     {
      "label": "l80.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.80.wsh"
+       "buf": "layers.80.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.80.wsh_scale"
       },
       {
        "expr": {
@@ -489209,6 +493584,37 @@
      ]
     },
     {
+     "label": "l81.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l81.router",
      "op": "gemm_f32",
      "args": [
@@ -489663,16 +494069,22 @@
     },
     {
      "label": "l81.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.81.wsh"
+       "buf": "layers.81.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.81.wsh_scale"
       },
       {
        "expr": {
@@ -490285,6 +494697,37 @@
      ]
     },
     {
+     "label": "l82.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l82.router",
      "op": "gemm_f32",
      "args": [
@@ -490739,16 +495182,22 @@
     },
     {
      "label": "l82.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.82.wsh"
+       "buf": "layers.82.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.82.wsh_scale"
       },
       {
        "expr": {
@@ -491309,6 +495758,37 @@
      ]
     },
     {
+     "label": "l83.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l83.router",
      "op": "gemm_f32",
      "args": [
@@ -491763,16 +496243,22 @@
     },
     {
      "label": "l83.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.83.wsh"
+       "buf": "layers.83.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.83.wsh_scale"
       },
       {
        "expr": {
@@ -492385,6 +496871,37 @@
      ]
     },
     {
+     "label": "l84.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l84.router",
      "op": "gemm_f32",
      "args": [
@@ -492839,16 +497356,22 @@
     },
     {
      "label": "l84.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.84.wsh"
+       "buf": "layers.84.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.84.wsh_scale"
       },
       {
        "expr": {
@@ -493461,6 +497984,37 @@
      ]
     },
     {
+     "label": "l85.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l85.router",
      "op": "gemm_f32",
      "args": [
@@ -493915,16 +498469,22 @@
     },
     {
      "label": "l85.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.85.wsh"
+       "buf": "layers.85.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.85.wsh_scale"
       },
       {
        "expr": {
@@ -494537,6 +499097,37 @@
      ]
     },
     {
+     "label": "l86.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l86.router",
      "op": "gemm_f32",
      "args": [
@@ -494991,16 +499582,22 @@
     },
     {
      "label": "l86.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.86.wsh"
+       "buf": "layers.86.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.86.wsh_scale"
       },
       {
        "expr": {
@@ -495561,6 +500158,37 @@
      ]
     },
     {
+     "label": "l87.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l87.router",
      "op": "gemm_f32",
      "args": [
@@ -496015,16 +500643,22 @@
     },
     {
      "label": "l87.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.87.wsh"
+       "buf": "layers.87.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.87.wsh_scale"
       },
       {
        "expr": {
@@ -496637,6 +501271,37 @@
      ]
     },
     {
+     "label": "l88.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l88.router",
      "op": "gemm_f32",
      "args": [
@@ -497091,16 +501756,22 @@
     },
     {
      "label": "l88.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.88.wsh"
+       "buf": "layers.88.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.88.wsh_scale"
       },
       {
        "expr": {
@@ -497713,6 +502384,37 @@
      ]
     },
     {
+     "label": "l89.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l89.router",
      "op": "gemm_f32",
      "args": [
@@ -498167,16 +502869,22 @@
     },
     {
      "label": "l89.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.89.wsh"
+       "buf": "layers.89.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.89.wsh_scale"
       },
       {
        "expr": {
@@ -498789,6 +503497,37 @@
      ]
     },
     {
+     "label": "l90.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l90.router",
      "op": "gemm_f32",
      "args": [
@@ -499243,16 +503982,22 @@
     },
     {
      "label": "l90.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.90.wsh"
+       "buf": "layers.90.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.90.wsh_scale"
       },
       {
        "expr": {
@@ -499813,6 +504558,37 @@
      ]
     },
     {
+     "label": "l91.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l91.router",
      "op": "gemm_f32",
      "args": [
@@ -500267,16 +505043,22 @@
     },
     {
      "label": "l91.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.91.wsh"
+       "buf": "layers.91.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.91.wsh_scale"
       },
       {
        "expr": {
@@ -500837,6 +505619,37 @@
      ]
     },
     {
+     "label": "l92.normed_quant",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "normed"
+      },
+      {
+       "buf": "mlp_normed_fp8"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "expr": {
+        "mul": [
+         {
+          "ceil_div": [
+           "tokens",
+           4
+          ]
+         },
+         7168
+        ]
+       }
+      }
+     ]
+    },
+    {
      "label": "l92.router",
      "op": "gemm_f32",
      "args": [
@@ -501291,16 +506104,22 @@
     },
     {
      "label": "l92.wsh",
-     "op": "gemm_bf16",
+     "op": "gemm_fp8_shared",
      "args": [
       {
-       "buf": "normed"
+       "buf": "mlp_normed_fp8"
       },
       {
-       "buf": "layers.92.wsh"
+       "buf": "layers.92.wsh_fp8"
       },
       {
        "buf": "shared_partial"
+      },
+      {
+       "buf": "mlp_normed_scale"
+      },
+      {
+       "buf": "layers.92.wsh_scale"
       },
       {
        "expr": {
@@ -519150,6 +523969,1938 @@
       },
       {
        "buf": "layers.90.wbig_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.1.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.1.wsh"
+      },
+      {
+       "buf": "layers.1.wsh_fp8"
+      },
+      {
+       "buf": "layers.1.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.2.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.2.wsh"
+      },
+      {
+       "buf": "layers.2.wsh_fp8"
+      },
+      {
+       "buf": "layers.2.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.3.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.3.wsh"
+      },
+      {
+       "buf": "layers.3.wsh_fp8"
+      },
+      {
+       "buf": "layers.3.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.4.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.4.wsh"
+      },
+      {
+       "buf": "layers.4.wsh_fp8"
+      },
+      {
+       "buf": "layers.4.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.5.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.5.wsh"
+      },
+      {
+       "buf": "layers.5.wsh_fp8"
+      },
+      {
+       "buf": "layers.5.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.6.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.6.wsh"
+      },
+      {
+       "buf": "layers.6.wsh_fp8"
+      },
+      {
+       "buf": "layers.6.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.7.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.7.wsh"
+      },
+      {
+       "buf": "layers.7.wsh_fp8"
+      },
+      {
+       "buf": "layers.7.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.8.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.8.wsh"
+      },
+      {
+       "buf": "layers.8.wsh_fp8"
+      },
+      {
+       "buf": "layers.8.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.9.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.9.wsh"
+      },
+      {
+       "buf": "layers.9.wsh_fp8"
+      },
+      {
+       "buf": "layers.9.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.10.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.10.wsh"
+      },
+      {
+       "buf": "layers.10.wsh_fp8"
+      },
+      {
+       "buf": "layers.10.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.11.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.11.wsh"
+      },
+      {
+       "buf": "layers.11.wsh_fp8"
+      },
+      {
+       "buf": "layers.11.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.12.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.12.wsh"
+      },
+      {
+       "buf": "layers.12.wsh_fp8"
+      },
+      {
+       "buf": "layers.12.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.13.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.13.wsh"
+      },
+      {
+       "buf": "layers.13.wsh_fp8"
+      },
+      {
+       "buf": "layers.13.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.14.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.14.wsh"
+      },
+      {
+       "buf": "layers.14.wsh_fp8"
+      },
+      {
+       "buf": "layers.14.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.15.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.15.wsh"
+      },
+      {
+       "buf": "layers.15.wsh_fp8"
+      },
+      {
+       "buf": "layers.15.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.16.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.16.wsh"
+      },
+      {
+       "buf": "layers.16.wsh_fp8"
+      },
+      {
+       "buf": "layers.16.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.17.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.17.wsh"
+      },
+      {
+       "buf": "layers.17.wsh_fp8"
+      },
+      {
+       "buf": "layers.17.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.18.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.18.wsh"
+      },
+      {
+       "buf": "layers.18.wsh_fp8"
+      },
+      {
+       "buf": "layers.18.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.19.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.19.wsh"
+      },
+      {
+       "buf": "layers.19.wsh_fp8"
+      },
+      {
+       "buf": "layers.19.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.20.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.20.wsh"
+      },
+      {
+       "buf": "layers.20.wsh_fp8"
+      },
+      {
+       "buf": "layers.20.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.21.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.21.wsh"
+      },
+      {
+       "buf": "layers.21.wsh_fp8"
+      },
+      {
+       "buf": "layers.21.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.22.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.22.wsh"
+      },
+      {
+       "buf": "layers.22.wsh_fp8"
+      },
+      {
+       "buf": "layers.22.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.23.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.23.wsh"
+      },
+      {
+       "buf": "layers.23.wsh_fp8"
+      },
+      {
+       "buf": "layers.23.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.24.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.24.wsh"
+      },
+      {
+       "buf": "layers.24.wsh_fp8"
+      },
+      {
+       "buf": "layers.24.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.25.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.25.wsh"
+      },
+      {
+       "buf": "layers.25.wsh_fp8"
+      },
+      {
+       "buf": "layers.25.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.26.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.26.wsh"
+      },
+      {
+       "buf": "layers.26.wsh_fp8"
+      },
+      {
+       "buf": "layers.26.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.27.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.27.wsh"
+      },
+      {
+       "buf": "layers.27.wsh_fp8"
+      },
+      {
+       "buf": "layers.27.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.28.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.28.wsh"
+      },
+      {
+       "buf": "layers.28.wsh_fp8"
+      },
+      {
+       "buf": "layers.28.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.29.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.29.wsh"
+      },
+      {
+       "buf": "layers.29.wsh_fp8"
+      },
+      {
+       "buf": "layers.29.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.30.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.30.wsh"
+      },
+      {
+       "buf": "layers.30.wsh_fp8"
+      },
+      {
+       "buf": "layers.30.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.31.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.31.wsh"
+      },
+      {
+       "buf": "layers.31.wsh_fp8"
+      },
+      {
+       "buf": "layers.31.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.32.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.32.wsh"
+      },
+      {
+       "buf": "layers.32.wsh_fp8"
+      },
+      {
+       "buf": "layers.32.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.33.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.33.wsh"
+      },
+      {
+       "buf": "layers.33.wsh_fp8"
+      },
+      {
+       "buf": "layers.33.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.34.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.34.wsh"
+      },
+      {
+       "buf": "layers.34.wsh_fp8"
+      },
+      {
+       "buf": "layers.34.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.35.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.35.wsh"
+      },
+      {
+       "buf": "layers.35.wsh_fp8"
+      },
+      {
+       "buf": "layers.35.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.36.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.36.wsh"
+      },
+      {
+       "buf": "layers.36.wsh_fp8"
+      },
+      {
+       "buf": "layers.36.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.37.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.37.wsh"
+      },
+      {
+       "buf": "layers.37.wsh_fp8"
+      },
+      {
+       "buf": "layers.37.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.38.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.38.wsh"
+      },
+      {
+       "buf": "layers.38.wsh_fp8"
+      },
+      {
+       "buf": "layers.38.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.39.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.39.wsh"
+      },
+      {
+       "buf": "layers.39.wsh_fp8"
+      },
+      {
+       "buf": "layers.39.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.40.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.40.wsh"
+      },
+      {
+       "buf": "layers.40.wsh_fp8"
+      },
+      {
+       "buf": "layers.40.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.41.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.41.wsh"
+      },
+      {
+       "buf": "layers.41.wsh_fp8"
+      },
+      {
+       "buf": "layers.41.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.42.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.42.wsh"
+      },
+      {
+       "buf": "layers.42.wsh_fp8"
+      },
+      {
+       "buf": "layers.42.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.43.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.43.wsh"
+      },
+      {
+       "buf": "layers.43.wsh_fp8"
+      },
+      {
+       "buf": "layers.43.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.44.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.44.wsh"
+      },
+      {
+       "buf": "layers.44.wsh_fp8"
+      },
+      {
+       "buf": "layers.44.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.45.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.45.wsh"
+      },
+      {
+       "buf": "layers.45.wsh_fp8"
+      },
+      {
+       "buf": "layers.45.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.46.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.46.wsh"
+      },
+      {
+       "buf": "layers.46.wsh_fp8"
+      },
+      {
+       "buf": "layers.46.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.47.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.47.wsh"
+      },
+      {
+       "buf": "layers.47.wsh_fp8"
+      },
+      {
+       "buf": "layers.47.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.48.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.48.wsh"
+      },
+      {
+       "buf": "layers.48.wsh_fp8"
+      },
+      {
+       "buf": "layers.48.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.49.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.49.wsh"
+      },
+      {
+       "buf": "layers.49.wsh_fp8"
+      },
+      {
+       "buf": "layers.49.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.50.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.50.wsh"
+      },
+      {
+       "buf": "layers.50.wsh_fp8"
+      },
+      {
+       "buf": "layers.50.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.51.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.51.wsh"
+      },
+      {
+       "buf": "layers.51.wsh_fp8"
+      },
+      {
+       "buf": "layers.51.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.52.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.52.wsh"
+      },
+      {
+       "buf": "layers.52.wsh_fp8"
+      },
+      {
+       "buf": "layers.52.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.53.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.53.wsh"
+      },
+      {
+       "buf": "layers.53.wsh_fp8"
+      },
+      {
+       "buf": "layers.53.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.54.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.54.wsh"
+      },
+      {
+       "buf": "layers.54.wsh_fp8"
+      },
+      {
+       "buf": "layers.54.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.55.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.55.wsh"
+      },
+      {
+       "buf": "layers.55.wsh_fp8"
+      },
+      {
+       "buf": "layers.55.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.56.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.56.wsh"
+      },
+      {
+       "buf": "layers.56.wsh_fp8"
+      },
+      {
+       "buf": "layers.56.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.57.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.57.wsh"
+      },
+      {
+       "buf": "layers.57.wsh_fp8"
+      },
+      {
+       "buf": "layers.57.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.58.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.58.wsh"
+      },
+      {
+       "buf": "layers.58.wsh_fp8"
+      },
+      {
+       "buf": "layers.58.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.59.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.59.wsh"
+      },
+      {
+       "buf": "layers.59.wsh_fp8"
+      },
+      {
+       "buf": "layers.59.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.60.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.60.wsh"
+      },
+      {
+       "buf": "layers.60.wsh_fp8"
+      },
+      {
+       "buf": "layers.60.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.61.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.61.wsh"
+      },
+      {
+       "buf": "layers.61.wsh_fp8"
+      },
+      {
+       "buf": "layers.61.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.62.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.62.wsh"
+      },
+      {
+       "buf": "layers.62.wsh_fp8"
+      },
+      {
+       "buf": "layers.62.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.63.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.63.wsh"
+      },
+      {
+       "buf": "layers.63.wsh_fp8"
+      },
+      {
+       "buf": "layers.63.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.64.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.64.wsh"
+      },
+      {
+       "buf": "layers.64.wsh_fp8"
+      },
+      {
+       "buf": "layers.64.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.65.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.65.wsh"
+      },
+      {
+       "buf": "layers.65.wsh_fp8"
+      },
+      {
+       "buf": "layers.65.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.66.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.66.wsh"
+      },
+      {
+       "buf": "layers.66.wsh_fp8"
+      },
+      {
+       "buf": "layers.66.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.67.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.67.wsh"
+      },
+      {
+       "buf": "layers.67.wsh_fp8"
+      },
+      {
+       "buf": "layers.67.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.68.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.68.wsh"
+      },
+      {
+       "buf": "layers.68.wsh_fp8"
+      },
+      {
+       "buf": "layers.68.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.69.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.69.wsh"
+      },
+      {
+       "buf": "layers.69.wsh_fp8"
+      },
+      {
+       "buf": "layers.69.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.70.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.70.wsh"
+      },
+      {
+       "buf": "layers.70.wsh_fp8"
+      },
+      {
+       "buf": "layers.70.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.71.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.71.wsh"
+      },
+      {
+       "buf": "layers.71.wsh_fp8"
+      },
+      {
+       "buf": "layers.71.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.72.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.72.wsh"
+      },
+      {
+       "buf": "layers.72.wsh_fp8"
+      },
+      {
+       "buf": "layers.72.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.73.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.73.wsh"
+      },
+      {
+       "buf": "layers.73.wsh_fp8"
+      },
+      {
+       "buf": "layers.73.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.74.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.74.wsh"
+      },
+      {
+       "buf": "layers.74.wsh_fp8"
+      },
+      {
+       "buf": "layers.74.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.75.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.75.wsh"
+      },
+      {
+       "buf": "layers.75.wsh_fp8"
+      },
+      {
+       "buf": "layers.75.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.76.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.76.wsh"
+      },
+      {
+       "buf": "layers.76.wsh_fp8"
+      },
+      {
+       "buf": "layers.76.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.77.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.77.wsh"
+      },
+      {
+       "buf": "layers.77.wsh_fp8"
+      },
+      {
+       "buf": "layers.77.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.78.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.78.wsh"
+      },
+      {
+       "buf": "layers.78.wsh_fp8"
+      },
+      {
+       "buf": "layers.78.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.79.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.79.wsh"
+      },
+      {
+       "buf": "layers.79.wsh_fp8"
+      },
+      {
+       "buf": "layers.79.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.80.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.80.wsh"
+      },
+      {
+       "buf": "layers.80.wsh_fp8"
+      },
+      {
+       "buf": "layers.80.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.81.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.81.wsh"
+      },
+      {
+       "buf": "layers.81.wsh_fp8"
+      },
+      {
+       "buf": "layers.81.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.82.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.82.wsh"
+      },
+      {
+       "buf": "layers.82.wsh_fp8"
+      },
+      {
+       "buf": "layers.82.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.83.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.83.wsh"
+      },
+      {
+       "buf": "layers.83.wsh_fp8"
+      },
+      {
+       "buf": "layers.83.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.84.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.84.wsh"
+      },
+      {
+       "buf": "layers.84.wsh_fp8"
+      },
+      {
+       "buf": "layers.84.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.85.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.85.wsh"
+      },
+      {
+       "buf": "layers.85.wsh_fp8"
+      },
+      {
+       "buf": "layers.85.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.86.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.86.wsh"
+      },
+      {
+       "buf": "layers.86.wsh_fp8"
+      },
+      {
+       "buf": "layers.86.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.87.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.87.wsh"
+      },
+      {
+       "buf": "layers.87.wsh_fp8"
+      },
+      {
+       "buf": "layers.87.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.88.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.88.wsh"
+      },
+      {
+       "buf": "layers.88.wsh_fp8"
+      },
+      {
+       "buf": "layers.88.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.89.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.89.wsh"
+      },
+      {
+       "buf": "layers.89.wsh_fp8"
+      },
+      {
+       "buf": "layers.89.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.90.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.90.wsh"
+      },
+      {
+       "buf": "layers.90.wsh_fp8"
+      },
+      {
+       "buf": "layers.90.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.91.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.91.wsh"
+      },
+      {
+       "buf": "layers.91.wsh_fp8"
+      },
+      {
+       "buf": "layers.91.wsh_scale"
+      },
+      {
+       "buf": "quant_partials"
+      },
+      {
+       "i32": 88080384
+      }
+     ]
+    },
+    {
+     "label": "load.k3_quant_fp8_pair.layers.92.wsh",
+     "op": "quant_fp8_tensor",
+     "args": [
+      {
+       "buf": "layers.92.wsh"
+      },
+      {
+       "buf": "layers.92.wsh_fp8"
+      },
+      {
+       "buf": "layers.92.wsh_scale"
       },
       {
        "buf": "quant_partials"
